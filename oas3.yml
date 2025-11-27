@@ -1,0 +1,13 @@
+openapi: 3.0.4
+info:
+  version: '1.0'
+  title: "SCUDO"
+  description: API for SCUDO application
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3005/api/v1
+    description: Localhost
+  # TODO: Add production server
+paths:
+  # TODO: Define API endpoints

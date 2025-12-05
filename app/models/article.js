@@ -8,6 +8,7 @@ const articleSchema = new Schema({
   img: String,               // nome del file immagine
   author: { type: Schema.Types.ObjectId, ref: 'Operator', required: true },
   last_edit: { type: Date, default: Date.now },
+  isDraft: { type: Boolean, default: true },
   short_text: String,
   categoria: String
 });

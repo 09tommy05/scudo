@@ -6,7 +6,7 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:3005/api/v1
+  - url: http://127.0.0.1:3010/api/v1
     description: Localhost
   # TODO: Add production server
 paths:

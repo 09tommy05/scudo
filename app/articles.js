@@ -17,15 +17,24 @@ router.get('', async (req, res) => {
 });
 
 router.post('', async (req, res) => {
+    if(!req.body){
+        res.status(400).json({message: "Missing request body"});
+        return;
+    }
+    let { title, text, img, categoria, short_text } = req.body;
+
+    if(!title || !text || !categoria || !short_text ){
+        res.status(400).json({message: "Missing required fields"});
+        return;
+    }
+
     let newArticle = new Article({ //manca author
-        title: req.body.title,
-        text: req.body.text,
-        img: req.body.img,
-        categoria: req.body.categoria,
-        last_edit: req.body.last_edit,
-        short_text: req.body.short_text
+        title: title,
+        text: text,
+        img: img ? img : null,
+        categoria: categoria,
+        short_text: short_text
     });
-    //faccio il poulate dell'autore
     Article.create(newArticle);
     await Article.find().populate('author').exec(); //??
     res.status(201).json(

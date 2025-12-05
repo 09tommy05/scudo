@@ -6,21 +6,29 @@ import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 router.post('/operator/login', async (req, res) => {
+    if(!req.body){
+        res.status(400).json({message: "Missing request body"});
+        return;
+    }
+    if(!req.body.email || !req.body.password){
+        res.status(400).json({message: "Missing email or password"});
+        return;
+    }
     let user= await Operator.findOne({ email: req.body.email }).exec();
     if(!user){
-        res.status(401).json({message: "Authentication failed", description: "Email or password incorrect"});
+        res.status(401).json({message: "Authentication failed. Email or password incorrect"});
         return;
     }
     //comparo la password dell'utente e quella nel db calcolando l'hash
     const passwordMatch = await bcrypt.compare(req.body.password, user.password);
 
     if(!passwordMatch){
-        res.status(401).json({message: "Authentication failed", description: "Email or password incorrect"});
+        res.status(401).json({message: "Authentication failed. Email or password incorrect"});
         return;
     }
     
     if(!user.isActive){
-        res.status(403).json({message: "User inactive", description: "Contact admin"});
+        res.status(403).json({message: "User inactive"});
         return;
     }
     let payload = {

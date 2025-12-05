@@ -1,13 +1,13 @@
 openapi: 3.0.4
 info:
-  version: '1.0'
+  version: "1.0"
   title: "SCUDO"
   description: API for SCUDO application
   license:
     name: MIT
 servers:
   - url: http://127.0.0.1:3010/api/v1
-    description: Localhost 
+    description: Localhost
   - url: https://scudo.tn.it/api/v1
     description: Staging server
   - url: https://scudo.ondrender.com/api/v1
@@ -19,7 +19,7 @@ paths:
       tags:
         - Articles
       responses:
-        '200':
+        "200":
           description: A list of published articles of the guide
           content:
             application/json:
@@ -28,6 +28,8 @@ paths:
                 items:
                   type: object
                   properties:
+                    self:
+                      type: string
                     id:
                       type: string
                     title:
@@ -40,7 +42,7 @@ paths:
                       type: string
                     author:
                       type: object
-                      $ref: '#/components/schemas/Author'
+                      $ref: "#/components/schemas/Author"
     post:
       summary: Create and publish a new article
       tags:
@@ -67,7 +69,7 @@ paths:
                   type: string
 
       responses:
-        '201':
+        "201":
           description: Article created successfully
           content:
             application/json:
@@ -80,8 +82,8 @@ paths:
                     type: string
                   article:
                     type: object
-                    $ref: '#/components/schemas/Article'
-        '401':
+                    $ref: "#/components/schemas/Article"
+        "401":
           description: Missing token
           content:
             application/json:
@@ -90,7 +92,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '403':
+        "403":
           description: Invalid token or insufficient permissions
           content:
             application/json:
@@ -111,14 +113,14 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Article details
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Article'
-        '400':
+                $ref: "#/components/schemas/Article"
+        "400":
           description: Invalid article ID
           content:
             application/json:
@@ -127,7 +129,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '404':
+        "404":
           description: Article not found
           content:
             application/json:
@@ -168,7 +170,7 @@ paths:
                   type: string
 
       responses:
-        '200':
+        "200":
           description: Article updated successfully
           content:
             application/json:
@@ -179,8 +181,8 @@ paths:
                     type: string
                   article:
                     type: object
-                    $ref: '#/components/schemas/Article'
-        '400':
+                    $ref: "#/components/schemas/Article"
+        "400":
           description: Invalid article ID
           content:
             application/json:
@@ -189,7 +191,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '401':
+        "401":
           description: Missing token
           content:
             application/json:
@@ -198,7 +200,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '403':
+        "403":
           description: Invalid token or insufficient permissions
           content:
             application/json:
@@ -207,7 +209,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '404':
+        "404":
           description: Article not found
           content:
             application/json:
@@ -230,9 +232,9 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        "204":
           description: Article deleted successfully
-        '400':
+        "400":
           description: Invalid article ID
           content:
             application/json:
@@ -241,7 +243,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '401':
+        "401":
           description: Missing token
           content:
             application/json:
@@ -250,7 +252,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '403':
+        "403":
           description: Invalid token or insufficient permissions
           content:
             application/json:
@@ -259,7 +261,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '404':
+        "404":
           description: Article not found
           content:
             application/json:
@@ -295,7 +297,7 @@ paths:
                   type: string
 
       responses:
-        '201':
+        "201":
           description: Article created successfully
           content:
             application/json:
@@ -308,8 +310,8 @@ paths:
                     type: string
                   article:
                     type: object
-                    $ref: '#/components/schemas/Article'
-        '401':
+                    $ref: "#/components/schemas/Article"
+        "401":
           description: Missing token
           content:
             application/json:
@@ -318,7 +320,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '403':
+        "403":
           description: Invalid token or insufficient permissions
           content:
             application/json:
@@ -342,7 +344,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Article published successfully
           content:
             application/json:
@@ -355,8 +357,8 @@ paths:
                     type: string
                   article:
                     type: object
-                    $ref: '#/components/schemas/Article'
-        '400':
+                    $ref: "#/components/schemas/Article"
+        "400":
           description: Invalid article ID
           content:
             application/json:
@@ -365,7 +367,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '401':
+        "401":
           description: Missing token
           content:
             application/json:
@@ -374,7 +376,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '403':
+        "403":
           description: Invalid token or insufficient permissions
           content:
             application/json:
@@ -383,7 +385,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '404':
+        "404":
           description: Article not found
           content:
             application/json:
@@ -394,7 +396,174 @@ paths:
                     type: string
   /operators/:
     get:
-      
+      summary: Get all operators
+      tags:
+        - Operators
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      responses:
+        "200":
+          description: A list of operators
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  $ref: "#/components/schemas/Operator"
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /operators/create/:
+    post:
+      summary: Create a new operator
+      tags:
+        - Operators
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                email:
+                  type: string
+                role:
+                  type: string
+                  enum: ["reporter", "editor", "admin"]
+                password:
+                  type: string
+      responses:
+        "201":
+          description: Operator created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+        "400":
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "409":
+          description: Operator with the given email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/operator/login/:
+    post:
+      summary: Operator login and obtain JWT token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+                  id:
+                    type: string
+                  self:
+                    type: string
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Invalid email or password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Operator account is inactive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
 
 components:
   securitySchemes:
@@ -406,7 +575,7 @@ components:
       type: apiKey
       in: header
       name: x-access-token
-    
+
     TokenQueryAuth: # arbitrary name for the security scheme
       description: >-
         The API authentication.
@@ -428,33 +597,33 @@ components:
       properties:
         _id:
           type: string
-          description: 'ID of the article'
+          description: "ID of the article"
         title:
           type: string
-          description: 'Title of the article'
+          description: "Title of the article"
         text:
           type: string
-          description: 'Full text of the article'
+          description: "Full text of the article"
         img:
           type: string
-          description: 'Image filename associated with the article'
+          description: "Image filename associated with the article"
         author:
           type: object
-          $ref: '#/components/schemas/Author'
+          $ref: "#/components/schemas/Author"
         last_edit:
           type: string
           format: date-time
-          description: 'Date of the last edit of the article'
+          description: "Date of the last edit of the article"
         isDraft:
           type: boolean
-          description: 'Indicates whether the article is a draft (not published) or published'
+          description: "Indicates whether the article is a draft (not published) or published"
         short_text:
           type: string
-          description: 'Short text of the article'
+          description: "Short text of the article"
         categoria:
           type: string
-          description: 'Category of the article'
-        
+          description: "Category of the article"
+
     Author:
       type: object
       required:
@@ -464,41 +633,37 @@ components:
       properties:
         _id:
           type: string
-          description: 'ID of the author'
+          description: "ID of the author"
         name:
           type: string
-          description: 'Name of the author'
+          description: "Name of the author"
         surname:
           type: string
-          description: 'Surname of the author'
+          description: "Surname of the author"
     Operator:
       type: object
       required:
         - name
         - surname
         - email
-        - password
         - role
         - isActive
       properties:
         name:
           type: string
-          description: 'Name of the operator'
+          description: "Name of the operator"
         surname:
           type: string
-          description: 'Surname of the operator'
+          description: "Surname of the operator"
         email:
           type: string
-          description: 'Email of the operator'
-        password:
-          type: string
-          description: 'Hashed password of the operator'
+          description: "Email of the operator"
         role:
           type: string
-          enum: ['reporter', 'editor','admin']
-          description: 'Role of the operator'
+          enum: ["reporter", "editor", "admin"]
+          description: "Role of the operator"
         isActive:
           type: boolean
-          description: 'Indicates whether the operator is active or not'
-    
+          description: "Indicates whether the operator is active or not"
     Report:
+    Communication:

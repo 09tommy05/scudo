@@ -9,7 +9,11 @@ router.get('', async (req, res) => {
     operators = operators.map( (operator) => {
         return {
             self: '/api/v1/operators/' + operator.id,
-            name: operator.name
+            name: operator.name,
+            surname: operator.surname,
+            email: operator.email,
+            role: operator.role,
+            isActive: operator.isActive
         }
     });
     res.status(200).json(operators);

@@ -47,8 +47,8 @@ router.post('', tokenChecker, rbac("editor"), async (req, res) => {
     const populatedArticle = await Article.findById(article._id).populate('author', 'name surname');
     res.status(201).json({
         message: "Article created",
-        article: populatedArticle,
-        self: '/api/v1/articles/' + article._id
+        self: '/api/v1/articles/' + article._id,
+        article: populatedArticle
     });
 });
 
@@ -80,7 +80,7 @@ router.post('/draft', tokenChecker, rbac("editor"), async (req, res) => {
     });
 });
 
-router.get('/publish/:id', tokenChecker, rbac("editor"), async (req, res) => {
+router.put('/publish/:id', tokenChecker, rbac("editor"), async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         res.status(400).json({ message: "Invalid article ID" });
     }
@@ -93,10 +93,11 @@ router.get('/publish/:id', tokenChecker, rbac("editor"), async (req, res) => {
     }
     article.isDraft = false;
     await article.save();
+    article = await Article.findById(article._id).populate('author', 'name surname');
     res.status(200).json({
         message: "Article published",
-        article: article,
-        self: '/api/v1/articles/' + article._id
+        self: '/api/v1/articles/' + article._id,
+        article: article
     });
 });
 

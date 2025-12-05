@@ -7,7 +7,498 @@ info:
     name: MIT
 servers:
   - url: http://127.0.0.1:3010/api/v1
-    description: Localhost
-  # TODO: Add production server
+    description: Localhost 
+  - url: https://scudo.tn.it/api/v1
+    description: Staging server
+  - url: https://scudo.ondrender.com/api/v1
+    description: Production server
 paths:
-  # TODO: Define API endpoints
+  /articles/:
+    get:
+      summary: Get all published articles
+      tags:
+        - Articles
+      responses:
+        '200':
+          description: A list of published articles of the guide
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    img:
+                      type: string
+                    short_text:
+                      type: string
+                    categoria:
+                      type: string
+                    author:
+                      type: object
+                      $ref: '#/components/schemas/Author'
+    post:
+      summary: Create and publish a new article
+      tags:
+        - Articles
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                text:
+                  type: string
+                short_text:
+                  type: string
+                categoria:
+                  type: string
+                img:
+                  type: string
+
+      responses:
+        '201':
+          description: Article created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  article:
+                    type: object
+                    $ref: '#/components/schemas/Article'
+        '401':
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '403':
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /articles/{id}:
+    get:
+      summary: Get article by ID
+      tags:
+        - Articles
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Article details
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid article ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    put:
+      summary: Update an article by ID
+      tags:
+        - Articles
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                text:
+                  type: string
+                short_text:
+                  type: string
+                categoria:
+                  type: string
+                img:
+                  type: string
+
+      responses:
+        '200':
+          description: Article updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  article:
+                    type: object
+                    $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid article ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '403':
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Delete an article by ID
+      tags:
+        - Articles
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Article deleted successfully
+        '400':
+          description: Invalid article ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '403':
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /articles/draft:
+    post:
+      summary: Create and a new article and save it as draft
+      tags:
+        - Articles
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                text:
+                  type: string
+                short_text:
+                  type: string
+                categoria:
+                  type: string
+                img:
+                  type: string
+
+      responses:
+        '201':
+          description: Article created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  article:
+                    type: object
+                    $ref: '#/components/schemas/Article'
+        '401':
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '403':
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /articles/publish/{id}:
+    put:
+      summary: Publish a draft article by ID
+      tags:
+        - Articles
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Article published successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  article:
+                    type: object
+                    $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid article ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '403':
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /operators/:
+    get:
+      
+
+components:
+  securitySchemes:
+    XAccessTokenHeaderAuth: # arbitrary name for the security scheme
+      description: >-
+        The API authentication.
+        The API key must be passed in the header 'x-access-token'.
+        The API key must be a valid JWT token.
+      type: apiKey
+      in: header
+      name: x-access-token
+    
+    TokenQueryAuth: # arbitrary name for the security scheme
+      description: >-
+        The API authentication.
+        The API key must be passed in the query string 'token'.
+        The API key must be a valid JWT token.
+      type: apiKey
+      in: query
+      name: token
+
+  schemas:
+    Article:
+      type: object
+      required:
+        - title
+        - text
+        - author
+        - short_text
+        - categoria
+      properties:
+        _id:
+          type: string
+          description: 'ID of the article'
+        title:
+          type: string
+          description: 'Title of the article'
+        text:
+          type: string
+          description: 'Full text of the article'
+        img:
+          type: string
+          description: 'Image filename associated with the article'
+        author:
+          type: object
+          $ref: '#/components/schemas/Author'
+        last_edit:
+          type: string
+          format: date-time
+          description: 'Date of the last edit of the article'
+        isDraft:
+          type: boolean
+          description: 'Indicates whether the article is a draft (not published) or published'
+        short_text:
+          type: string
+          description: 'Short text of the article'
+        categoria:
+          type: string
+          description: 'Category of the article'
+        
+    Author:
+      type: object
+      required:
+        - _id
+        - name
+        - surname
+      properties:
+        _id:
+          type: string
+          description: 'ID of the author'
+        name:
+          type: string
+          description: 'Name of the author'
+        surname:
+          type: string
+          description: 'Surname of the author'
+    Operator:
+      type: object
+      required:
+        - name
+        - surname
+        - email
+        - password
+        - role
+        - isActive
+      properties:
+        name:
+          type: string
+          description: 'Name of the operator'
+        surname:
+          type: string
+          description: 'Surname of the operator'
+        email:
+          type: string
+          description: 'Email of the operator'
+        password:
+          type: string
+          description: 'Hashed password of the operator'
+        role:
+          type: string
+          enum: ['reporter', 'editor','admin']
+          description: 'Role of the operator'
+        isActive:
+          type: boolean
+          description: 'Indicates whether the operator is active or not'
+    
+    Report:

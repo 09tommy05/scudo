@@ -17,7 +17,7 @@ Operator.deleteMany({}).then(()=>{
     var admin= new Operator({
         name: "Admin",
         surname: "Admin",
-        email: "admin@scudo.tn.it",
+        email: process.env.ADMIN_EMAIL,
         password: hashedPassword,
         role: "admin"
     });

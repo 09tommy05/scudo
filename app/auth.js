@@ -44,6 +44,7 @@ router.post('/operator/login', async (req, res) => {
         message: "Authentication successful",
         token: token,
         id: user._id,
+        isActive: user.isActive,
         self: '/api/v1/operators/' + user._id
     });
 });

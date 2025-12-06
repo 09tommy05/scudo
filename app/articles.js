@@ -122,7 +122,7 @@ router.post('/draft', tokenChecker, rbac("editor"), async (req, res) => {
     });
 });
 
-router.put('/publish/:id', tokenChecker, rbac("editor"), async (req, res) => {
+router.patch('/:id', tokenChecker, rbac("editor"), async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         res.status(400).json({ message: "Invalid article ID" });
     }

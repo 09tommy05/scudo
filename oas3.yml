@@ -229,6 +229,70 @@ paths:
                 properties:
                   message:
                     type: string
+    patch:
+      summary: Publish a draft article by ID
+      tags:
+        - Articles
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article published successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  article:
+                    type: object
+                    $ref: "#/components/schemas/Article"
+        "400":
+          description: Invalid article ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
     delete:
       summary: Delete an article by ID
       tags:
@@ -340,71 +404,7 @@ paths:
                 properties:
                   message:
                     type: string
-  /articles/publish/{id}:
-    put:
-      summary: Publish a draft article by ID
-      tags:
-        - Articles
-      security:
-        - XAccessTokenHeaderAuth: []
-        - TokenQueryAuth: []
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Article published successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  self:
-                    type: string
-                  article:
-                    type: object
-                    $ref: "#/components/schemas/Article"
-        "400":
-          description: Invalid article ID
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "401":
-          description: Missing token
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "403":
-          description: Invalid token or insufficient permissions
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "404":
-          description: Article not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+    
   /operators:
     get:
       summary: Get all operators
@@ -525,6 +525,137 @@ paths:
                     type: string
         "409":
           description: Operator with the given email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /operators/{id}:
+    get:
+      summary: Get operator by ID
+      tags:
+        - Operators
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Operator details
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Operator"
+        "400":
+          description: Invalid operator ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Operator not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    patch:
+      summary: Update operator's isActive status by ID
+      tags:
+        - Operators
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isActive:
+                  type: boolean
+      responses:
+        "200":
+          description: Operator updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  operator:
+                    type: object
+                    $ref: "#/components/schemas/Operator"
+        "400":
+          description: Invalid operator ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Operator not found
           content:
             application/json:
               schema:
@@ -676,6 +807,9 @@ components:
         - role
         - isActive
       properties:
+        id:
+          type: string
+          description: "ID of the operator"
         name:
           type: string
           description: "Name of the operator"

@@ -7,6 +7,48 @@ import mongoose from 'mongoose';
 const router = express.Router();
 
 router.get('', async (req, res) => {
+    if(req.query && req.query.q){ //ricerca di una articolo per parola chiave (RFU2)
+        let query = req.query.q;
+        let articles = await Article.find({
+            isDraft: false,
+            $or: [
+                { title: { $regex: query, $options: 'i' } },
+                { text: { $regex: query, $options: 'i' } },
+                { categoria: { $regex: query, $options: 'i' } }
+            ]
+        });
+        articles = articles.map((article) => {
+            return {
+                self: '/api/v1/articles/' + article.id,
+                id: article.id,
+                title: article.title,
+                img: article.img,
+                short_text: article.short_text,
+                categoria: article.categoria,
+                author: article.author
+            };
+        });
+        articles = await Article.populate(articles, { path: 'author', select: 'name surname' });
+        res.status(200).json(articles);
+        return;
+    }else if (req.query && req.query.category){ //filtro articoli per categoria (RFU2)
+        let category = req.query.category;
+        let articles = await Article.find({ isDraft: false, categoria: category }).exec();
+        articles = articles.map((article) => {
+            return {
+                self: '/api/v1/articles/' + article.id,
+                id: article.id,
+                title: article.title,
+                img: article.img,
+                short_text: article.short_text,
+                categoria: article.categoria,
+                author: article.author
+            };
+        });
+        articles = await Article.populate(articles, { path: 'author', select: 'name surname' });
+        res.status(200).json(articles);
+        return;
+    }
     let articles = await Article.find({ isDraft: false }).exec();
     articles = articles.map((article) => {
         return {

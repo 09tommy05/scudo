@@ -45,36 +45,6 @@ router.get('', async (req, res) => {
     }
 });
 
-/*
-router.post('', tokenChecker, rbac("editor"), async (req, res) => {
-    if (!req.body) {
-        res.status(400).json({ message: "Missing request body" });
-        return;
-    }
-    let { title, text, img, categoria, short_text } = req.body;
-
-    if (!title || !text || !categoria || !short_text) {
-        res.status(400).json({ message: "Missing required fields" });
-        return;
-    }
-    const article = await Article.create({
-        title,
-        text,
-        img: img || null,
-        categoria,
-        short_text,
-        isDraft: false,
-        author: req.user.id
-    });
-
-    const populatedArticle = await Article.findById(article._id).populate('author', 'name surname');
-    res.status(201).json({
-        message: "Article created",
-        self: '/api/v1/articles/' + article._id,
-        article: populatedArticle
-    });
-});*/
-
 router.post('', tokenChecker, rbac("editor"), upload.single('img'), async (req, res) => {
     try {
         if (!req.body) {
@@ -83,45 +53,7 @@ router.post('', tokenChecker, rbac("editor"), upload.single('img'), async (req, 
 
         let { title, text, categoria, short_text } = req.body;
 
-        if (!title || !text || !categoria || !short_text) {
-            return res.status(400).json({ message: "Missing required fields" });
-        }
-
-        const img = req.file ? req.file.filename : null;
-
-        const article = await Article.create({
-            title,
-            text,
-            img,
-            categoria,
-            short_text,
-            isDraft: false,
-            author: req.user.id
-        });
-
-        const populated = await Article.findById(article._id)
-            .populate("author", "name surname");
-
-        return res.status(201).json({
-            message: "Article created",
-            self: '/api/v1/articles/' + article._id,
-            article: populated
-        });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
-
-
-router.post('/draft', tokenChecker, rbac("editor"), upload.single('img'), async (req, res) => {
-    try {
-        if (!req.body) {
-            return res.status(400).json({ message: "Missing request body" });
-        }
-
-        let { title, text, categoria, short_text } = req.body;
+        let draft = req.query.draft == "true" ? true : false;
 
         if (!title || !text || !categoria || !short_text) {
             return res.status(400).json({ message: "Missing required fields" });
@@ -135,6 +67,7 @@ router.post('/draft', tokenChecker, rbac("editor"), upload.single('img'), async 
             img,
             categoria,
             short_text,
+            isDraft: draft,
             author: req.user.id
         });
 

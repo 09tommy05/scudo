@@ -46,25 +46,4 @@ router.get('', async (req, res) => {
     }
 });
 
-router.post('', tokenChecker, rbac("reporter"), async (req, res) => {
-});
-
-router.post('/draft', tokenChecker, rbac("reporter"), async (req, res) => {
-});
-
-router.patch('/:id', tokenChecker, rbac("reporter"), async (req, res) => {
-    
-});
-
-router.use('/:id', async (req, res, next) => {
-    
-    next();
-});
-
-router.get('/:id', (req, res, next) => {
-});
-
-router.get('/:id', tokenChecker, rbac("reporter"), (req, res) => {
-});
-
 export default router;

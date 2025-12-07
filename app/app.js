@@ -3,9 +3,9 @@ import articles from './articles.js';
 import communications from './communications.js';
 import cors from 'cors';
 import auth from './auth.js';
-import tokenChecker from './tokenChecker.js';
+import tokenChecker from './middleware/tokenChecker.js';
 import operators from './operators.js';
-import { rbac } from './rbac.js';
+import { rbac } from './middleware/rbac.js';
 
 //swagger imports
 import Path from 'path';

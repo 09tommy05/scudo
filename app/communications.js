@@ -1,7 +1,7 @@
 import express from 'express';
 import Communication from './models/communication.js';
-import { rbac } from './rbac.js';
-import tokenChecker from './tokenChecker.js';
+import { rbac } from './middleware/rbac.js';
+import tokenChecker from './middleware/tokenChecker.js';
 import mongoose from 'mongoose';
 
 const router = express.Router();

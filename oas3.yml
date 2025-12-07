@@ -54,6 +54,15 @@ paths:
                     author:
                       type: object
                       $ref: "#/components/schemas/Author"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
     post:
       summary: Create and publish a new article
       tags:
@@ -112,6 +121,15 @@ paths:
                 properties:
                   message:
                     type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
   /articles/{id}:
     get:
       summary: Get article by ID
@@ -142,6 +160,15 @@ paths:
                     type: string
         "404":
           description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
           content:
             application/json:
               schema:
@@ -229,6 +256,15 @@ paths:
                 properties:
                   message:
                     type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
     patch:
       summary: Publish a draft article by ID
       tags:
@@ -293,6 +329,15 @@ paths:
                 properties:
                   message:
                     type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
     delete:
       summary: Delete an article by ID
       tags:
@@ -338,6 +383,15 @@ paths:
                     type: string
         "404":
           description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
           content:
             application/json:
               schema:
@@ -404,7 +458,15 @@ paths:
                 properties:
                   message:
                     type: string
-    
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
   /operators:
     get:
       summary: Get all operators

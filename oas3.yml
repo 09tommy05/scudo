@@ -420,13 +420,13 @@ paths:
             type: string
           description: Search operators by name or surname
         - in: query
-          name: orderby
+          name: sort
           schema:
             type: string
             enum: ["name", "surname", "role"]
           description: Order operators by specified field
         - in: query
-          name: order
+          name: direction
           schema:
             type: string
             enum: ["asc", "desc"]
@@ -452,6 +452,15 @@ paths:
                     type: string
         "403":
           description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
           content:
             application/json:
               schema:
@@ -532,6 +541,15 @@ paths:
                 properties:
                   message:
                     type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
   /operators/{id}:
     get:
       summary: Get operator by ID
@@ -583,6 +601,15 @@ paths:
                     type: string
         "404":
           description: Operator not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
           content:
             application/json:
               schema:
@@ -656,6 +683,15 @@ paths:
                     type: string
         "404":
           description: Operator not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
           content:
             application/json:
               schema:
@@ -826,5 +862,6 @@ components:
         isActive:
           type: boolean
           description: "Indicates whether the operator is active or not"
+    User:
     Report:
     Communication:

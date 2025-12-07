@@ -2,18 +2,18 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 // Schema Articolo
-const articleSchema = new Schema({
+const communicationSchema = new Schema({
   title: { type: String, required: true },
   text: { type: String, required: true },
-  img: String,               // nome del file immagine
   author: { type: Schema.Types.ObjectId, ref: 'Operator', required: true },
-  last_edit: { type: Date, default: Date.now },
+  publication: { type: Date, default: Date.now },
   isDraft: { type: Boolean, default: true, required: true },
   short_text: { type: String, required: true },
-  categoria: {type: String, required: true}
+  categoria: {type: String, required: true},
+  importance: { type: String, enum: ['basso rischio', 'medio rischio', 'alto rischio'], default: 'medio rischio', required: true}
 });
 
 // Creazione del modello
-const Article = mongoose.model('Article', articleSchema);
+const Communication = mongoose.model('Communication', communicationSchema);
 
-export default Article;
+export default Communication;

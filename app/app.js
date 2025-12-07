@@ -1,5 +1,6 @@
 import express from 'express';
 import articles from './articles.js';
+import communications from './communications.js';
 import cors from 'cors';
 import auth from './auth.js';
 import tokenChecker from './tokenChecker.js';
@@ -32,6 +33,7 @@ app.use(cors());
 
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/articles', articles);
+app.use('/api/v1/communications', communications);
 
 app.use("/api/v1/operators/", tokenChecker, rbac("admin"), operators);
 

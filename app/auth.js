@@ -6,46 +6,51 @@ import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 router.post('/operator/login', async (req, res) => {
-    if(!req.body){
-        res.status(400).json({message: "Missing request body"});
-        return;
-    }
-    if(!req.body.email || !req.body.password){
-        res.status(400).json({message: "Missing email or password"});
-        return;
-    }
-    let user= await Operator.findOne({ email: req.body.email }).exec();
-    if(!user){
-        res.status(401).json({message: "Authentication failed. Email or password incorrect"});
-        return;
-    }
-    //comparo la password dell'utente e quella nel db calcolando l'hash
-    const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+    try {
 
-    if(!passwordMatch){
-        res.status(401).json({message: "Authentication failed. Email or password incorrect"});
-        return;
-    }
-    
-    if(!user.isActive){
-        res.status(403).json({message: "User inactive"});
-        return;
-    }
-    let payload = {
-        id: user._id,
-        email: user.email,
-        role: user.role
-    };
+        if (!req.body) {
+            res.status(400).json({ message: "Missing request body" });
+            return;
+        }
+        if (!req.body.email || !req.body.password) {
+            res.status(400).json({ message: "Missing email or password" });
+            return;
+        }
+        let user = await Operator.findOne({ email: req.body.email }).exec();
+        if (!user) {
+            res.status(401).json({ message: "Authentication failed. Email or password incorrect" });
+            return;
+        }
+        //comparo la password dell'utente e quella nel db calcolando l'hash
+        const passwordMatch = await bcrypt.compare(req.body.password, user.password);
 
-    const ORE_EXPIRE = 12;
-    let options= {expiresIn: ORE_EXPIRE*60*60};
-    let token = jwt.sign(payload, process.env.JWT_SECRET, options);
-    res.status(200).json({
-        message: "Authentication successful",
-        token: token,
-        id: user._id,
-        isActive: user.isActive,
-        self: '/api/v1/operators/' + user._id
-    });
+        if (!passwordMatch) {
+            res.status(401).json({ message: "Authentication failed. Email or password incorrect" });
+            return;
+        }
+
+        if (!user.isActive) {
+            res.status(403).json({ message: "User inactive" });
+            return;
+        }
+        let payload = {
+            id: user._id,
+            email: user.email,
+            role: user.role
+        };
+
+        const ORE_EXPIRE = 12;
+        let options = { expiresIn: ORE_EXPIRE * 60 * 60 };
+        let token = jwt.sign(payload, process.env.JWT_SECRET, options);
+        res.status(200).json({
+            message: "Authentication successful",
+            token: token,
+            id: user._id,
+            isActive: user.isActive,
+            self: '/api/v1/operators/' + user._id
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error" });
+    }
 });
 export default router;

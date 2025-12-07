@@ -13,7 +13,7 @@ servers:
   - url: https://scudo.ondrender.com/api/v1
     description: Production server
 paths:
-  /articles/:
+  /articles:
     get:
       summary: Get all published articles
       tags:
@@ -405,6 +405,395 @@ paths:
                 properties:
                   message:
                     type: string
+  /communications:
+    get:
+      summary: Get all published communications
+      tags:
+        - Communications
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: ["publication", "importance"]
+          description: Sort communications by sort field
+        - in: query
+          name: direction
+          schema:
+            type: string
+            enum: ["asc", "desc"]
+          description: Sort direction
+      responses:
+        "200":
+          description: A list of published communications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    self:
+                      type: string
+                    title:
+                      type: string
+                    short_text:
+                      type: string
+                    categoria:
+                      type: string
+                    importance:
+                      type: string
+                    author:
+                      type: object
+                      $ref: "#/components/schemas/Author"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      summary: Create and publish a new communication
+      tags:
+        - Communications
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                text:
+                  type: string
+                short_text:
+                  type: string
+                categoria:
+                  type: string
+                importance:
+                  type: string
+                  enum: ["basso rischio", "medio rischio", "alto rischio"]
+      responses:
+        "201":
+          description: Communication created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  communication:
+                    type: object
+                    $ref: "#/components/schemas/Communication"
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /communications/{id}:
+    get:
+      summary: Get communication by ID
+      tags:
+        - Communications
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Communication details
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Communication"
+        "400":
+          description: Invalid communication ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Communication not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    put:
+      summary: Update a communication by ID
+      tags:
+        - Communications
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                text:
+                  type: string
+                short_text:
+                  type: string
+                categoria:
+                  type: string
+                importance:
+                  type: string
+                  enum: ["basso rischio", "medio rischio", "alto rischio"]
+                isDraft:
+                  type: boolean
+      responses:
+        "200":
+          description: Communication updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  communication:
+                    type: object
+                    $ref: "#/components/schemas/Communication"
+        "400":
+          description: Invalid communication ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Communication not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    patch:
+      summary: Publish a draft communication by ID
+      tags:
+        - Communications
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Communication published successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  communication:
+                    type: object
+                    $ref: "#/components/schemas/Communication"
+        "400":
+          description: Invalid communication ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Communication not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Delete a communication by ID
+      tags:
+        - Communications
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Communication deleted successfully
+        "400":
+          description: Invalid communication ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Communication not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
   /operators:
     get:
       summary: Get all operators
@@ -834,6 +1223,45 @@ components:
         surname:
           type: string
           description: "Surname of the author"
+    Communication:
+      type: object
+      required:
+        - title
+        - text
+        - author
+        - short_text
+        - categoria
+        - importance
+      properties:
+        _id:
+          type: string
+          description: "ID of the communication"
+        title:
+          type: string
+          description: "Title of the communication"
+        text:
+          type: string
+          description: "Full text of the communication"
+        author:
+          type: object
+          $ref: "#/components/schemas/Author"
+        isDraft:
+          type: boolean
+          description: "Indicates whether the communication is a draft (not published) or published"
+        short_text:
+          type: string
+          description: "Short text of the communication"
+        categoria:
+          type: string
+          description: "Category of the communication"
+        importance:
+          type: string
+          enum: ["basso rischio", "medio rischio", "alto rischio"]
+          description: "Importance level of the communication"
+        publication:
+          type: string
+          format: date-time
+          description: "Publication datetime of the communication"
     Operator:
       type: object
       required:
@@ -864,4 +1292,3 @@ components:
           description: "Indicates whether the operator is active or not"
     User:
     Report:
-    Communication:

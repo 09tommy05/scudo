@@ -105,9 +105,6 @@ router.use('/:id', async (req, res, next) => {
 //per pubblicare l'articolo in caso sia una bozza
 router.patch('/:id', tokenChecker, rbac("editor"), async (req, res) => {
     try {
-        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            res.status(400).json({ message: "Invalid article ID" });
-        }
         let article = req['article'];
         article.isDraft = false;
         await article.save();

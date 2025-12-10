@@ -56,42 +56,51 @@ router.post('/operator/login', async (req, res) => {
     }
 });
 
-router.patch('/operator/:id/change-password', tokenChecker, rbac("editor", "reporter", "admin") ,async (req, res) => { //change password
+router.patch('/operator/:id/set-first-password', async (req, res) => {
     try{
         if (!req.body) {
             res.status(400).json({ message: "Missing request body" });
             return;
         }
-        const {oldPassword, newPassword}  = req.body;
-        if (!oldPassword || !newPassword) {
-            res.status(400).json({ message: "Missing oldPassword or newPassword" });
+        const {newPassword}  = req.body;
+        if (!newPassword) {
+            res.status(400).json({ message: "Missing newPassword" });
             return;
         }
         
         let user = await Operator.findById(req.params.id).exec();
+        let token = req.query.token;
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;
         }
-        if(req.user.id !== req.params.id){
-            res.status(403).json({ message: "Forbidden" });
+        if(!token){
+            res.status(400).json({ message: "Missing token" });
             return;
         }
-        const passwordMatch = await bcrypt.compare(oldPassword, user.password);
-        if (!passwordMatch) {
-            res.status(401).json({ message: "Authentication failed. Old password incorrect" });
+        if(user.activationToken !== token){
+            res.status(401).json({ message: "Invalid token" });
             return;
         }
+        if(user.tokenExp < Date.now()){
+            res.status(401).json({ message: "Token expired. Contact admin for more informations" });
+            return;
+        }
+
         if(newPassword.length < 8){
             res.status(400).json({ message: "New password must be at least 8 characters long" });
             return;
         }
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         user.password = hashedPassword;
+        user.activationToken = null;
+        user.tokenExp = null;
+        user.isActive = true;
         await user.save();
         res.status(200).json({ message: "Password changed successfully" });
 
     }catch(err){
+        console.error(err);
         res.status(500).json({ message: "Internal server error" });
     }
 });

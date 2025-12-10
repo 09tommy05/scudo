@@ -1,7 +1,8 @@
 import express from 'express';
 import Operator from './models/operator.js';
-import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import mailer from './mailer.js';
+import crypto from 'crypto';
 
 const router = express.Router();
 
@@ -53,8 +54,8 @@ router.post("", async (req, res) => {
             res.status(400).json({ message: "Missing request body" });
             return;
         }
-        const { email, password, name, surname, role } = req.body;
-        if (!email || !password || !name || !surname || !role) {
+        const { email, name, surname, role } = req.body;
+        if (!email || !name || !surname || !role) {
             res.status(400).json({ message: "Missing required fields" });
         }
         if (!['reporter', 'editor', 'admin'].includes(role)) {
@@ -63,23 +64,37 @@ router.post("", async (req, res) => {
         if (!email.includes("@")) {
             res.status(400).json({ message: "Invalid email" });
         }
-        if (password.length < 8) {
-            res.status(400).json({ message: "Password too short" });
-        }
         let existingOperator = await Operator.findOne({ email: email }).exec();
         if (existingOperator) {
             res.status(409).json({ message: "Email already in use" });
             return;
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const activationToken = crypto.randomBytes(32).toString('hex');
         let newOperator = new Operator({
             name: name,
             surname: surname,
             email: email,
-            password: hashedPassword,
-            role: role
+            password: " ",
+            isActive: false,
+            role: role,
+            activationToken: activationToken
         });
         await Operator.create(newOperator);
+        //send email
+        //mailer.sendPasswordSetupEmail(email, name+" "+surname, `${process.env.CURRENT_HOST}/set-first-password?token=${newOperator.activationToken}&id=${newOperator._id}`);
+        try {
+            // Sintassi pulita: oggetto.metodo()
+            await mailer.sendPasswordSetupEmail(
+                email,
+                name + " " + surname,
+                `${process.env.CURRENT_HOST}/api/v1/auth/operator/${newOperator._id}/set-first-password/?token=${activationToken}`
+            );
+        } catch (error) {
+            await Operator.findByIdAndDelete(newOperator._id).exec();
+            console.error("[MAIL ERROR] Invio email di impostazione password fallito:", error);
+            res.status(500).json({ message: "Failed to send setup email" });
+            return;
+        }
         res.status(201).json({
             message: "Operator created",
             self: '/api/v1/operators/' + newOperator._id

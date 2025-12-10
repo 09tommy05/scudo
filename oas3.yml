@@ -1152,17 +1152,19 @@ paths:
                 properties:
                   message:
                     type: string
-  /auth/operator/{id}/change-password:
+  /auth/operator/{id}/set-first-password:
     patch:
-      summary: Change operator's password
+      summary: Change operator's password for the first login
       tags:
         - Authentication
-      security:
-        - XAccessTokenHeaderAuth: []
-        - TokenQueryAuth: []
       parameters:
         - in: path
           name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: token
           required: true
           schema:
             type: string
@@ -1173,8 +1175,6 @@ paths:
             schema:
               type: object
               properties:
-                oldPassword:
-                  type: string
                 newPassword:
                   type: string
       responses:

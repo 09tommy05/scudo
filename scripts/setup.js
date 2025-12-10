@@ -19,7 +19,10 @@ Operator.deleteMany({}).then(()=>{
         surname: "Admin",
         email: process.env.ADMIN_EMAIL,
         password: hashedPassword,
-        role: "admin"
+        role: "admin",
+        isActive: true,
+        activationToken: "",
+        tokenExp: Date.now()
     });
     return admin.save();
 }).then(() => {

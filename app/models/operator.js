@@ -8,7 +8,9 @@ const operatorSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: {type: String, required: true},
   role: {type: String, enum: ['reporter', 'editor','admin'], default: 'reporter', required: true},
-  isActive: { type: Boolean, default: true, required: true }
+  isActive: { type: Boolean, default: false, required: true },
+  activationToken: { type: String},
+  tokenExp: { type: Date, default: Date.now() + 24*60*60*1000 } // 24 hours
 });
 
 // Creazione del modello

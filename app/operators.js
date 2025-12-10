@@ -63,7 +63,7 @@ router.post("", async (req, res) => {
         if (!email.includes("@")) {
             res.status(400).json({ message: "Invalid email" });
         }
-        if (password.length < 6) {
+        if (password.length < 8) {
             res.status(400).json({ message: "Password too short" });
         }
         let existingOperator = await Operator.findOne({ email: email }).exec();

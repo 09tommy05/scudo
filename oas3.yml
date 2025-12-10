@@ -462,6 +462,12 @@ paths:
       security:
         - XAccessTokenHeaderAuth: []
         - TokenQueryAuth: []
+      parameters:
+        - in: query
+          name: draft
+          schema:
+            type: boolean
+          description: Set to true to create a draft comunication
       requestBody:
         required: true
         content:
@@ -793,7 +799,6 @@ paths:
                 properties:
                   message:
                     type: string
-
   /operators:
     get:
       summary: Get all operators
@@ -1147,7 +1152,86 @@ paths:
                 properties:
                   message:
                     type: string
-
+  /auth/operator/{id}/change-password:
+    patch:
+      summary: Change operator's password
+      tags:
+        - Authentication
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token or authentication failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Operator not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 components:
   securitySchemes:
     XAccessTokenHeaderAuth: # arbitrary name for the security scheme

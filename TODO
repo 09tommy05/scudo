@@ -1,2 +1,7 @@
 - caricare oas3.yml su apiary.io (NOOO BLUEPRINT MA SWAGGER) e swagger.io
 - A frontend le sessioni vanno bene, per le API REST no
+- get articles/communications (?) by author 
+- Autenticazione utenti tramite CIE e SPID
+- FRONTEND
+- Gestione delle segnalazioni
+- Aggiugnere change password a D1

@@ -5,4 +5,6 @@
 - FRONTEND
 - Gestione delle segnalazioni
 - Aggiugnere change password a D1
-- aggiungere matricole D1
+- aggiungere le nostre matricole al D1
+- Creare report model
+- Creare endpoint per report

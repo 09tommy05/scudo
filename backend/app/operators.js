@@ -81,13 +81,12 @@ router.post("", async (req, res) => {
         });
         await Operator.create(newOperator);
         //send email
-        //mailer.sendPasswordSetupEmail(email, name+" "+surname, `${process.env.CURRENT_HOST}/set-first-password?token=${newOperator.activationToken}&id=${newOperator._id}`);
         try {
             // Sintassi pulita: oggetto.metodo()
             await mailer.sendPasswordSetupEmail(
                 email,
                 name + " " + surname,
-                `${process.env.CURRENT_HOST}/api/v1/auth/operator/${newOperator._id}/set-first-password/?token=${activationToken}`
+                `${process.env.CURRENT_HOST}/set-first-password/?token=${activationToken}&id=${newOperator._id}` //TODO CHECK IT WITH FRONTEND
             );
         } catch (error) {
             await Operator.findByIdAndDelete(newOperator._id).exec();

@@ -1093,7 +1093,7 @@ paths:
                 properties:
                   message:
                     type: string
-  /auth/operator/login/:
+  /auth/operator/login:
     post:
       summary: Operator login and obtain JWT token
       tags:
@@ -1152,7 +1152,125 @@ paths:
                 properties:
                   message:
                     type: string
-  /auth/operator/{id}/set-first-password:
+  /auth/spid/login:
+    post:
+      summary: SPID login for users
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  self:
+                    type: string
+                  message:
+                    type: string
+                  token:
+                    type: string
+                  id:
+                    type: string
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Authentication failed email or password invalid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/cie/login:
+    post:
+      summary: CIE login for users
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  token:
+                    type: string
+                  id:
+                    type: string
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Authentication failed email or password invalid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/operator/{id}:
     patch:
       summary: Change operator's password for the first login
       tags:
@@ -1225,6 +1343,41 @@ paths:
                     type: string
         "500":
           description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/me/:
+    get:
+      summary: Get authenticated user information
+      tags:
+        - Authentication
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      responses:
+        "200":
+          description: Authenticated user information
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Operator"
+                  - $ref: "#/components/schemas/User"
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token
           content:
             application/json:
               schema:
@@ -1375,4 +1528,25 @@ components:
           type: boolean
           description: "Indicates whether the operator is active or not"
     User:
+      type: object
+      required:
+        - name
+        - surname
+        - email
+        - cf
+      properties:
+        id:
+          type: string
+          description: "ID of the user"
+        name:
+          type: string
+          description: "Name of the user"
+        surname:
+          description: "Surname of the user"
+        email:
+          type: string
+          description: "Email of the user"
+        cf:
+          type: string
+          description: "Fiscal code of the user"
     Report:

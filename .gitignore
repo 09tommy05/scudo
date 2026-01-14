@@ -5,4 +5,6 @@ node_modules/
 **/.DS_Store
 backend/uploads/images/*
 backend/uploads/attachments/*
+!backend/uploads/images/example.txt
+!backend/uploads/attachments/example.txt
 .operators_data.json

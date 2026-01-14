@@ -20,23 +20,23 @@ Il repository è strutturato in due cartelle principali: `backend` e `frontend`.
 - La cartella `frontend` ospita il codice sorgente della webapp, sviluppata con Vue.js. Questa parte del progetto si occupa dell'interfaccia utente, permettendo ai cittadini e agli operatori di interagire con le funzionalità offerte dal servizio SCUDO.
 
 ## Installazione e avvio
-### Backend
-Per avviare il progetto in locale, è necessario seguire questi passaggi:
 1. Clonare il repository:
    ```bash
     git clone https://github.com/09tommy05/scudo.git
     cd scudo
     ```
-2. Installare le dipendenze per il backend:
+### Backend
+Per avviare il progetto in locale, è necessario seguire questi passaggi:
+1. Installare le dipendenze per il backend:
     ```bash
      cd backend
      npm install
      ```
-3. Configurare le variabili d'ambiente:
+2. Configurare le variabili d'ambiente:
     Creare un file `.env` nella cartella `backend` con le variabili presenti nel file `.env.example`. Qui vengono impostate anche le credenziali per la connessione al database MongoDB. E le credenziali per l'operatore admin, che può essere utilizzato per il primo accesso al sistema.
-4. Avvio del database MongoDB:
+3. Avvio del database MongoDB:
     Assicurarsi di avere MongoDB installato e in esecuzione sulla propria macchina locale o utilizzare un servizio di database cloud.
-5. Avviare il server backend:
+4. Avviare il server backend:
     Se si dovesse trattare del primo avvio del server, eseguire il comando:
     ```bash
      npm run setup
@@ -44,12 +44,12 @@ Per avviare il progetto in locale, è necessario seguire questi passaggi:
      Che permette di creare l'operatore admin iniziale. E degli utenti di test per provare la funzionalità del login tramite SPID o CIE.
     Successivamente, avviare il server con:
     ```bash
-    npm run start
+    npm start
     ```
 
 ### Frontend
 # TODO frontend README
-6. Installare le dipendenze per il frontend:
+1. Installare le dipendenze per il frontend:
 
 ## Documentazione
 La documentazione delle API è disponibile nel file `oas3.yml` presente nella cartella `backend`. Questa documentazione segue lo standard OpenAPI 3.0 e può essere visualizzata utilizzando strumenti come Swagger UI o Redoc. Inoltre se il server backend è in esecuzione, la documentazione è accessibile all'indirizzo `http://localhost:PORT/api-docs`.

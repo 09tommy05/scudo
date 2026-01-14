@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-// Schema Articolo
+// Schema Comunicazione
 const communicationSchema = new Schema({
   title: { type: String, required: true },
   text: { type: String, required: true },

@@ -3,4 +3,6 @@ node_modules/
 
 # Mac system files
 **/.DS_Store
-uploads/images/*
+backend/uploads/images/*
+backend/uploads/attachments/*
+.operators_data.json

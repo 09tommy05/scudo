@@ -1,7 +1,7 @@
 import express from 'express';
-import Operator from './models/operator.js';
+import Operator from '../models/operator.js';
 import mongoose from 'mongoose';
-import mailer from './mailer.js';
+import mailer from '../mailer.js';
 import crypto from 'crypto';
 
 const router = express.Router();

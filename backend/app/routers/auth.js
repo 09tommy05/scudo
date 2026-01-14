@@ -1,9 +1,9 @@
 import express from 'express';
-import Operator from './models/operator.js';
+import Operator from '../models/operator.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from './models/user.js';
-import tokenChecker from './middleware/tokenChecker.js';
+import User from '../models/user.js';
+import tokenChecker from '../middleware/tokenChecker.js';
 
 const router = express.Router();
 
@@ -159,7 +159,8 @@ router.get("/me/", tokenChecker, async (req, res) => {
                 name: user.name,
                 surname: user.surname,
                 email: user.email,
-                cf: user.cf
+                cf: user.cf,
+                allow_notifications: user.allow_notifications,
             });
         } catch (err) {
             console.error(err);

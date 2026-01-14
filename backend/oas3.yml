@@ -1385,6 +1385,285 @@ paths:
                 properties:
                   message:
                     type: string
+  /reports:
+    get:
+      summary: Get all reports
+      tags:
+        - Reports
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: ["created", "status"]
+          description: Sort reports by sort field
+        - in: query
+          name: direction
+          schema:
+            type: string
+            enum: ["asc", "desc"]
+          description: Sort direction
+        - in: query
+          name: categoria
+          schema:
+            type: string
+          description: Filter reports by categoria
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: ["da elaborare", "in lavorazione", "risolta"]
+          description: Filter reports by status
+      responses:
+        "200":
+          description: A list of reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    self:
+                      type: string
+                    report:
+                      $ref: "#/components/schemas/Report"
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      summary: Create a new report
+      tags:
+        - Reports
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                text:
+                  type: string
+                categoria:
+                  type: string
+                attachments:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "201":
+          description: Report created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  report:
+                    type: object
+                    $ref: "#/components/schemas/Report"
+        "400":
+          description: Missing or invalid request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /reports/{id}:
+    get:
+      summary: Get report by ID
+      tags:
+        - Reports
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Report details
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Report"
+        "400":
+          description: Invalid report ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Report not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    patch:
+      summary: Update report status to "in lavorazione" by ID
+      tags:
+        - Reports
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Report updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  report:
+                    type: object
+                    $ref: "#/components/schemas/Report"
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Report not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 components:
   securitySchemes:
     XAccessTokenHeaderAuth: # arbitrary name for the security scheme
@@ -1549,4 +1828,45 @@ components:
         cf:
           type: string
           description: "Fiscal code of the user"
+        allow_notifications:
+          type: boolean
+          description: "Indicates whether the user allows notifications or not"
     Report:
+      type: object
+      required:
+        - title
+        - text
+        - author
+        - created
+        - categoria
+        - attachments
+        - status
+      properties:
+        _id:
+          type: string
+          description: "ID of the report"
+        title:
+          type: string
+          description: "Title of the report"
+        text:
+          type: string
+          description: "Full text of the report"
+        author:
+          type: object
+          $ref: "#/components/schemas/Author"
+        created:
+          type: string
+          format: date-time
+          description: "Creation datetime of the report"
+        categoria:
+          type: string
+          description: "Category of the report"
+        attachments:
+          type: array
+          items:
+            type: string
+          description: "Attachments of the report"
+        status:
+          type: string
+          enum: ["da elaborare", "in lavorazione", "risolta"]
+          description: "Status of the report"

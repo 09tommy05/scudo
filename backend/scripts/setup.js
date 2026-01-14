@@ -44,21 +44,24 @@ User.deleteMany({}).then(()=>{
         surname: "Rossi",
         email: "mario.rossi@example.com",
         cf: "RSSMRA80A01H501U",
-        password: hashedUsersPassword
+        password: hashedUsersPassword,
+        allow_notifications: true
     });
     var user2= new User({
         name: "Luigi",
         surname: "Verdi",
         email: "luigi.verdi@example.com",
         cf: "VRDLGU85B02H501V",
-        password: hashedUsersPassword
+        password: hashedUsersPassword,
+        allow_notifications: true
     });
     var user3= new User({
         name: "Anna",
         surname: "Bianchi",
         email: "anna.bianchi@example.com",
         cf: "BNCHAN90C03H501W",
-        password: hashedUsersPassword
+        password: hashedUsersPassword,
+        allow_notifications: false
     });
     return Promise.all([user1.save(), user2.save(), user3.save()]);
 }).then(() => {

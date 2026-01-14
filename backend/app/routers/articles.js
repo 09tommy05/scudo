@@ -1,8 +1,8 @@
 import express from 'express';
-import Article from './models/article.js';
-import { rbac } from './middleware/rbac.js';
-import tokenChecker from './middleware/tokenChecker.js';
-import upload from './middleware/upload.js';
+import Article from '../models/article.js';
+import { rbac } from '../middleware/rbac.js';
+import tokenChecker from '../middleware/tokenChecker.js';
+import { uploadSingleImage } from '../middleware/upload.js';
 import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
@@ -45,7 +45,7 @@ router.get('', async (req, res) => {
     }
 });
 
-router.post('', tokenChecker, rbac("editor"), upload.single('img'), async (req, res) => {
+router.post('', tokenChecker, rbac("editor"), uploadSingleImage, async (req, res) => {
     try {
         if (!req.body) {
             return res.status(400).json({ message: "Missing request body" });
@@ -158,7 +158,7 @@ router.delete('/:id', tokenChecker, rbac("editor", "admin"), async (req, res) =>
     }
 });
 
-router.put('/:id', tokenChecker, rbac("editor"), upload.single('img'), async (req, res) => {
+router.put('/:id', tokenChecker, rbac("editor"), uploadSingleImage, async (req, res) => {
     try {
         let article = req['article'];
         if (!req.body) {

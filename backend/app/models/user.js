@@ -8,6 +8,7 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: {type: String, required: true}, //se lo spid e CIE vanno, questo campo non serve più
   cf: { type: String, required: true, unique: true }, // codice fiscale
+  allow_notifications: { type: Boolean, default: false }
 });
 
 // Creazione del modello

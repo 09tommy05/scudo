@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Report Upload</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Test creazione Report</h2>
+
+<form id="reportForm">
+    <label>
+        JWT Token
+        <input type="text" id="jwt" placeholder="eyJhbGciOi..." required>
+    </label>
+
+    <label>
+        Titolo
+        <input type="text" name="title" required>
+    </label>
+
+    <label>
+        Testo
+        <textarea name="text" required></textarea>
+    </label>
+
+    <label>
+        Categoria
+        <input type="text" name="categoria" required>
+    </label>
+
+    <label>
+        Allegati
+        <input type="file" name="attachments" multiple>
+    </label>
+
+    <button type="submit">Invia Report</button>
+</form>
+
+<pre id="response"></pre>
+
+<script>
+    const form = document.getElementById('reportForm');
+    const responseBox = document.getElementById('response');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjZiM2NjYTI5NzlkYTc1OWJkZGFkYyIsImVtYWlsIjoibWFyaW8ucm9zc2lAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2ODQyNzQ5MiwiZXhwIjoxNzY4NDcwNjkyfQ.-8jCrP4Wk5iQNxocEf6Wr1yKesWkvs5qzo89OLUE_Ac";
+        const formData = new FormData(form);
+
+        try {
+            const res = await fetch('http://127.0.0.1:3010/api/v1/reports', {
+                method: 'POST',
+                headers: {
+                    'x-access-token': jwt
+                },
+                body: formData
+            });
+
+            const text = await res.text();
+            responseBox.textContent = text;
+
+        } catch (err) {
+            responseBox.textContent = 'Errore: ' + err.message;
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 import express from 'express';
-import Communication from './models/communication.js';
-import { rbac } from './middleware/rbac.js';
-import tokenChecker from './middleware/tokenChecker.js';
+import Communication from '../models/communication.js';
+import { rbac } from '../middleware/rbac.js';
+import tokenChecker from '../middleware/tokenChecker.js';
 import mongoose from 'mongoose';
 
 const router = express.Router();
@@ -9,8 +9,9 @@ const router = express.Router();
 router.get('', async (req, res) => {
     try {
         const allowedSortFields = ['publication', 'importance'];
-
-        const sortField = req.query.sort || 'publication';
+        const sortField = allowedSortFields.includes(req.query.sort)
+            ? req.query.sort
+            : 'publication';
         const direction = req.query.direction === 'asc' ? 1 : -1;
 
         let communications;

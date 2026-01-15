@@ -1726,6 +1726,15 @@ paths:
                 properties:
                   message:
                     type: string
+        "409":
+          description: Report answer for the given report already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
         "500":
           description: Server error
           content:

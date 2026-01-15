@@ -22,12 +22,12 @@ const transporter = nodemailer.createTransport({
 
 async function _sendEmailBase(destinatario, oggetto, templateName, data) {
     try {
-        const templatePath = path.join(__dirname, '../email_templates', templateName);
+        const templatePath = path.join(__dirname, './email_templates', templateName);
 
         const htmlContent = await ejs.renderFile(templatePath, data);
 
         let info = await transporter.sendMail({
-            from: '"SCUDO No-Reply" <no-reply@scudo.tn.it>',
+            from: '"SCUDO No-Reply" <' + process.env.NO_REPLY_EMAIL_USER + '>',
             to: destinatario,
             replyTo: "assistenza@scudo.tn.it",
             subject: oggetto,
@@ -51,17 +51,27 @@ const sendPasswordSetupEmail = async (email, nome, linkToken) => {
     return await _sendEmailBase(email, "Imposta la tua password - SCUDO", "set-password.ejs", data);
 };
 
-const sendUserNotification = async (email, nome, messaggio) => {
+const sendUserNotificationCommunication = async (email, object, nome, messaggio) => {
     const data = {
         nomeUtente: nome,
         messaggioContenuto: messaggio
     };
-    return await _sendEmailBase(email, "Nuova comunicazione da SCUDO", "notification.ejs", data);
+    return await _sendEmailBase(email, object, "communication_notification.ejs", data);
+};
+
+const sendUserNotificationReport = async (email, object, nome, title, link) => {
+    const data = {
+        nomeUtente: nome,
+        title: title,
+        link: link
+    };
+    return await _sendEmailBase(email, object, "report_notification.ejs", data);
 };
 
 const mailer = {
     sendPasswordSetupEmail,
-    sendUserNotification
+    sendUserNotificationCommunication,
+    sendUserNotificationReport
 };
 
 export default mailer;

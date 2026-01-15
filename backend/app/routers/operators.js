@@ -1,7 +1,7 @@
 import express from 'express';
 import Operator from '../models/operator.js';
 import mongoose from 'mongoose';
-import mailer from '../mailer.js';
+import mailer from '../utils/mailer.js';
 import crypto from 'crypto';
 
 const router = express.Router();
@@ -80,9 +80,7 @@ router.post("", async (req, res) => {
             activationToken: activationToken
         });
         await Operator.create(newOperator);
-        //send email
         try {
-            // Sintassi pulita: oggetto.metodo()
             await mailer.sendPasswordSetupEmail(
                 email,
                 name + " " + surname,

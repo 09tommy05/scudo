@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<body style="margin:0; padding:0; background-color:#f4f6f8; font-family: Arial, Helvetica, sans-serif;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f8; padding: 30px 0;">
+        <tr>
+            <td align="center">
+
+                <table width="600" cellpadding="0" cellspacing="0"
+                    style="background-color:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+
+                    <tr>
+                        <td style="background-color:#ffffff;padding: 24px 30px;text-align:center;border-bottom: 4px solid #1D58BF;">
+
+                            <img src="https://scudo.tn.it/img/logo.svg" alt="SCUDO" style="height:48px; display:block; margin:0 auto 10px auto;">
+
+                            <h1 style=" margin:0; font-size:20px; color:#1D58BF;">
+                                Nuova notifica da SCUDO
+                            </h1>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 30px; color:#000000; font-size:15px; line-height:1.6;">
+
+                            <p style="margin-top:0;">
+                                Ciao <strong>
+                                    <%= nomeUtente %>
+                                </strong>,
+                            </p>
+
+                            <p>
+                                la tua segnalazione intitolata
+                                <strong>“<%= title %>”</strong>
+                                è stata <strong>risolta</strong> dal nostro team.
+                            </p>
+
+                            <p>
+                                Puoi visualizzare la risposta accedendo alla tua area personale
+                                nella webapp <strong>SCUDO</strong>,
+                                oppure cliccando sul pulsante qui sotto.
+                            </p>
+
+                            <!-- CTA Button -->
+                            <p style="text-align:center; margin: 32px 0;">
+                                <a href="<%= link %>" style="
+                     background-color:#1D58BF;
+                     color:#ffffff;
+                     text-decoration:none;
+                     padding:14px 26px;
+                     border-radius:6px;
+                     font-weight:bold;
+                     display:inline-block;
+                   ">
+                                    Visualizza la risposta
+                                </a>
+                            </p>
+
+                            <p>
+                                Grazie per aver utilizzato <strong>SCUDO</strong> e per il tuo contributo
+                                alla sicurezza digitale.
+                            </p>
+
+                            <p style="margin-bottom:0;">
+                                Saluti,<br>
+                                <strong>Il team SCUDO</strong>
+                            </p>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#f0f2f5; padding: 16px 30px; font-size:12px; color:#000000;">
+                            <p style="margin:0; opacity:0.75;">
+                                Questa email è stata inviata automaticamente.
+                                Se non hai richiesto questa comunicazione, puoi ignorarla.
+                                Per favore non rispondere a questa email.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

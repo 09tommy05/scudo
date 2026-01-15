@@ -408,6 +408,298 @@ paths:
                 properties:
                   message:
                     type: string
+  /auth/operator/login:
+    post:
+      summary: Operator login and obtain JWT token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+                  id:
+                    type: string
+                  self:
+                    type: string
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Invalid email or password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Operator account is inactive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/spid/login:
+    post:
+      summary: SPID login for users
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  self:
+                    type: string
+                  message:
+                    type: string
+                  token:
+                    type: string
+                  id:
+                    type: string
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Authentication failed email or password invalid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/cie/login:
+    post:
+      summary: CIE login for users
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  self:
+                    type: string
+                  token:
+                    type: string
+                  id:
+                    type: string
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Authentication failed email or password invalid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/operator/{id}:
+    patch:
+      summary: Change operator's password for the first login
+      tags:
+        - Authentication
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token or authentication failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Operator not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/me/:
+    get:
+      summary: Get authenticated user information
+      tags:
+        - Authentication
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      responses:
+        "200":
+          description: Authenticated user information
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Operator"
+                  - $ref: "#/components/schemas/User"
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
   /communications:
     get:
       summary: Get all published communications
@@ -1096,298 +1388,6 @@ paths:
                 properties:
                   message:
                     type: string
-  /auth/operator/login:
-    post:
-      summary: Operator login and obtain JWT token
-      tags:
-        - Authentication
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-      responses:
-        "200":
-          description: Login successful
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  token:
-                    type: string
-                  id:
-                    type: string
-                  self:
-                    type: string
-        "400":
-          description: Invalid body
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "401":
-          description: Invalid email or password
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "403":
-          description: Operator account is inactive
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-  /auth/spid/login:
-    post:
-      summary: SPID login for users
-      tags:
-        - Authentication
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-      responses:
-        "200":
-          description: Login successful
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  self:
-                    type: string
-                  message:
-                    type: string
-                  token:
-                    type: string
-                  id:
-                    type: string
-        "400":
-          description: Invalid body
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "401":
-          description: Authentication failed email or password invalid
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "500":
-          description: Server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-  /auth/cie/login:
-    post:
-      summary: CIE login for users
-      tags:
-        - Authentication
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-      responses:
-        "200":
-          description: Login successful
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  self:
-                    type: string
-                  token:
-                    type: string
-                  id:
-                    type: string
-        "400":
-          description: Invalid body
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "401":
-          description: Authentication failed email or password invalid
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "500":
-          description: Server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-  /auth/operator/{id}:
-    patch:
-      summary: Change operator's password for the first login
-      tags:
-        - Authentication
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: token
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                newPassword:
-                  type: string
-      responses:
-        "200":
-          description: Password changed successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "400":
-          description: Invalid body
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "401":
-          description: Missing token or authentication failed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "403":
-          description: Invalid token or insufficient permissions
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "404":
-          description: Operator not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "500":
-          description: Server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-  /auth/me/:
-    get:
-      summary: Get authenticated user information
-      tags:
-        - Authentication
-      security:
-        - XAccessTokenHeaderAuth: []
-        - TokenQueryAuth: []
-      responses:
-        "200":
-          description: Authenticated user information
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: "#/components/schemas/Operator"
-                  - $ref: "#/components/schemas/User"
-        "401":
-          description: Missing token
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "403":
-          description: Invalid token
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
   /reports:
     get:
       summary: Get all reports
@@ -1624,8 +1624,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
-                    type: string
                   self:
                     type: string
                   report:
@@ -1651,6 +1649,270 @@ paths:
                     type: string
         "404":
           description: Report not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /report-answers:
+    post:
+      summary: Create a new report answer
+      tags:
+        - Report Answers
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                report:
+                  type: string
+                title:
+                  type: string
+                text:
+                  type: string
+      responses:
+        "201":
+          description: Report answer created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  self:
+                    type: string
+                  reportAnswer:
+                    type: object
+                    $ref: "#/components/schemas/ReportAnswer"
+        "400":
+          description: Missing or invalid request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /report-answers/{id}:
+    get:
+      summary: Get report answer by ID
+      tags:
+        - Report Answers
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Report answer details
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/ReportAnswer"
+        "400":
+          description: Invalid report answer ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token or insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Report answer not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /user/me/notifications:
+    patch:
+      summary: Toggle user notification preferences
+      tags:
+        - Users
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                allow_notifications:
+                  type: boolean
+      responses:
+        "200":
+          description: Notification preferences updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  self:
+                    type: string
+                  notificationsEnabled:
+                    type: boolean
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /user/reports:
+    get:
+      summary: Get reports created by the authenticated user
+      tags:
+        - Users
+      security:
+        - XAccessTokenHeaderAuth: []
+        - TokenQueryAuth: []
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: ["created", "status"]
+          description: Sort reports by sort field
+        - in: query
+          name: direction
+          schema:
+            type: string
+            enum: ["asc", "desc"]
+          description: Sort direction
+      responses:
+        "200":
+          description: A list of user's reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    self:
+                      type: string
+                    report:
+                      $ref: "#/components/schemas/Report"
+        "401":
+          description: Missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Invalid token
           content:
             application/json:
               schema:
@@ -1809,31 +2071,6 @@ components:
         isActive:
           type: boolean
           description: "Indicates whether the operator is active or not"
-    User:
-      type: object
-      required:
-        - name
-        - surname
-        - email
-        - cf
-      properties:
-        id:
-          type: string
-          description: "ID of the user"
-        name:
-          type: string
-          description: "Name of the user"
-        surname:
-          description: "Surname of the user"
-        email:
-          type: string
-          description: "Email of the user"
-        cf:
-          type: string
-          description: "Fiscal code of the user"
-        allow_notifications:
-          type: boolean
-          description: "Indicates whether the user allows notifications or not"
     Report:
       type: object
       required:
@@ -1873,3 +2110,55 @@ components:
           type: string
           enum: ["da elaborare", "in lavorazione", "risolta"]
           description: "Status of the report"
+    ReportAnswer:
+      type: object
+      required:
+        - report
+        - author
+        - text
+        - title
+      properties:
+        _id:
+          type: string
+          description: "ID of the report answer"
+        report:
+          type: string
+          description: "ID of the associated report"
+        title:
+          type: string
+          description: "Title of the report answer"
+        text:
+          type: string
+          description: "Full text of the report answer"
+        author:
+          type: object
+          $ref: "#/components/schemas/Author"
+        created:
+          type: string
+          format: date-time
+          description: "Creation datetime of the report answer"
+    User:
+      type: object
+      required:
+        - name
+        - surname
+        - email
+        - cf
+      properties:
+        id:
+          type: string
+          description: "ID of the user"
+        name:
+          type: string
+          description: "Name of the user"
+        surname:
+          description: "Surname of the user"
+        email:
+          type: string
+          description: "Email of the user"
+        cf:
+          type: string
+          description: "Fiscal code of the user"
+        allow_notifications:
+          type: boolean
+          description: "Indicates whether the user allows notifications or not"

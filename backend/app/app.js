@@ -1,13 +1,19 @@
 import express from 'express';
+import cors from 'cors';
+import path from 'path';
+
+//middlewares imports
+import tokenChecker from './middleware/tokenChecker.js';
+import { rbac } from './middleware/rbac.js';
+
+//routers imports
+import auth from './routers/auth.js';
 import articles from './routers/articles.js';
 import communications from './routers/communications.js';
-import cors from 'cors';
-import auth from './routers/auth.js';
-import tokenChecker from './middleware/tokenChecker.js';
 import operators from './routers/operators.js';
 import reports from './routers/reports.js';
-import { rbac } from './middleware/rbac.js';
-import path from 'path';
+import users from './routers/users.js';
+import reportAnswers from './routers/reportAnswers.js';
 
 //swagger imports
 import Path from 'path';
@@ -20,7 +26,7 @@ import yaml from 'js-yaml';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = Path.dirname(__filename);
 
-const swaggerDocument = yaml.load(readFileSync(Path.join(__dirname, '..', 'oas3.yml'), 'utf8'));
+const swaggerDocument = yaml.load(readFileSync(Path.join(__dirname, '../doc', 'oas3.yml'), 'utf8'));
 
 const app = express();
 
@@ -44,10 +50,13 @@ app.use(cors());
 app.use('/uploads/images', express.static(path.join(__dirname, '../uploads/images')));
 app.use('/uploads/attachments', express.static(path.join(__dirname, '../uploads/attachments')));
 
+//routers
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/articles', articles);
 app.use('/api/v1/communications', communications);
 app.use('/api/v1/reports',tokenChecker, rbac("user", "reporter"), reports);
+app.use('/api/v1/user/', tokenChecker, rbac("user"), users);
+app.use('/api/v1/report-answers/', tokenChecker, rbac("reporter", "user"), reportAnswers);
 
 app.use("/api/v1/operators/", tokenChecker, rbac("admin"), operators);
 

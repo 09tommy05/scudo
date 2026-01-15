@@ -128,16 +128,13 @@ router.use('/:id', async (req, res, next) => {
     next();
 });
 
-//per pubblicare la comunicazione in caso sia una bozza
 router.patch('/:id', rbac("reporter"), async (req, res) => {
     try {
         let report = req['report'];
         report.status = "in lavorazione";
         await report.save();
-        //possibile notifica se risolta
         report = await Report.findById(report._id).populate('author', 'name surname');
         res.status(200).json({
-            message: "Report published",
             self: '/api/v1/reports/' + report._id,
             report: report
         });
@@ -146,7 +143,7 @@ router.patch('/:id', rbac("reporter"), async (req, res) => {
     }
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', (req, res) => {
     let report = req['report'];
     try {
         if(req.user.role === 'user' && report.author._id.toString() !== req.user.id){

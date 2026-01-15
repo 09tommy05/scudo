@@ -763,6 +763,11 @@ paths:
           schema:
             type: boolean
           description: Set to true to create a draft comunication
+        - in: query
+          name: notify
+          schema:
+            type: boolean
+          description: Set to true to send notification emails to users upon publication
       requestBody:
         required: true
         content:
@@ -973,6 +978,11 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          name: notify
+          schema:
+            type: boolean
+          description: Set to true to send notification emails to users upon publication
       responses:
         "200":
           description: Communication published successfully

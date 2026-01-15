@@ -3,6 +3,7 @@ import Communication from '../models/communication.js';
 import { rbac } from '../middleware/rbac.js';
 import tokenChecker from '../middleware/tokenChecker.js';
 import mongoose from 'mongoose';
+import { sendCommunicationNotifications } from '../utils/notificationDispatcher.js';
 
 const router = express.Router();
 
@@ -81,6 +82,7 @@ router.post('', tokenChecker, rbac("reporter"), async (req, res) => {
         let { title, text, categoria, short_text, importance } = req.body;
 
         let draft = req.query.draft == "true" ? true : false;
+        let notify = req.query.notify == "true" ? true : false;
 
         if (!title || !text || !categoria || !short_text) {
             return res.status(400).json({ message: "Missing required fields" });
@@ -99,6 +101,17 @@ router.post('', tokenChecker, rbac("reporter"), async (req, res) => {
         const populated = await Communication.findById(communication._id)
             .populate("author", "name surname");
 
+        if (populated.isDraft === false && notify) {
+            try {
+                sendCommunicationNotifications(
+                    communication.title,
+                    communication.short_text,
+                    process.env.CURRENT_HOST + '/communications/' + communication._id
+                ).catch(err => console.error("[MAIL ERROR]", err));
+            } catch (err) {
+                console.error("[MAIL ERROR]", err);
+            }
+        }
         return res.status(201).json({
             message: "Communication created",
             self: '/api/v1/communications/' + communication._id,
@@ -133,8 +146,21 @@ router.patch('/:id', tokenChecker, rbac("reporter"), async (req, res) => {
         let communication = req['communication'];
         communication.isDraft = false;
         communication.publication = Date.now();
+        let notify = req.query.notify == "true" ? true : false;
         await communication.save();
         communication = await Communication.findById(communication._id).populate('author', 'name surname');
+        if (notify) {
+            try {
+                sendCommunicationNotifications(
+                    communication.title,
+                    communication.short_text,
+                    process.env.CURRENT_HOST + '/communications/' + communication._id
+                ).catch(err => console.error("[MAIL ERROR]", err));
+            } catch (err) {
+                console.error("[MAIL ERROR]", err);
+            }
+        }
+
         res.status(200).json({
             message: "Communication published",
             self: '/api/v1/communications/' + communication._id,

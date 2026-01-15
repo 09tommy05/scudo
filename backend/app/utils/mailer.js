@@ -51,12 +51,14 @@ const sendPasswordSetupEmail = async (email, nome, linkToken) => {
     return await _sendEmailBase(email, "Imposta la tua password - SCUDO", "set-password.ejs", data);
 };
 
-const sendUserNotificationCommunication = async (email, object, nome, messaggio) => {
+const sendUserNotificationCommunication = async (email, nomeComunicazione, nome, messaggio,link) => {
     const data = {
         nomeUtente: nome,
-        messaggioContenuto: messaggio
+        nomeComunicazione: nomeComunicazione,
+        messaggioContenuto: messaggio,
+        linkComunicazione: link
     };
-    return await _sendEmailBase(email, object, "communication_notification.ejs", data);
+    return await _sendEmailBase(email, "SCUDO - Nuova comunicazione: " + nomeComunicazione, "communication_notification.ejs", data);
 };
 
 const sendUserNotificationReport = async (email, object, nome, title, link) => {

@@ -7,6 +7,7 @@ import tokenChecker from './middleware/tokenChecker.js';
 import operators from './routers/operators.js';
 import reports from './routers/reports.js';
 import { rbac } from './middleware/rbac.js';
+import path from 'path';
 
 //swagger imports
 import Path from 'path';
@@ -32,12 +33,16 @@ app.use(
   })
 );
 
-
 //parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
+
+
+// static files
+app.use('/uploads/images', express.static(path.join(__dirname, '../uploads/images')));
+app.use('/uploads/attachments', express.static(path.join(__dirname, '../uploads/attachments')));
 
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/articles', articles);

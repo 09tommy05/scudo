@@ -34,7 +34,8 @@ router.get('', async (req, res) => {
             img: a.img,
             short_text: a.short_text,
             categoria: a.categoria,
-            author: a.author
+            author: a.author,
+            last_edit: a.last_edit,
         }));
 
         res.status(200).json(serialized);

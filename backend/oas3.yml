@@ -54,6 +54,9 @@ paths:
                     author:
                       type: object
                       $ref: "#/components/schemas/Author"
+                    last_edit:
+                      type: string
+                      format: date-time
         "500":
           description: Server error
           content:

@@ -1,73 +1,70 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import Operator from '../app/models/operator.js';
-import bcrypt from 'bcryptjs';
 import User from '../app/models/user.js';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
-const hashedPassword = await bcrypt.hash(process.env.ADMIN_PSW, 10);
+async function seed() {
+    try {
+        await mongoose.connect(process.env.DB_URL);
+        console.log("Connected to Database");
 
-const usersPassword = "12345678";
-const hashedUsersPassword = await bcrypt.hash(usersPassword, 10);
+        const hashedAdminPassword = await bcrypt.hash(process.env.ADMIN_PSW, 10);
+        const hashedUsersPassword = await bcrypt.hash("12345678", 10);
 
-mongoose.connect(process.env.DB_URL)
-.then ( () => {
-	console.log("Connected to Database");
-});
+        // OPERATORI
+        await Operator.deleteMany({});
+        const admin = new Operator({
+            name: "Admin",
+            surname: "Admin",
+            email: process.env.ADMIN_EMAIL,
+            password: hashedAdminPassword,
+            role: "admin",
+            isActive: true,
+            activationToken: "",
+            tokenExp: Date.now()
+        });
+        await admin.save();
+        console.log("Admin user created");
 
-// elimina tutti gli operatori e crea l'operatore admin di default
-Operator.deleteMany({}).then(()=>{
-    var admin= new Operator({
-        name: "Admin",
-        surname: "Admin",
-        email: process.env.ADMIN_EMAIL,
-        password: hashedPassword,
-        role: "admin",
-        isActive: true,
-        activationToken: "",
-        tokenExp: Date.now()
-    });
-    return admin.save();
-}).then(() => {
-    console.log("Admin user created");
-    process.exit();
-}).catch((err)=>{
-    console.error("Error setting up admin user:", err);
-    process.exit(1);
-});
+        // UTENTI
+        await User.deleteMany({});
+        await User.insertMany([
+            {
+                name: "Mario",
+                surname: "Rossi",
+                email: "mario.rossi@example.com",
+                cf: "RSSMRA80A01H501U",
+                password: hashedUsersPassword,
+                allow_notifications: true
+            },
+            {
+                name: "Luigi",
+                surname: "Verdi",
+                email: "luigi.verdi@example.com",
+                cf: "VRDLGU85B02H501V",
+                password: hashedUsersPassword,
+                allow_notifications: true
+            },
+            {
+                name: "Anna",
+                surname: "Bianchi",
+                email: "anna.bianchi@example.com",
+                cf: "BNCHAN90C03H501W",
+                password: hashedUsersPassword,
+                allow_notifications: false
+            }
+        ]);
 
-//creazione degli utenti spid e cie di prova
-User.deleteMany({}).then(()=>{
-    var user1= new User({
-        name: "Mario",
-        surname: "Rossi",
-        email: "mario.rossi@example.com",
-        cf: "RSSMRA80A01H501U",
-        password: hashedUsersPassword,
-        allow_notifications: true
-    });
-    var user2= new User({
-        name: "Luigi",
-        surname: "Verdi",
-        email: "luigi.verdi@example.com",
-        cf: "VRDLGU85B02H501V",
-        password: hashedUsersPassword,
-        allow_notifications: true
-    });
-    var user3= new User({
-        name: "Anna",
-        surname: "Bianchi",
-        email: "anna.bianchi@example.com",
-        cf: "BNCHAN90C03H501W",
-        password: hashedUsersPassword,
-        allow_notifications: false
-    });
-    return Promise.all([user1.save(), user2.save(), user3.save()]);
-}).then(() => {
-    console.log("Test users created");
-    process.exit();
-}).catch((err)=>{
-    console.error("Error setting up test users:", err);
-    process.exit(1);
-});
+        console.log("Test users created");
+        process.exit(0);
+
+    } catch (err) {
+        console.error("Seed error:", err);
+        process.exit(1);
+    }
+}
+
+seed();

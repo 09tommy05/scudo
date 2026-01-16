@@ -1,4 +1,4 @@
-- caricare oas3.yml su apiary.io (NOOO BLUEPRINT MA SWAGGER) e swagger.io
+✔ caricare oas3.yml su apiary.io(https://scudo.docs.apiary.io/) (NOOO BLUEPRINT MA SWAGGER) e swagger.io (https://app.swaggerhub.com/apis/scudo-a99/SCUDO/1.0)
 - A frontend le sessioni vanno bene, per le API REST no
 ✔ Autenticazione utenti tramite CIE e SPID
 - FRONTEND

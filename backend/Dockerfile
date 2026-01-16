@@ -14,7 +14,7 @@ RUN npm install --production
 COPY . .
 
 # porta esposta
-EXPOSE 3125
+EXPOSE 3215
 
 # avvio app
 CMD ["npm", "start"]

@@ -72,7 +72,7 @@ const loading = ref(true);
 const error = ref(null);
 const searchQuery = ref('');
 const selectedCategory = ref('');
-const categories = ref(['Sicurezza', 'Privacy', 'Social Media', 'Tecnologia']); //TODO CARICARE DINAMICAMENTE
+const categories = ref([]);
 
 const fetchArticles = async () => {
   loading.value = true;
@@ -105,5 +105,10 @@ const formatDate = (dateString) => {
 
 onMounted(() => {
   fetchArticles();
+  api.getCategories().then(response => {
+    categories.value = response.data.categories;
+  }).catch(err => {
+    console.error('Error fetching categories:', err);
+  });
 });
 </script>

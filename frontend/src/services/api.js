@@ -41,6 +41,9 @@ export default {
     deleteArticle(id) {
         return api.delete(`/articles/${id}`);
     },
+    getCategories() {
+        return api.get('/articles/categories/');
+    },
 
     // Auth - Operator
     loginOperator(email, password) {

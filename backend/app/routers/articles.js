@@ -87,6 +87,16 @@ router.post('', tokenChecker, rbac("editor"), uploadSingleImage, async (req, res
     }
 });
 
+router.get('/categories/', async (req, res) => {
+    try {
+        const categories = await Article.distinct('categoria', { isDraft: false });
+        res.status(200).json({ categories: categories });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 router.use('/:id', async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         res.status(400).json({ message: "Invalid article ID" });
@@ -208,5 +218,4 @@ router.put('/:id', tokenChecker, rbac("editor"), uploadSingleImage, async (req, 
         res.status(500).json({ message: "Internal server error" });
     }
 });
-
 export default router;

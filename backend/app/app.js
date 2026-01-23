@@ -60,6 +60,10 @@ app.use('/api/v1/report-answers/', tokenChecker, rbac("reporter", "user"), repor
 
 app.use("/api/v1/operators/", tokenChecker, rbac("admin"), operators);
 
+app.get('/', (req, res) => {
+    res.json({ message: 'working' });
+});
+
 //404 and 500 error handlers
 app.use((req, res, next) => {
     res.status(404).json({ message: 'La rotta richiesta non esiste' });

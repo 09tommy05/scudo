@@ -70,7 +70,7 @@ const seedDatabase = async () => {
                 name: "Francesco",
                 surname: "Marrone",
                 email: "francesco.marrone@example.com",
-                cf: "RSSMRA80A01H501U",
+                cf: "MRRFNC90A01H501S",
                 password: hashedPassword,
                 allow_notifications: true
             },

@@ -36,7 +36,7 @@
     <!-- Mobile Menu -->
     <div v-if="isOpen" class="md:hidden bg-primary pb-4">
       <router-link to="/" class="block py-2 px-4 text-sm hover:bg-blue-700">Guida</router-link>
-      <router-link to="/communications" class="hover:text-gray-200 transition">Comunicazioni</router-link>
+      <router-link to="/communications" class="block py-2 px-4 text-sm hover:bg-blue-700">Comunicazioni</router-link>
       <router-link to="/report/create" class="block py-2 px-4 text-sm hover:bg-blue-700">Segnala</router-link>
       
       <template v-if="!isAuthenticated">

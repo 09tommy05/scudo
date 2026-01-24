@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue'; // Aggiunto import onMounted
 import { useRouter, useRoute } from 'vue-router';
 import api from '@/services/api';
 
@@ -91,7 +91,17 @@ const email = ref('');
 const password = ref('');
 const error = ref('');
 const loading = ref(false);
-const loginMode = ref('operator'); // 'operator' or 'user'
+const loginMode = ref('operator');
+
+// --- NUOVO CODICE: Controllo sessione esistente ---
+onMounted(() => {
+  const token = localStorage.getItem('token');
+  // Se c'è un token, reindirizza direttamente alla dashboard
+  if (token) {
+    router.replace('/dashboard'); // Usa replace per evitare che il tasto "indietro" riporti al login
+  }
+});
+// --------------------------------------------------
 
 const handleLogin = async () => {
   loading.value = true;
@@ -105,23 +115,18 @@ const handleLogin = async () => {
        response = await api.loginSpid(email.value, password.value);
     }
 
-    const { token, id, self } = response.data;
+    const { token, id, self, role } = response.data;
     
-    // Store auth data
     localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify({ id, self, role: loginMode.value }));
+    localStorage.setItem('user', JSON.stringify({ id, self, role }));
 
-    // Redirect based on role or return url
     const redirectPath = route.query.redirect;
     if (redirectPath) {
       router.push(redirectPath);
-    } else if (loginMode.value === 'operator') {
-      router.push('/operator-dashboard');
     } else {
       router.push('/dashboard');
     }
     
-    // Ideally use a state manager, but reload works for MVP to reset api headers
     setTimeout(() => {
        window.location.reload(); 
     }, 100);

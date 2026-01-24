@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_HOST + "/v1" || 'http://localhost:3010/api/v1',
+    baseURL: import.meta.env.VITE_API_HOST + "/api/v1" || 'http://localhost:3010/api/v1',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -76,6 +76,13 @@ export default {
         return api.post('/reports', data);
     },
 
+    // user
+    getMyReports(){
+        return api.get("user/reports")
+    },
+    updateNotificationStatus(allow_notifications){
+        return api.patch('user/me/notifications', { allow_notifications });
+    },
     // Communications
     getCommunications(params) {
         return api.get('/communications', { params });

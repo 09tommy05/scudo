@@ -49,6 +49,7 @@ router.post('/operator/login', async (req, res) => {
             token: token,
             id: user._id,
             isActive: user.isActive,
+            role: user.role,
             self: '/api/v1/operators/' + user._id
         });
     } catch (err) {
@@ -139,6 +140,7 @@ router.post(['/spid/login', '/cie/login'], async (req, res) => {
             message: "Authentication successful",
             self: '/api/v1/auth/me/',
             token: token,
+            role: "user",
             id: user._id,
         });
     } catch (err) {

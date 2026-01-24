@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import ArticleDetailView from '@/views/ArticleDetailView.vue'
+import DashboardView from '@/views/DashboardView.vue'
+import SetPasswordView from '@/views/SetPasswordView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +24,22 @@ const router = createRouter({
       name: 'login',
       component: LoginView
     },
+    {
+      path: '/dashboard',
+      name: 'user-dashboard',
+      component: DashboardView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/set-first-password',
+      name: 'set-first-password',
+      component: SetPasswordView
+    },
+    //QUESTO DEVE RIMANERE PER ULTIMO è IL FALLBACK PER 404
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/'
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -40,7 +58,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: 'login', query: { redirect: to.fullPath } });
   } else if (to.meta.requiresOperator && user.role !== 'operator') {
-    next({ name: 'home' }); // Or unauthorized page
+    next({ name: 'home' }); 
   } else {
     next();
   }

@@ -464,6 +464,8 @@ paths:
                     type: string
                   id:
                     type: string
+                  role:
+                    type: string
                   self:
                     type: string
         "400":
@@ -522,6 +524,8 @@ paths:
                   message:
                     type: string
                   token:
+                    type: string
+                  role:
                     type: string
                   id:
                     type: string
@@ -583,6 +587,8 @@ paths:
                   token:
                     type: string
                   id:
+                    type: string
+                  role:
                     type: string
         "400":
           description: Invalid body
@@ -757,6 +763,8 @@ paths:
                     self:
                       type: string
                     title:
+                      type: string
+                    publication:
                       type: string
                     short_text:
                       type: string

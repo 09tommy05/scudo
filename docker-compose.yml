@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: scudo_backend
+    restart: unless-stopped
+    ports:
+      - "3215:3215"
+    env_file:
+      - ./backend/.env
+    networks:
+      - scudo_net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: scudo_frontend
+    restart: unless-stopped
+    ports:
+      - "3216:3216"
+    depends_on:
+      - backend
+    networks:
+      - scudo_net
+
+networks:
+  scudo_net:
+    driver: bridge

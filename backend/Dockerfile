@@ -18,4 +18,3 @@ EXPOSE 3215
 
 # avvio app
 CMD ["npm", "start"]
-

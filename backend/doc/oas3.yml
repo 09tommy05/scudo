@@ -1224,8 +1224,6 @@ paths:
                 role:
                   type: string
                   enum: ["reporter", "editor", "admin"]
-                password:
-                  type: string
       responses:
         "201":
           description: Operator created successfully

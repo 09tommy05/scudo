@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_HOST + "/api/v1" || 'http://localhost:3010/api/v1',
+    baseURL: import.meta.env.VITE_API_HOST + "/v1" || 'http://localhost:3010/api/v1', //possibile dover cambiare /v1 con /api/v1, dipende da come è settato il backend
     headers: {
         'Content-Type': 'application/json',
     },
@@ -64,7 +64,11 @@ export default {
     getMe() {
         return api.get('/auth/me/');
     },
-
+    setFirstPassword(id, token, password) {
+        return api.patch(`/auth/operator/${id}/?token=${token}`, {
+            newPassword: password,
+        });
+    },
     // Reports
     getReports(params) {
         return api.get('/reports', { params });

@@ -147,6 +147,10 @@ router.patch('/:id', async (req, res) => {
         }
         //update isActive status
         let operator = req.operator;
+        if(operator.activationToken != null){
+            res.status(400).json({ message: "Cannot change isActive status of an operator who has not set their password yet" });
+            return;
+        }        
         if (!req.body || !('isActive' in req.body) || typeof req.body.isActive !== 'boolean') {
             operator.isActive = !operator.isActive;
         } else {

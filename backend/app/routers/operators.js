@@ -77,7 +77,8 @@ router.post("", async (req, res) => {
             password: " ",
             isActive: false,
             role: role,
-            activationToken: activationToken
+            activationToken: activationToken,
+            tokenExp: new Date(Date.now() + 24 * 60 * 60 * 1000)
         });
         await Operator.create(newOperator);
         try {

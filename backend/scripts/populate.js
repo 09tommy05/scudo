@@ -44,7 +44,8 @@ const seedDatabase = async () => {
             email: process.env.ADMIN_EMAIL,
             password: bcrypt.hashSync(process.env.ADMIN_PSW, 10),
             role: 'admin',
-            isActive: true
+            isActive: true,
+            activationToken: null
         });
 
         const operatorReporter = await Operator.create({
@@ -53,7 +54,8 @@ const seedDatabase = async () => {
             email: 'segnalazioni@scudo.tn.it',
             password: hashedPasswordReporter,
             role: 'reporter',
-            isActive: true
+            isActive: true,
+            activationToken: null
         });
 
         const operatorEditor = await Operator.create({
@@ -62,7 +64,8 @@ const seedDatabase = async () => {
             email: 'redazione@scudo.tn.it',
             password: hashedPasswordEditor,
             role: 'editor',
-            isActive: true
+            isActive: true,
+            activationToken: null
         });
 
         const users = await User.insertMany([

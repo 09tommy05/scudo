@@ -4,10 +4,14 @@ node_modules/
 
 # Mac system files
 **/.DS_Store
+
 backend/uploads/images/*
 backend/uploads/attachments/*
-!backend/uploads/images/example.txt
-!backend/uploads/attachments/example.txt
+
+!backend/uploads/attachments/screenshot_mail.jpg
+!backend/uploads/images/password.jpg
+!backend/uploads/images/phishing_example.png
+
 .operators_data.json
 
 

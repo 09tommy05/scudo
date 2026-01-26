@@ -4,6 +4,8 @@ import LoginView from '@/views/LoginView.vue'
 import ArticleDetailView from '@/views/ArticleDetailView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import SetPasswordView from '@/views/SetPasswordView.vue'
+import CommunicationsView from '@/views/CommunicationsView.vue'
+import CommunicationModal from '@/components/CommunicationModal.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +37,19 @@ const router = createRouter({
       name: 'set-first-password',
       component: SetPasswordView
     },
+    {
+      path: '/communications',
+      name: 'communications',
+      component: CommunicationsView,
+      children: [
+        {
+          path: ':id',
+          name: 'communication-detail',
+          component: CommunicationModal,
+          props: true
+        }
+      ]
+    },
     //QUESTO DEVE RIMANERE PER ULTIMO è IL FALLBACK PER 404
     {
       path: '/:pathMatch(.*)*',
@@ -58,7 +73,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: 'login', query: { redirect: to.fullPath } });
   } else if (to.meta.requiresOperator && user.role !== 'operator') {
-    next({ name: 'home' }); 
+    next({ name: 'home' });
   } else {
     next();
   }

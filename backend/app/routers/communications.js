@@ -53,6 +53,7 @@ router.get('', async (req, res) => {
 
         const serialize = (c) => ({
             self: `/api/v1/communications/${c._id}`,
+            id: c._id,
             title: c.title,
             publication: c.publication,
             short_text: c.short_text,

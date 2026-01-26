@@ -4,18 +4,10 @@
 
     <!-- Search and Filter -->
     <div class="mb-8 flex flex-col md:flex-row gap-4">
-      <input 
-        v-model="searchQuery" 
-        @input="fetchArticles" 
-        type="text" 
-        placeholder="Cerca articoli..." 
-        class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
-      >
-      <select 
-        v-model="selectedCategory" 
-        @change="fetchArticles" 
-        class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
-      >
+      <input v-model="searchQuery" @input="fetchArticles" type="text" placeholder="Cerca articoli..."
+        class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+      <select v-model="selectedCategory" @change="fetchArticles"
+        class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
         <option value="">Tutte le categorie</option>
         <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
       </select>
@@ -34,12 +26,24 @@
 
     <!-- Articles Grid -->
     <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div v-for="article in articles" :key="article.id" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition flex flex-col">
+      <div v-for="article in articles" :key="article.id"
+        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition flex flex-col">
         <img :src="getImageUrl(article.img)" alt="Article Image" class="w-full h-48 object-cover">
         <div class="p-6 flex flex-col flex-1">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-semibold px-2 py-1 bg-blue-100 text-blue-800 rounded-full">{{ article.categoria }}</span>
-            <span class="text-xs text-gray-500">{{ formatDate(article.last_edit) }}</span>
+            <span class="flex items-center gap-1 text-xs font-semibold px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              {{ article.categoria
+              }}</span>
+            <span class="flex items-center gap-1 text-xs text-gray-500"><svg xmlns="http://www.w3.org/2000/svg"
+                class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>{{ formatDate(article.last_edit) }}</span>
           </div>
           <h2 class="text-xl font-bold mb-2 hover:text-primary transition">
             <router-link :to="{ name: 'article-detail', params: { id: article.id } }">
@@ -47,16 +51,14 @@
             </router-link>
           </h2>
           <p class="text-gray-600 mb-4 flex-1 line-clamp-3">{{ article.short_text }}</p>
-          <router-link 
-            :to="{ name: 'article-detail', params: { id: article.id } }"
-            class="text-primary font-bold hover:underline self-start mt-auto"
-          >
+          <router-link :to="{ name: 'article-detail', params: { id: article.id } }"
+            class="text-primary font-bold hover:underline self-start mt-auto">
             Leggi tutto &rarr;
           </router-link>
         </div>
       </div>
     </div>
-    
+
     <div v-if="!loading && articles.length === 0" class="text-center py-12 text-gray-500">
       Nessun articolo trovato.
     </div>
@@ -81,7 +83,7 @@ const fetchArticles = async () => {
     const params = {};
     if (searchQuery.value) params.q = searchQuery.value;
     if (selectedCategory.value) params.category = selectedCategory.value;
-    
+
     const response = await api.getArticles(params);
     articles.value = response.data;
   } catch (err) {

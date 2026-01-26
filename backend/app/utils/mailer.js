@@ -45,7 +45,8 @@ async function _sendEmailBase(destinatario, oggetto, templateName, data) {
 const sendPasswordSetupEmail = async (email, nome, linkToken) => {
     const data = {
         nomeUtente: nome,
-        linkAction: linkToken
+        linkAction: linkToken,
+        logoUrl: process.env.CURRENT_HOST + "favicon.svg"
     };
     
     return await _sendEmailBase(email, "Imposta la tua password - SCUDO", "set-password.ejs", data);
@@ -56,7 +57,8 @@ const sendUserNotificationCommunication = async (email, nomeComunicazione, nome,
         nomeUtente: nome,
         nomeComunicazione: nomeComunicazione,
         messaggioContenuto: messaggio,
-        linkComunicazione: link
+        linkComunicazione: link,
+        logoUrl: process.env.CURRENT_HOST + "favicon.svg"
     };
     return await _sendEmailBase(email, "SCUDO - Nuova comunicazione: " + nomeComunicazione, "communication_notification.ejs", data);
 };
@@ -65,7 +67,8 @@ const sendUserNotificationReport = async (email, object, nome, title, link) => {
     const data = {
         nomeUtente: nome,
         title: title,
-        link: link
+        link: link,
+        logoUrl: process.env.CURRENT_HOST + "favicon.svg"
     };
     return await _sendEmailBase(email, object, "report_notification.ejs", data);
 };

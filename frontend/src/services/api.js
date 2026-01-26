@@ -95,6 +95,9 @@ export default {
     getCommunications(params) {
         return api.get('/communications', { params });
     },
+    getCommunicationById(id) {
+        return api.get(`/communications/${id}`);
+    },
     createCommunication(data) {
         return api.post('/communications', data);
     },

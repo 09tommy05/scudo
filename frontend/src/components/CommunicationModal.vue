@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fade-in" @click.self="close">
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 backdrop-blur-sm animate-fade-in" @click.self="close">
     
     <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" @click.self="close"></div>
     
@@ -55,10 +55,6 @@
              </div>
 
             <div class="prose max-w-none text-justify text-gray-800 whitespace-pre-line leading-relaxed">
-                <p v-if="communication.short_text" class="font-medium text-lg mb-6 text-gray-900 border-l-4 border-primary pl-4 bg-blue-50 py-2 rounded-r">
-                    {{ communication.short_text }}
-                </p>
-
                 <div v-if="communication.text" class="text-base text-gray-700">
                     {{ communication.text }}
                 </div>

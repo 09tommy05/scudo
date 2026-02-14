@@ -14,6 +14,7 @@ backend/uploads/attachments/*
 
 .operators_data.json
 
+create_user.js
 
 # Logs
 logs

@@ -46,7 +46,7 @@ const sendPasswordSetupEmail = async (email, nome, linkToken) => {
     const data = {
         nomeUtente: nome,
         linkAction: linkToken,
-        logoUrl: process.env.CURRENT_HOST + "favicon.svg"
+        logoUrl: process.env.CURRENT_HOST + "/favicon.svg"
     };
     
     return await _sendEmailBase(email, "Imposta la tua password - SCUDO", "set-password.ejs", data);
@@ -58,7 +58,7 @@ const sendUserNotificationCommunication = async (email, nomeComunicazione, nome,
         nomeComunicazione: nomeComunicazione,
         messaggioContenuto: messaggio,
         linkComunicazione: link,
-        logoUrl: process.env.CURRENT_HOST + "favicon.svg"
+        logoUrl: process.env.CURRENT_HOST + "/favicon.svg"
     };
     return await _sendEmailBase(email, "SCUDO - Nuova comunicazione: " + nomeComunicazione, "communication_notification.ejs", data);
 };
@@ -68,7 +68,7 @@ const sendUserNotificationReport = async (email, object, nome, title, link) => {
         nomeUtente: nome,
         title: title,
         link: link,
-        logoUrl: process.env.CURRENT_HOST + "favicon.svg"
+        logoUrl: process.env.CURRENT_HOST + "/favicon.svg"
     };
     return await _sendEmailBase(email, object, "report_notification.ejs", data);
 };

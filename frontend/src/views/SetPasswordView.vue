@@ -4,7 +4,7 @@
 
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Attiva il tuo Account
+          Attiva il tuo account
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
           Imposta la tua password per accedere a SCUDO
@@ -25,7 +25,7 @@
         <p class="text-sm text-gray-500">Ora puoi effettuare l'accesso con le tue nuove credenziali.</p>
         <router-link to="/login"
           class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-blue-700 focus:outline-none transition">
-          Vai al Login
+          Vai al login
         </router-link>
       </div>
 
@@ -44,14 +44,14 @@
         <div class="rounded-md shadow-sm space-y-4">
 
           <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Nuova Password</label>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Nuova password</label>
             <input v-model="form.password" id="password" name="password" type="password" required minlength="8"
               class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
               placeholder="Minimo 8 caratteri">
           </div>
 
           <div>
-            <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Conferma Password</label>
+            <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Conferma password</label>
             <input v-model="form.confirmPassword" id="confirm-password" name="confirm-password" type="password" required
               class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
               placeholder="Ripeti la password">
@@ -70,7 +70,7 @@
         <div>
           <button type="submit" :disabled="loading || isFormInvalid"
             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition">
-            Imposta Password
+            Imposta password
           </button>
         </div>
       </form>

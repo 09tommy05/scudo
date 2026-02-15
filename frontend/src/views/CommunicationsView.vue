@@ -29,10 +29,10 @@
         <div class="relative">
           <select v-model="sortBy"
             class="appearance-none p-2 pl-3 pr-8 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white cursor-pointer">
-            <option value="date_desc">Data (Più recenti)</option>
-            <option value="date_asc">Data (Meno recenti)</option>
-            <option value="importance_desc">Importanza (Alto rischio)</option>
-            <option value="importance_asc">Importanza (Basso rischio)</option>
+            <option value="date_desc">Data (più recenti)</option>
+            <option value="date_asc">Data (meno recenti)</option>
+            <option value="importance_desc">Importanza (alto rischio)</option>
+            <option value="importance_asc">Importanza (basso rischio)</option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

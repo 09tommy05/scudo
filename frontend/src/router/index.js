@@ -6,6 +6,7 @@ import DashboardView from '@/views/DashboardView.vue'
 import SetPasswordView from '@/views/SetPasswordView.vue'
 import CommunicationsView from '@/views/CommunicationsView.vue'
 import CommunicationModal from '@/components/CommunicationModal.vue'
+import GuidePhishingView from '@/views/GuidePhishingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,12 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/guide/email-sospetta',
+      name: 'guide-phishing',
+      component: GuidePhishingView,
+      meta: { hideLayout: true }
     },
     {
       path: '/article/:id',

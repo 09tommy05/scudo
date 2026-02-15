@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-8 text-primary">
-            {{ userRole === 'user' ? 'Il Mio Profilo' : 'Dashboard Operatore' }}
+            {{ userRole === 'user' ? 'Il mio profilo' : 'Dashboard operatore' }}
         </h1>
 
         <div v-if="loading" class="text-center py-12">
@@ -18,10 +18,10 @@
 
             <div v-if="currentTab === 'profile'" class="space-y-8">
                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary">
-                    <h2 class="text-xl font-bold mb-4 text-gray-800">I Miei Dati</h2>
+                    <h2 class="text-xl font-bold mb-4 text-gray-800">I miei dati</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-500">Nome Completo</label>
+                            <label class="block text-sm font-medium text-gray-500">Nome completo</label>
                             <p class="text-lg font-semibold">{{ user.name }} {{ user.surname }}</p>
                         </div>
                         <div>
@@ -29,7 +29,7 @@
                             <p class="text-lg font-semibold">{{ user.email }}</p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-500">Codice Fiscale</label>
+                            <label class="block text-sm font-medium text-gray-500">Codice fiscale</label>
                             <p class="text-lg font-semibold">{{ user.cf || 'N/D' }}</p>
                         </div>
                         <div>
@@ -89,12 +89,12 @@
 
             <div v-if="currentTab === 'reports'" class="space-y-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Coda di Lavorazione Segnalazioni</h2>
+                    <h2 class="text-xl font-bold">Coda di lavorazione segnalazioni</h2>
                     <div class="flex gap-2">
                         <select v-model="reportFilterStatus" @change="fetchReports" class="border rounded p-2 text-sm">
                             <option value="">Tutti gli stati</option>
-                            <option value="da elaborare">Da Elaborare</option>
-                            <option value="in lavorazione">In Lavorazione</option>
+                            <option value="da elaborare">Da elaborare</option>
+                            <option value="in lavorazione">In lavorazione</option>
                             <option value="risolta">Risolta</option>
                         </select>
                     </div>
@@ -133,9 +133,9 @@
 
             <div v-if="currentTab === 'communications'" class="space-y-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Gestione Comunicazioni</h2>
+                    <h2 class="text-xl font-bold">Gestione comunicazioni</h2>
                     <button class="bg-primary text-white px-4 py-2 rounded text-sm hover:bg-blue-700">Nuova
-                        Comunicazione</button>
+                        comunicazione</button>
                 </div>
 
                 <div class="bg-white shadow overflow-hidden rounded-md">
@@ -160,9 +160,9 @@
 
             <div v-if="currentTab === 'articles'" class="space-y-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Gestione Articoli</h2>
+                    <h2 class="text-xl font-bold">Gestione articoli</h2>
                     <button class="bg-primary text-white px-4 py-2 rounded text-sm hover:bg-blue-700">Nuovo
-                        Articolo</button>
+                        articolo</button>
                 </div>
 
                 <div class="bg-white shadow overflow-hidden rounded-md">
@@ -187,10 +187,10 @@
 
             <div v-if="currentTab === 'operators'" class="space-y-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Amministrazione Operatori</h2>
+                    <h2 class="text-xl font-bold">Amministrazione operatori</h2>
                     <button @click="showCreateOperatorModal = true"
                         class="bg-primary text-white px-4 py-2 rounded text-sm hover:bg-blue-700">Nuovo
-                        Operatore</button>
+                        operatore</button>
                 </div>
 
                 <div class="bg-white shadow overflow-hidden rounded-md">
@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <div class="flex flex-col items-end">
-                                        <span class="text-xs text-gray-500 mb-1">Stato Account</span>
+                                        <span class="text-xs text-gray-500 mb-1">Stato account</span>
                                         <label class="flex items-center cursor-pointer">
                                             <div class="relative">
                                                 <input type="checkbox" class="sr-only" :checked="op.isActive"
@@ -242,7 +242,7 @@
                 <div class="relative w-full max-w-md transform rounded-2xl bg-white p-8 shadow-2xl transition-all">
 
                     <div class="mb-6 text-center">
-                        <h2 class="text-2xl font-bold text-gray-800">Crea Nuovo Operatore</h2>
+                        <h2 class="text-2xl font-bold text-gray-800">Crea nuovo operatore</h2>
                         <p class="text-sm text-gray-500 mt-1">Inserisci i dettagli del nuovo membro del team.</p>
                     </div>
 
@@ -293,7 +293,7 @@
                             </button>
                             <button type="submit"
                                 class="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-primary/30 hover:bg-blue-700 hover:shadow-primary/50 transition-all transform active:scale-95">
-                                Crea Operatore
+                                Crea operatore
                             </button>
                         </div>
                     </form>
@@ -316,20 +316,20 @@ const tabs = computed(() => {
     switch (userRole.value) {
         case 'user':
             return [
-                { id: 'profile', label: 'Il Mio Profilo' }
+                { id: 'profile', label: 'Il mio profilo' }
             ];
         case 'editor':
             return [
-                { id: 'articles', label: 'Gestione Articoli' }
+                { id: 'articles', label: 'Gestione articoli' }
             ];
         case 'reporter':
             return [
-                { id: 'reports', label: 'Gestione Segnalazioni' },
+                { id: 'reports', label: 'Gestione segnalazioni' },
                 { id: 'communications', label: 'Comunicazioni' }
             ];
         case 'admin':
             return [
-                { id: 'operators', label: 'Gestione Operatori' },
+                { id: 'operators', label: 'Gestione operatori' },
             ];
         default:
             return [];

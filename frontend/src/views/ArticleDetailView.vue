@@ -48,7 +48,7 @@
         
         <img 
           :src="getImageUrl(article.img)" 
-          alt="Article Image" 
+          alt="Immagine articolo" 
           class="w-full h-auto rounded-xl shadow-lg object-cover mb-6 md:float-right md:w-5/12 md:ml-8 md:mb-6"
         >
         

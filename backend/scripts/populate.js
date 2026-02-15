@@ -32,9 +32,9 @@ const seedDatabase = async () => {
 
         console.log('Creazione Operatori...');
 
-        const plainPassword = '12345678';
-        const plainPasswordEditor = 'e12345678';
-        const plainPasswordReporter = 'r12345678';
+        const plainPassword = '123456789';
+        const plainPasswordEditor = 'e123456789';
+        const plainPasswordReporter = 'r123456789';
         const hashedPassword = bcrypt.hashSync(plainPassword, 10);
         const hashedPasswordEditor = bcrypt.hashSync(plainPasswordEditor, 10);
         const hashedPasswordReporter = bcrypt.hashSync(plainPasswordReporter, 10);

@@ -200,7 +200,7 @@ router.put('/:id', tokenChecker, rbac("editor"), uploadSingleImage, async (req, 
         article.categoria = categoria;
         article.short_text = short_text;
         article.isDraft = isDraft;
-        article.last_edit = Date.now();
+        article.last_edit = new Date();
 
         await article.save();
 

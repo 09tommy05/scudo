@@ -8,9 +8,9 @@ info:
 servers:
   - url: http://127.0.0.1:3010/api/v1
     description: Localhost
-  - url: https://scudo.tn.it/api/v1
+  - url: https://api.scudo.tn.it/v1
     description: Staging server
-  - url: https://scudo.ondrender.com/api/v1
+  - url: https://scudo-grmg.ondrender.com/api/v1
     description: Production server
 paths:
   /articles:

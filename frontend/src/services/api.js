@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 let baseUrl= import.meta.env.VITE_API_HOST || 'http://localhost:3215';
-baseUrl += '/v1'; //possibile dover cambiare /v1 con /api/v1, dipende da come è settato il backend
+baseUrl += '/api/v1'; //possibile dover cambiare /v1 con /api/v1, dipende da come è settato il backend
 
 const api = axios.create({
     baseURL: baseUrl, 

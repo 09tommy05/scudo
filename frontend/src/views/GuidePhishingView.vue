@@ -1,28 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col">
-
-    <!-- NAV -->
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div class="container mx-auto px-4 lg:px-8 h-14 flex items-center justify-between">
-        <router-link to="/" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors group">
-          <svg class="h-5 w-5 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          <span class="font-bold text-lg">SCUDO</span>
-          <span class="text-gray-400 font-normal text-sm">Guide</span>
-        </router-link>
-        <div class="flex items-center gap-4">
-          <span class="hidden sm:inline text-xs font-semibold uppercase tracking-widest text-gray-400">Modulo 01: email sospetta</span>
-          <router-link to="/report/create"
-            class="px-4 py-1.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-primary-dark transition-colors">
-            Report
-          </router-link>
-        </div>
-      </div>
-    </nav>
-
-    <!-- CONTENT -->
-    <main class="flex-1">
+  <div class="flex flex-col">
 
       <!-- TITLE -->
       <section class="text-center py-10 md:py-14">
@@ -152,26 +129,6 @@
           </div>
         </div>
       </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="border-t border-gray-200 bg-white mt-auto">
-      <div class="container mx-auto px-4 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-6 text-xs font-semibold uppercase tracking-wider text-gray-400">
-          <a href="mailto:scudo@comune.trento.it" class="hover:text-primary transition-colors">Contattaci</a>
-          <router-link to="/" class="hover:text-primary transition-colors">Documentazione</router-link>
-          <a href="#" class="hover:text-primary transition-colors">Privacy</a>
-        </div>
-        <router-link to="/report/create"
-          class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-green-50 border border-green-300 text-green-700 text-xs font-bold hover:bg-green-100 transition-colors">
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-          </svg>
-          <span class="uppercase tracking-wider">Pensi che questa minaccia possa colpire altri cittadini? Aiutaci a difendere Trento.</span>
-        </router-link>
-      </div>
-    </footer>
 
   </div>
 </template>

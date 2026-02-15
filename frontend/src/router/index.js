@@ -19,8 +19,7 @@ const router = createRouter({
     {
       path: '/guide/email-sospetta',
       name: 'guide-phishing',
-      component: GuidePhishingView,
-      meta: { hideLayout: true }
+      component: GuidePhishingView
     },
     {
       path: '/article/:id',

@@ -40,7 +40,8 @@
                                     <input type="checkbox" class="sr-only" v-model="user.allow_notifications"
                                         @change="toggleNotificationStatus(user)">
 
-                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                    <div class="w-10 h-4 rounded-full shadow-inner transition-colors duration-300"
+                                        :class="user.allow_notifications ? 'bg-primary' : 'bg-gray-400'"></div>
 
                                     <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition-transform duration-300 ease-in-out"
                                         :class="{ 'transform translate-x-full bg-primary': user.allow_notifications }">
@@ -57,7 +58,7 @@
                 </div>
 
                 <div>
-                    <h2 class="text-xl font-bold mb-4">Lo storico delle tue segnalazioni</h2>
+                    <h2 class="text-xl font-bold mb-4">Storico delle segnalazioni</h2>
                     <div v-if="reports.length === 0" class="text-gray-500 text-center py-8 bg-gray-50 rounded">Non hai
                         ancora inviato segnalazioni.</div>
                     <div v-else class="bg-white shadow overflow-hidden rounded-lg border border-gray-200">

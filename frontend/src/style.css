@@ -16,6 +16,19 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Pointer cursor on interactive elements */
+button:not(:disabled),
+a,
+select,
+[role="button"],
+label[for],
+.cursor-pointer {
+    cursor: pointer;
+}
+button:disabled {
+    cursor: not-allowed;
+}
+
 /* Custom animations */
 @keyframes fade-up {
     from {

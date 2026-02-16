@@ -60,29 +60,48 @@
                     <h2 class="text-xl font-bold mb-4">Lo storico delle tue segnalazioni</h2>
                     <div v-if="reports.length === 0" class="text-gray-500 text-center py-8 bg-gray-50 rounded">Non hai
                         ancora inviato segnalazioni.</div>
-                    <div v-else class="bg-white shadow overflow-hidden rounded-md">
-                        <ul class="divide-y divide-gray-200">
-                            <li v-for="report in reports" :key="report.id" class="p-4 hover:bg-gray-50">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <div class="font-bold text-lg text-gray-800">{{ report.title }}</div>
-                                        <div class="text-sm text-gray-500 mb-2">
-                                            <span class="mr-3">📅 {{ formatDate(report.created_at) }}</span>
-                                            <span
-                                                class="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">{{
-                                                    report.categoria }}</span>
-                                        </div>
-                                        <p class="text-gray-700 line-clamp-2">{{ report.text }}</p>
-                                    </div>
-                                    <div>
-                                        <span
-                                            :class="['px-2 py-1 text-xs font-bold rounded-full uppercase', getStatusColor(report.status)]">
-                                            {{ report.status }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                    <div v-else class="bg-white shadow overflow-hidden rounded-lg border border-gray-200">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data</th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Titolo segnalazione</th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Categoria</th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Stato</th>
+                                        <th scope="col" class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider w-28">Dettaglio</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="report in reports" :key="report.id || report._id" class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
+                                            {{ formatDate(report.created_at || report.created) }}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 max-w-[200px]">
+                                            <span class="line-clamp-2" :title="report.title">{{ report.title || '—' }}</span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">{{ report.categoria }}</span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span :class="['inline-flex px-2 py-1 text-xs font-semibold rounded-full uppercase', getStatusColor(report.status)]">
+                                                {{ report.status }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-right">
+                                            <router-link
+                                                v-if="report.status === 'risolta'"
+                                                :to="{ name: 'user-report-answer', params: { id: report.id || report._id } }"
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                                            >
+                                                Vedi risposta
+                                            </router-link>
+                                            <span v-else class="text-sm text-gray-400">—</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,6 +137,7 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Titolo segnalazione</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Categoria</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Cittadino</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Stato</th>
@@ -128,6 +148,9 @@
                                 <tr v-for="report in paginatedReports" :key="report.id || report._id" class="hover:bg-gray-50">
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                                         {{ formatDate(report.created_at || report.created) }}
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 max-w-[200px]">
+                                        <span class="line-clamp-2" :title="report.title">{{ report.title || '—' }}</span>
                                     </td>
                                     <td class="px-4 py-3">
                                         <span class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">{{ report.categoria }}</span>

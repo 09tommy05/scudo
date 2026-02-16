@@ -13,6 +13,7 @@ import GuideLinkView from '@/views/GuideLinkView.vue'
 import GuideQrView from '@/views/GuideQrView.vue'
 import GuideSocialView from '@/views/GuideSocialView.vue'
 import GuideChiamateView from '@/views/GuideChiamateView.vue'
+import ArticleEditView from '@/views/ArticleEditView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -79,6 +80,13 @@ const router = createRouter({
       path: '/dashboard',
       name: 'user-dashboard',
       component: DashboardView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/dashboard/article/:id',
+      name: 'article-edit',
+      component: ArticleEditView,
+      props: true,
       meta: { requiresAuth: true }
     },
     {

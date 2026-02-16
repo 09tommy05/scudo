@@ -44,15 +44,15 @@
         </h1>
       </div>
 
-      <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-line text-justify">
-        
-        <img 
-          :src="getImageUrl(article.img)" 
-          alt="Immagine articolo" 
+      <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed text-justify">
+        <img
+          v-if="article.img"
+          :src="getImageUrl(article.img)"
+          alt="Immagine articolo"
           class="w-full h-auto rounded-xl shadow-lg object-cover mb-6 md:float-right md:w-5/12 md:ml-8 md:mb-6"
-        >
-        
-        {{ article.text }}
+        />
+        <div v-if="isHtml(article.text)" class="article-body" v-html="article.text"></div>
+        <div v-else class="whitespace-pre-line">{{ article.text }}</div>
       </div>
       
       <div class="mt-12 pt-8 border-t border-gray-200 clear-both">
@@ -94,6 +94,11 @@ const getImageUrl = (img) => {
 const formatDate = (dateString) => {
   if (!dateString) return '';
   return new Date(dateString).toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+const isHtml = (text) => {
+  if (!text || typeof text !== 'string') return false;
+  return /<[a-zA-Z][^>]*>/.test(text);
 };
 
 onMounted(() => {

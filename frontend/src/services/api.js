@@ -23,6 +23,11 @@ api.interceptors.request.use(
             config.headers['x-access-token'] = token;
         }
 
+        // FormData: do not set Content-Type so axios sets multipart/form-data with boundary (like the base upload code)
+        if (config.data instanceof FormData) {
+            delete config.headers['Content-Type'];
+        }
+
         return config;
     },
     (error) => {

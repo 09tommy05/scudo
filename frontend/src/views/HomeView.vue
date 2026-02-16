@@ -191,29 +191,6 @@
               </router-link>
             </div>
 
-            <!-- Servizi Rapidi -->
-            <div class="bg-white rounded-2xl border border-gray-100 p-5">
-              <h3 class="text-sm font-bold text-gray-900 mb-4">Servizi rapidi</h3>
-              <div class="space-y-2">
-                <router-link to="/report/create" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors group">
-                  <div class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center shrink-0">
-                    <svg class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">Segnala un incidente</span>
-                </router-link>
-                <a href="mailto:scudo@comune.trento.it" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors group">
-                  <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center shrink-0">
-                    <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">Contatta supporto</span>
-                </a>
-              </div>
-            </div>
-
           </div>
         </div>
 

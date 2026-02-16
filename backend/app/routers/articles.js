@@ -38,6 +38,7 @@ router.get('', filter("editor"), async (req, res) => {
             categoria: a.categoria,
             author: a.author,
             last_edit: a.last_edit,
+            isDraft: a.isDraft
         }));
 
         res.status(200).json(serialized);

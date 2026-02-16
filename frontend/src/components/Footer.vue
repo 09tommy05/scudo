@@ -9,7 +9,8 @@
             <span class="text-xl font-bold tracking-tight">SCUDO</span>
           </div>
           <p class="text-blue-200 text-sm leading-relaxed">
-            Servizio Comunale Unico per la Difesa Online. Piattaforma ufficiale per la sicurezza digitale dei cittadini, con guida pratica, segnalazione di minacce e comunicazioni certificate.
+            Servizio Comunale Unico per la Difesa Online. Piattaforma ufficiale per la sicurezza digitale dei cittadini,
+            con guida pratica, segnalazione di minacce e comunicazioni certificate.
           </p>
         </div>
 
@@ -18,33 +19,28 @@
           <h4 class="text-xs font-bold uppercase tracking-widest text-blue-300 mb-4">Navigazione</h4>
           <ul class="space-y-2.5">
             <li>
-              <router-link to="/"
-                class="text-sm text-blue-100 hover:text-white transition-colors">
+              <router-link to="/" class="text-sm text-blue-100 hover:text-white transition-colors">
                 Home
               </router-link>
             </li>
             <li>
-              <router-link to="/"
-                class="text-sm text-blue-100 hover:text-white transition-colors">
+              <router-link to="/" class="text-sm text-blue-100 hover:text-white transition-colors">
                 Guida alla sicurezza
               </router-link>
             </li>
             <li>
-              <router-link to="/communications"
-                class="text-sm text-blue-100 hover:text-white transition-colors">
+              <router-link to="/communications" class="text-sm text-blue-100 hover:text-white transition-colors">
                 Comunicazioni
               </router-link>
             </li>
             <li>
-              <router-link v-if="canAccessSegnala" to="/report/create"
-                class="text-sm text-blue-100 hover:text-white transition-colors">
+              <button @click="handleSegnalaClick"
+                class="text-sm text-blue-100 hover:text-white transition-colors text-left cursor-pointer">
                 Segnala minaccia
-              </router-link>
-              <span v-else class="text-sm text-blue-200/60 cursor-not-allowed">Segnala minaccia</span>
+              </button>
             </li>
             <li>
-              <router-link to="/login/operator"
-                class="text-sm text-blue-100 hover:text-white transition-colors">
+              <router-link to="/login/operator" class="text-sm text-blue-100 hover:text-white transition-colors">
                 Area operatori
               </router-link>
             </li>
@@ -75,15 +71,13 @@
           <h4 class="text-xs font-bold uppercase tracking-widest text-blue-300 mb-4">Contatti</h4>
           <ul class="space-y-2.5">
             <li>
-              <router-link v-if="canAccessSegnala" to="/report/create"
-                class="text-sm text-blue-100 hover:text-white transition-colors">
+              <button @click="handleSegnalaClick"
+                class="text-sm text-blue-100 hover:text-white transition-colors text-left cursor-pointer">
                 Segnala
-              </router-link>
-              <span v-else class="text-sm text-blue-200/60 cursor-not-allowed">Segnala</span>
+              </button>
             </li>
             <li>
-              <a href="mailto:scudo@comune.trento.it"
-                class="text-sm text-blue-100 hover:text-white transition-colors">
+              <a href="mailto:scudo@comune.trento.it" class="text-sm text-blue-100 hover:text-white transition-colors">
                 Contattaci
               </a>
             </li>
@@ -98,15 +92,35 @@
         </p>
       </div>
     </div>
+
+
+    <BaseModal :isOpen="showRoleError" title="Accesso Negato"
+      message="Solo i cittadini possono effettuare segnalazioni." @close="showRoleError = false" />
   </footer>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import BaseModal from './BaseModal.vue';
 
-const canAccessSegnala = computed(() => {
-  const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  return !!token && user.role === 'user';
-});
+const router = useRouter();
+const showRoleError = ref(false);
+
+const isAuthenticated = computed(() => !!localStorage.getItem('token'));
+const user = computed(() => JSON.parse(localStorage.getItem('user') || '{}'));
+
+const handleSegnalaClick = () => {
+  if (!isAuthenticated.value) {
+    router.push('/login/cittadino');
+    return;
+  }
+
+  if (user.value.role !== 'user') {
+    showRoleError.value = true;
+    return;
+  }
+
+  router.push('/report/create');
+};
 </script>

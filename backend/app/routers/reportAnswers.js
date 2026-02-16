@@ -79,7 +79,7 @@ router.get('/:id', async (req, res) => {
         res.status(400).json({ message: "Invalid report answer ID" });
         return;
     }
-    let answer = await ReportAnswer.findById(req.params.id).populate('author', 'name surname');
+    let answer = await ReportAnswer.findOne({ report: req.params.id }).populate("author", "name surname");
     if (!answer) {
         res.status(404).json({
             message: "Report answer not found"

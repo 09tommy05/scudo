@@ -3,20 +3,22 @@
 
       <!-- TITLE -->
       <section class="text-center py-10 md:py-14">
-        <h1 class="text-3xl md:text-5xl font-black text-gray-900 mb-3">Analisi rapida phishing</h1>
-        <p class="text-gray-500 text-base md:text-lg">Identifica i segnali di pericolo in meno di 5 secondi.</p>
+        <h1 class="text-3xl md:text-5xl font-black text-gray-900 mb-3">Analisi istantanea: SMS sospetto</h1>
+        <p class="text-gray-500 text-base md:text-lg max-w-2xl mx-auto">
+          Non farti ingannare dallo Smishing. Impara a riconoscere i segnali di pericolo in pochi secondi e proteggi il tuo conto.
+        </p>
       </section>
 
       <!-- MAIN 2-COLUMN -->
       <section class="container mx-auto px-4 lg:px-8 pb-12">
         <div class="grid lg:grid-cols-3 gap-6 lg:items-stretch">
 
-          <!-- LEFT: email image (no extra border — styling is in the image) -->
+          <!-- LEFT: phone image (no extra border — styling is in the image) -->
           <div class="lg:col-span-2">
-            <img src="/immagine_mail.png" alt="Esempio di email di phishing con segnali di pericolo evidenziati" class="w-full h-auto max-h-[720px] object-contain block" />
+            <img src="/immagine_telefono.png" alt="Esempio di SMS di smishing con segnali di pericolo evidenziati" class="w-full h-auto max-h-[720px] object-contain block" />
           </div>
 
-          <!-- RIGHT: sidebar — same height as image (grid stretch), two blocks share space -->
+          <!-- RIGHT: sidebar — same height as image -->
           <div class="lg:col-span-1 flex flex-col gap-5 min-h-0">
 
             <!-- Azioni da fare -->
@@ -34,7 +36,7 @@
                   </div>
                   <div>
                     <p class="font-bold text-gray-900 text-sm">Blocca mittente</p>
-                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Inserisci l'indirizzo nella lista bloccati del tuo client email.</p>
+                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Inserisci il numero nella lista nera del tuo smartphone.</p>
                   </div>
                 </div>
                 <div class="bg-white rounded-xl p-4 shadow-sm flex items-start gap-3">
@@ -42,17 +44,17 @@
                     <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                   </div>
                   <div>
-                    <p class="font-bold text-gray-900 text-sm">Elimina l'email</p>
+                    <p class="font-bold text-gray-900 text-sm">Elimina l'SMS</p>
                     <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Rimuovi il messaggio definitivamente per evitare tocchi accidentali.</p>
                   </div>
                 </div>
                 <div class="bg-white rounded-xl p-4 shadow-sm flex items-start gap-3">
                   <div class="w-9 h-9 rounded-lg bg-green-600 flex items-center justify-center shrink-0">
-                    <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                   </div>
                   <div>
-                    <p class="font-bold text-gray-900 text-sm">Segnala al provider</p>
-                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Usa i canali ufficiali per segnalare il tentativo di phishing.</p>
+                    <p class="font-bold text-gray-900 text-sm">Segnala alla banca</p>
+                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Usa i canali ufficiali per avvisare del tentativo di frode.</p>
                   </div>
                 </div>
               </div>
@@ -82,7 +84,7 @@
                   </div>
                   <div>
                     <p class="font-bold text-gray-900 text-sm">Non rispondere</p>
-                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Confermeresti che il tuo indirizzo è attivo, attirando altri attacchi.</p>
+                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Confermeresti che il tuo numero è attivo, attirando altri attacchi.</p>
                   </div>
                 </div>
                 <div class="bg-white rounded-xl p-4 shadow-sm flex items-start gap-3">
@@ -91,7 +93,7 @@
                   </div>
                   <div>
                     <p class="font-bold text-gray-900 text-sm">Non fornire dati</p>
-                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Nessun servizio legittimo chiede password o dati sensibili via email.</p>
+                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Nessuna banca chiede PIN o password via SMS.</p>
                   </div>
                 </div>
               </div>
@@ -101,7 +103,7 @@
         </div>
       </section>
 
-      <!-- DETTAGLI DEI SEGNALI DI PERICOLO -->
+      <!-- DETTAGLI DEI SEGNALI DI PERICOLO (3 desc come nella guida email) -->
       <section class="container mx-auto px-4 lg:px-8 pb-16">
         <div class="border-t border-gray-200 pt-12">
           <h2 class="text-center text-lg md:text-xl font-black uppercase tracking-wider text-gray-900 mb-10">Dettagli dei segnali di pericolo</h2>
@@ -109,21 +111,21 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 text-center">
-              <div class="w-10 h-10 rounded-full bg-red-500 text-white text-sm font-bold flex items-center justify-center mx-auto mb-4 shadow">1</div>
-              <h4 class="text-sm font-bold uppercase tracking-wider text-red-600 mb-3">Mittente</h4>
-              <p class="text-sm text-gray-500 leading-relaxed">Nome e logo sospetti che imita l'originale. Controlla sempre attentamente l'indirizzo email dopo il simbolo @.</p>
+              <div class="w-10 h-10 rounded-lg bg-red-500 flex items-center justify-center mx-auto mb-4"></div>
+              <h4 class="text-sm font-bold uppercase tracking-wider text-red-600 mb-3">Mittente sconosciuto</h4>
+              <p class="text-sm text-gray-500 leading-relaxed">Le banche usano mittenti testuali (es. "BANCA") o numeri certificati, non cellulari privati.</p>
             </div>
 
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 text-center">
-              <div class="w-10 h-10 rounded-full bg-red-500 text-white text-sm font-bold flex items-center justify-center mx-auto mb-4 shadow">2</div>
-              <h4 class="text-sm font-bold uppercase tracking-wider text-red-600 mb-3">Tono urgente</h4>
-              <p class="text-sm text-gray-500 leading-relaxed">Pressione psicologica per farti agire in fretta senza riflettere. L'urgenza è un'arma classica del phishing.</p>
+              <div class="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center mx-auto mb-4"></div>
+              <h4 class="text-sm font-bold uppercase tracking-wider text-blue-600 mb-3">Link sospetto</h4>
+              <p class="text-sm text-gray-500 leading-relaxed">Uso di abbreviatori (bit.ly) o domini simili ma errati. Controlla sempre l'URL ufficiale.</p>
             </div>
 
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 text-center">
-              <div class="w-10 h-10 rounded-full bg-red-500 text-white text-sm font-bold flex items-center justify-center mx-auto mb-4 shadow">3</div>
-              <h4 class="text-sm font-bold uppercase tracking-wider text-red-600 mb-3">Link/bottone</h4>
-              <p class="text-sm text-gray-500 leading-relaxed">Punta a un sito falso (simile all'originale) creato per rubare le tue credenziali. Non cliccare su nessun bottone o link.</p>
+              <div class="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center mx-auto mb-4"></div>
+              <h4 class="text-sm font-bold uppercase tracking-wider text-amber-700 mb-3">Urgenza fasulla</h4>
+              <p class="text-sm text-gray-500 leading-relaxed">Il linguaggio mira a spaventarti ("blocco permanente") per farti agire senza pensare.</p>
             </div>
 
           </div>

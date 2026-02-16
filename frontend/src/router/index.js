@@ -7,6 +7,7 @@ import SetPasswordView from '@/views/SetPasswordView.vue'
 import CommunicationsView from '@/views/CommunicationsView.vue'
 import CommunicationModal from '@/components/CommunicationModal.vue'
 import GuidePhishingView from '@/views/GuidePhishingView.vue'
+import GuideSmishingView from '@/views/GuideSmishingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/guide/email-sospetta',
       name: 'guide-phishing',
       component: GuidePhishingView
+    },
+    {
+      path: '/guide/sms-sospetto',
+      name: 'guide-smishing',
+      component: GuideSmishingView
     },
     {
       path: '/article/:id',

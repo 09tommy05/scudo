@@ -32,11 +32,11 @@ const app = express();
 
 //swagger
 app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument, {
-    customSiteTitle: 'SCUDO API Documentation',
-  })
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, {
+        customSiteTitle: 'SCUDO API Documentation',
+    })
 );
 
 //parsing middleware
@@ -48,13 +48,16 @@ app.use(cors());
 
 // static files
 app.use('/uploads/images', express.static(path.join(__dirname, '../uploads/images')));
-app.use('/uploads/attachments', express.static(path.join(__dirname, '../uploads/attachments')));
+app.get('/uploads/attachments/:filename', (req, res) => {
+    const filePath = path.join(__dirname, '../uploads/attachments', req.params.filename);
+    res.download(filePath);
+});
 
 //routers
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/articles', articles);
 app.use('/api/v1/communications', communications);
-app.use('/api/v1/reports',tokenChecker, rbac("user", "reporter"), reports);
+app.use('/api/v1/reports', tokenChecker, rbac("user", "reporter"), reports);
 app.use('/api/v1/user/', tokenChecker, rbac("user"), users);
 app.use('/api/v1/report-answers/', tokenChecker, rbac("reporter", "user"), reportAnswers);
 

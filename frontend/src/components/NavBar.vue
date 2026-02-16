@@ -22,13 +22,10 @@
             class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors">
             Comunicazioni
           </router-link>
-          <router-link v-if="canAccessSegnala" to="/report/create"
-            class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+          <button @click="handleSegnalaClick"
+            class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors text-left">
             Segnala
-          </router-link>
-          <span v-else class="px-3 py-2 text-sm font-medium text-white/60 cursor-not-allowed rounded-lg" title="Disponibile solo per cittadini loggati">
-            Segnala
-          </span>
+          </button>
 
           <div class="w-px h-6 bg-white/30 mx-2"></div>
 
@@ -89,11 +86,10 @@
           class="block px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">
           Comunicazioni
         </router-link>
-        <router-link v-if="canAccessSegnala" to="/report/create" @click="isOpen = false"
-          class="block px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">
+        <button @click="handleSegnalaClick"
+          class="block w-full text-left px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">
           Segnala
-        </router-link>
-        <span v-else class="block px-3 py-2.5 text-sm font-medium text-white/60 cursor-not-allowed rounded-lg">Segnala</span>
+        </button>
 
         <div class="border-t border-white/20 my-2"></div>
 
@@ -131,11 +127,26 @@ const router = useRouter();
 
 const isAuthenticated = computed(() => !!localStorage.getItem('token'));
 const user = computed(() => JSON.parse(localStorage.getItem('user') || '{}'));
-const canAccessSegnala = computed(() => isAuthenticated.value && user.value.role === 'user');
 
 const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
   window.location.href = '/login';
+};
+
+const handleSegnalaClick = () => {
+  isOpen.value = false; // Close mobile menu if open
+  
+  if (!isAuthenticated.value) {
+    router.push('/login/cittadino');
+    return;
+  }
+  
+  if (user.value.role !== 'user') {
+    alert('Solo i cittadini possono effettuare segnalazioni.');
+    return;
+  }
+  
+  router.push('/report/create');
 };
 </script>

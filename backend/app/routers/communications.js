@@ -59,7 +59,8 @@ router.get('',filter("reporter"), async (req, res) => {
             short_text: c.short_text,
             categoria: c.categoria,
             importance: c.importance,
-            author: c.author
+            author: c.author,
+            isDraft: c.isDraft
         });
 
         communications = communications.map(serialize);

@@ -64,9 +64,16 @@ const router = createRouter({
       props: true
     },
     {
-      path: '/login',
-      name: 'login',
-      component: LoginView
+      path: '/login/operator',
+      name: 'login-operator',
+      component: LoginView,
+      props: { mode: 'operator' }
+    },
+    {
+      path: '/login/cittadino',
+      name: 'login-citizen',
+      component: LoginView,
+      props: { mode: 'user' }
     },
     {
       path: '/dashboard',
@@ -113,7 +120,7 @@ router.beforeEach((to, from, next) => {
   const isAuthenticated = !!token;
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next({ name: 'login', query: { redirect: to.fullPath } });
+    next({ name: 'home' });
   } else if (to.meta.requiresOperator && user.role !== 'operator') {
     next({ name: 'home' });
   } else {

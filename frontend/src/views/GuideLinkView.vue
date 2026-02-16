@@ -9,27 +9,47 @@
         </p>
       </section>
 
-      <!-- MAIN 2-COLUMN -->
-      <section class="container mx-auto px-4 lg:px-8 pb-12">
-        <div class="grid lg:grid-cols-3 gap-6 lg:items-start">
+      <!-- MAIN 2-COLUMN: left = image + under section, right = sidebar (equal height) -->
+      <section class="container mx-auto px-4 lg:px-8 pb-16">
+        <div class="grid lg:grid-cols-3 gap-6 lg:items-stretch">
 
-          <!-- LEFT: browser/site image -->
-          <div class="lg:col-span-2">
-            <img src="/immagine_link.png" alt="Esempio di sito sospetto con segnali di pericolo evidenziati" class="w-full h-auto max-h-[720px] object-contain block" />
+          <!-- LEFT: image + Dettagli dei segnali under it -->
+          <div class="lg:col-span-2 flex flex-col gap-6 min-h-0">
+            <img src="/immagine_link.png" alt="Esempio di sito sospetto con segnali di pericolo evidenziati" class="w-full h-auto max-h-[720px] object-contain block shrink-0" />
+            <div class="border-t border-gray-200 pt-6 flex-1 min-h-0 flex flex-col">
+              <h2 class="text-lg md:text-xl font-black uppercase tracking-wider text-gray-900 mb-4">Dettagli dei segnali di pericolo</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 text-center">
+                  <div class="w-10 h-10 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center mx-auto mb-3 shadow">1</div>
+                  <h4 class="text-sm font-bold uppercase tracking-wider text-primary mb-2">Mancanza di HTTPS</h4>
+                  <p class="text-sm text-gray-500 leading-relaxed">L'assenza del lucchetto (HTTPS) indica che la connessione non è crittografata. I siti legittimi usano sempre https://.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 text-center">
+                  <div class="w-10 h-10 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center mx-auto mb-3 shadow">2</div>
+                  <h4 class="text-sm font-bold uppercase tracking-wider text-primary mb-2">Dominio sospetto</h4>
+                  <p class="text-sm text-gray-500 leading-relaxed">Estensioni come .com, .me, .dev al posto di .it per servizi italiani sono un segnale di siti contraffatti.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 text-center">
+                  <div class="w-10 h-10 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center mx-auto mb-3 shadow">3</div>
+                  <h4 class="text-sm font-bold uppercase tracking-wider text-primary mb-2">Pulsante fuorviante</h4>
+                  <p class="text-sm text-gray-500 leading-relaxed">Bottoni che invitano all'azione immediata ("ACCEDI", "Verifica ora") sono tipici delle pagine di phishing.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- RIGHT: sidebar -->
-          <div class="lg:col-span-1 flex flex-col gap-5">
+          <!-- RIGHT: sidebar — same height as left (grid stretch) -->
+          <div class="lg:col-span-1 flex flex-col gap-5 min-h-0">
 
             <!-- Azioni immediate -->
-            <div class="rounded-2xl overflow-hidden p-4" style="background-color: #e8f5e9;">
+            <div class="rounded-2xl overflow-hidden p-4 lg:flex-1 lg:min-h-0 lg:flex lg:flex-col" style="background-color: #e8f5e9;">
               <div class="flex items-center gap-2 mb-4 shrink-0">
                 <svg class="w-6 h-6 text-green-700 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
                 <h3 class="font-bold text-sm uppercase tracking-wider text-green-800">Azioni immediate</h3>
               </div>
-              <div class="space-y-3">
+              <div class="space-y-3 lg:flex-1 lg:min-h-0 lg:overflow-y-auto scrollbar-hide">
                 <div class="bg-white rounded-xl p-4 shadow-sm flex items-start gap-3">
                   <div class="w-9 h-9 rounded-full bg-green-600 flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -61,14 +81,14 @@
             </div>
 
             <!-- Cosa non fare -->
-            <div class="rounded-2xl overflow-hidden p-4" style="background-color: #ffebee;">
+            <div class="rounded-2xl overflow-hidden p-4 lg:flex-1 lg:min-h-0 lg:flex lg:flex-col" style="background-color: #ffebee;">
               <div class="flex items-center gap-2 mb-4 shrink-0">
                 <svg class="w-6 h-6 text-red-700 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
                 <h3 class="font-bold text-sm uppercase tracking-wider text-red-800">Cosa non fare</h3>
               </div>
-              <div class="space-y-3">
+              <div class="space-y-3 lg:flex-1 lg:min-h-0 lg:overflow-y-auto scrollbar-hide">
                 <div class="bg-white rounded-xl p-4 shadow-sm flex items-start gap-3">
                   <div class="w-9 h-9 rounded-full bg-red-600 flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -88,35 +108,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- DETTAGLI DEI SEGNALI DI PERICOLO -->
-      <section class="container mx-auto px-4 lg:px-8 pb-16">
-        <div class="border-t border-gray-200 pt-12">
-          <h2 class="text-center text-lg md:text-xl font-black uppercase tracking-wider text-gray-900 mb-10">Dettagli dei segnali di pericolo</h2>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 text-center">
-              <div class="w-10 h-10 rounded-full bg-red-500 text-white text-sm font-bold flex items-center justify-center mx-auto mb-4 shadow">1</div>
-              <h4 class="text-sm font-bold uppercase tracking-wider text-red-600 mb-3">Mancanza di HTTPS</h4>
-              <p class="text-sm text-gray-500 leading-relaxed">L'assenza del lucchetto (HTTPS) indica che la connessione non è crittografata. I siti legittimi usano sempre https://.</p>
-            </div>
-
-            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 text-center">
-              <div class="w-10 h-10 rounded-full bg-red-500 text-white text-sm font-bold flex items-center justify-center mx-auto mb-4 shadow">2</div>
-              <h4 class="text-sm font-bold uppercase tracking-wider text-red-600 mb-3">Dominio sospetto</h4>
-              <p class="text-sm text-gray-500 leading-relaxed">Estensioni come .com, .me, .dev al posto di .it per servizi italiani sono un segnale di siti contraffatti.</p>
-            </div>
-
-            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 text-center">
-              <div class="w-10 h-10 rounded-full bg-red-500 text-white text-sm font-bold flex items-center justify-center mx-auto mb-4 shadow">3</div>
-              <h4 class="text-sm font-bold uppercase tracking-wider text-red-600 mb-3">Pulsante fuorviante</h4>
-              <p class="text-sm text-gray-500 leading-relaxed">Bottoni che invitano all'azione immediata ("ACCEDI", "Verifica ora") sono tipici delle pagine di phishing.</p>
             </div>
 
           </div>

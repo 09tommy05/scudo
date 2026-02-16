@@ -14,6 +14,8 @@ import GuideQrView from '@/views/GuideQrView.vue'
 import GuideSocialView from '@/views/GuideSocialView.vue'
 import GuideChiamateView from '@/views/GuideChiamateView.vue'
 import ArticleEditView from '@/views/ArticleEditView.vue'
+import CommunicationEditView from '@/views/CommunicationEditView.vue'
+import ReportDetailView from '@/views/ReportDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -86,6 +88,20 @@ const router = createRouter({
       path: '/dashboard/article/:id',
       name: 'article-edit',
       component: ArticleEditView,
+      props: true,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/dashboard/communication/:id',
+      name: 'communication-edit',
+      component: CommunicationEditView,
+      props: true,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/dashboard/report/:id',
+      name: 'report-detail',
+      component: ReportDetailView,
       props: true,
       meta: { requiresAuth: true }
     },

@@ -319,6 +319,7 @@ const formatRelativeDate = (d) => {
   return date.toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
 };
 
+
 // Init
 onMounted(() => {
   fetchArticles();

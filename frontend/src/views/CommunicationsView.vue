@@ -57,64 +57,49 @@
     </div>
 
     <div v-else class="space-y-4">
-      <div v-for="comm in processedCommunications" :key="comm._id || comm.id" @click="openDetail(comm._id || comm.id)"
-        class="bg-white rounded-lg shadow-sm hover:shadow-md hover:translate-y-[-2px] transition-all duration-200 cursor-pointer p-5 border-l-4 group relative overflow-hidden"
-        :class="getImportanceColor(comm.importance)">
+      <div v-for="comm in processedCommunications" :key="comm._id || comm.id"
+        class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 p-5 border border-gray-100 group">
 
         <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
-          <div class="flex-1 z-10">
-            <div class="flex items-center gap-3 mb-2 text-gray-500">
-              <span class="flex items-center gap-1 text-xs font-mono bg-gray-100 px-2 py-1 rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                {{ formatDate(comm.publication) }}
-              </span>
-              <span class="md:hidden text-xs font-bold px-2 py-0.5 rounded-full text-white w-fit shadow-sm"
-                :class="getImportanceBg(comm.importance)">
-                {{
-                  comm.importance ? comm.importance.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-                    : 'Info'
-                }}
-              </span>
-            </div>
+          <div class="flex-1 order-2 md:order-1">
+            <span
+              class="inline-flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full text-white whitespace-nowrap w-fit shadow-sm mb-2"
+              :class="getImportanceBg(comm.importance)">
+              {{ getRischioLabel(comm.importance) }}
+            </span>
             <h2 class="text-xl font-bold text-gray-800 group-hover:text-primary transition-colors">
               {{ comm.title }}
             </h2>
           </div>
-
-          <span
-            class="hidden md:flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full text-white whitespace-nowrap shrink-0 shadow-sm"
-            :class="getImportanceBg(comm.importance)">
-            {{comm.importance ? comm.importance.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') :
-              'Info'
-            }}
+          <span class="flex items-center gap-1 text-sm text-gray-500 order-1 md:order-2 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {{ formatDate(comm.publication) }}
           </span>
         </div>
 
-        <p class="text-gray-600 mb-4 line-clamp-2 pl-1 border-l-2 border-gray-100 italic">
+        <p class="text-gray-600 mb-4 line-clamp-2">
           {{ comm.short_text }}
         </p>
 
-        <div class="flex flex-wrap gap-4 text-sm text-gray-500 pt-3 border-t border-gray-50">
-          <span class="flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-gray-100">
+          <span class="flex items-center gap-1 text-sm text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
             </svg>
-            <span class="font-semibold">Categoria:</span> {{ comm.categoria }}
+            {{ comm.categoria }}
           </span>
-          <span class="flex items-center gap-1" v-if="comm.author">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          <button
+            type="button"
+            @click.prevent="openDetail(comm._id || comm.id)"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
+          >
+            Leggi dettagli
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
-            <span class="font-semibold">Da:</span> {{ comm.author?.name }} {{ comm.author?.surname }}
-          </span>
+          </button>
         </div>
       </div>
 
@@ -205,12 +190,13 @@ const formatDate = (dateString) => {
   });
 };
 
-const getImportanceColor = (importance) => {
-  switch (importance?.toLowerCase()) {
-    case 'alto rischio': return 'border-red-500';
-    case 'medio rischio': return 'border-yellow-500';
-    default: return 'border-blue-500';
-  }
+const getRischioLabel = (importance) => {
+  if (!importance) return 'Rischio: Info';
+  const i = importance.toLowerCase();
+  if (i === 'alto rischio') return 'Rischio: Alto';
+  if (i === 'medio rischio') return 'Rischio: Medio';
+  if (i === 'basso rischio') return 'Rischio: Basso';
+  return 'Rischio: ' + importance.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 };
 
 const getImportanceBg = (importance) => {

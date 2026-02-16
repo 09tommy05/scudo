@@ -75,6 +75,21 @@ router.get('', async (req, res) => {
     }
 });
 
+// Reporter: list all my communications (including drafts)
+router.get('/reporter/mine', tokenChecker, rbac("reporter"), async (req, res) => {
+    try {
+        const raw = await Communication.find({ author: req.user.id })
+            .populate('author', 'name surname')
+            .sort({ publication: -1 })
+            .lean();
+        const list = raw.map(c => ({ ...c, id: c._id.toString() }));
+        return res.status(200).json(list);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 router.post('', tokenChecker, rbac("reporter"), async (req, res) => {
     try {
         if (!req.body) {

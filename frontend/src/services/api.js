@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 let baseUrl= import.meta.env.VITE_API_HOST || 'http://localhost:3215';
-baseUrl += '/api/v1'; //possibile dover cambiare /v1 con /api/v1, dipende da come è settato il backend
+baseUrl += '/v1';
 
 const api = axios.create({
     baseURL: baseUrl, 
@@ -34,10 +34,23 @@ export default {
         return api.get(`/articles/${id}`);
     },
     createArticle(data) {
-        return api.post('/articles', data);
+        const form = new FormData();
+        form.append('title', data.title);
+        form.append('text', data.text);
+        form.append('short_text', data.short_text);
+        form.append('categoria', data.categoria);
+        if (data.img instanceof File) form.append('img', data.img);
+        return api.post('/articles?draft=' + (data.isDraft === true ? 'true' : 'false'), form);
     },
     updateArticle(id, data) {
-        return api.put(`/articles/${id}`, data);
+        const form = new FormData();
+        form.append('title', data.title);
+        form.append('text', data.text);
+        form.append('short_text', data.short_text);
+        form.append('categoria', data.categoria);
+        form.append('isDraft', data.isDraft === true);
+        if (data.img instanceof File) form.append('img', data.img);
+        return api.put(`/articles/${id}`, form);
     },
     publishArticle(id) {
         return api.patch(`/articles/${id}`);
@@ -95,14 +108,32 @@ export default {
     getCommunications(params) {
         return api.get('/communications', { params });
     },
+    getMyCommunications() {
+        return api.get('/communications/reporter/mine');
+    },
     getCommunicationById(id) {
         return api.get(`/communications/${id}`);
     },
     createCommunication(data) {
-        return api.post('/communications', data);
+        const draft = data.isDraft === true ? 'true' : 'false';
+        const notify = data.notify === true ? 'true' : 'false';
+        return api.post(`/communications?draft=${draft}&notify=${notify}`, {
+            title: data.title,
+            text: data.text,
+            short_text: data.short_text,
+            categoria: data.categoria,
+            importance: data.importance || 'medio rischio',
+        });
     },
     updateCommunication(id, data) {
-        return api.put(`/communications/${id}`, data);
+        return api.put(`/communications/${id}`, {
+            title: data.title,
+            text: data.text,
+            short_text: data.short_text,
+            categoria: data.categoria,
+            importance: data.importance || 'medio rischio',
+            isDraft: data.isDraft === true,
+        });
     },
     publishCommunication(id, notify = false) {
         return api.patch(`/communications/${id}?notify=${notify}`);

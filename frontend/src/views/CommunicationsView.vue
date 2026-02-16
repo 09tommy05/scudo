@@ -5,8 +5,7 @@
       Comunicazioni
     </h1>
 
-    <div
-      class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 bg-gray-50">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 bg-gray-50">
       <div class="w-full md:w-1/2 relative">
         <input v-model="searchQuery" type="text" placeholder="Cerca nelle comunicazioni..."
           class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
@@ -75,7 +74,10 @@
               </span>
               <span class="md:hidden text-xs font-bold px-2 py-0.5 rounded-full text-white w-fit shadow-sm"
                 :class="getImportanceBg(comm.importance)">
-                {{ comm.importance }}
+                {{
+                  comm.importance ? comm.importance.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+                    : 'Info'
+                }}
               </span>
             </div>
             <h2 class="text-xl font-bold text-gray-800 group-hover:text-primary transition-colors">
@@ -86,7 +88,9 @@
           <span
             class="hidden md:flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full text-white whitespace-nowrap shrink-0 shadow-sm"
             :class="getImportanceBg(comm.importance)">
-            {{ comm.importance }}
+            {{comm.importance ? comm.importance.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') :
+              'Info'
+            }}
           </span>
         </div>
 
@@ -222,5 +226,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

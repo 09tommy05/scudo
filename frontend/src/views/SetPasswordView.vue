@@ -23,7 +23,7 @@
         </div>
         <h3 class="text-lg font-medium text-gray-900">Password impostata correttamente!</h3>
         <p class="text-sm text-gray-500">Ora puoi effettuare l'accesso con le tue nuove credenziali.</p>
-        <router-link to="/login"
+        <router-link to="/login/operator"
           class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-blue-700 focus:outline-none transition">
           Vai al login
         </router-link>

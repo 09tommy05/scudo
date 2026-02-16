@@ -110,20 +110,13 @@
                 <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" :class="getCategoryBadge(article.categoria)">
                   {{ article.categoria }}
                 </span>
-                <span class="flex items-center gap-1 text-[11px] text-gray-400">
-                  <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  {{ estimateReadTime(article.text || article.short_text) }} min lettura
-                </span>
               </div>
 
               <h3 class="text-base font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ article.title }}</h3>
               <p class="text-sm text-gray-500 line-clamp-3 leading-relaxed mb-4 flex-1">{{ article.short_text }}</p>
 
               <div class="flex items-center justify-between pt-3 border-t border-gray-50">
-                <span class="flex items-center gap-1 text-xs text-gray-400">
-                  <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  {{ estimateReadTime(article.text || article.short_text) }} min lettura
-                </span>
+                
                 <router-link
                   :to="{ name: 'article-detail', params: { id: article._id || article.id } }"
                   class="text-primary text-xs font-bold hover:underline inline-flex items-center gap-1">
@@ -140,7 +133,7 @@
           </div>
         </div>
 
-        <!-- RIGHT: Communications + Servizi Rapidi -->
+        <!-- RIGHT: Communications -->
         <div class="lg:col-span-1">
           <div class="sticky top-24 space-y-8">
 
@@ -197,30 +190,6 @@
                 Vedi tutte le comunicazioni &rarr;
               </router-link>
             </div>
-
-            <!-- Servizi Rapidi -->
-            <div class="bg-white rounded-2xl border border-gray-100 p-5">
-              <h3 class="text-sm font-bold text-gray-900 mb-4">Servizi rapidi</h3>
-              <div class="space-y-2">
-                <router-link to="/report/create" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors group">
-                  <div class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center shrink-0">
-                    <svg class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">Segnala un incidente</span>
-                </router-link>
-                <a href="mailto:scudo@comune.trento.it" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors group">
-                  <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center shrink-0">
-                    <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">Contatta supporto</span>
-                </a>
-              </div>
-            </div>
-
           </div>
         </div>
 
@@ -333,11 +302,8 @@ const getImportanceBg = (imp) => {
 };
 
 const getImportanceLabel = (imp) => {
-  switch (imp?.toLowerCase()) {
-    case 'alto rischio':  return 'ALTA PRIORITÀ';
-    case 'medio rischio': return 'ATTENZIONE';
-    default:              return 'INFO';
-  }
+  if (!imp) return 'Info';
+  return imp.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 };
 
 const formatRelativeDate = (d) => {
@@ -349,11 +315,6 @@ const formatRelativeDate = (d) => {
   if (days === 1) return 'Ieri, '  + date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
   if (days < 7)   return days + ' giorni fa';
   return date.toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
-};
-
-const estimateReadTime = (txt) => {
-  if (!txt) return 3;
-  return Math.max(1, Math.ceil(txt.split(/\s+/).length / 200));
 };
 
 // Init

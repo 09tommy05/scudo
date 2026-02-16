@@ -257,7 +257,7 @@ const IconPhone = { render: () => h('svg', { fill: 'none', viewBox: '0 0 24 24',
 const quickCategories = [
   { label: 'Email sospetta',  desc: 'Ho ricevuto una mail strana',       searchTerm: 'email',     bg: 'bg-blue-50',   iconComponent: IconEmail,  iconColor: 'text-blue-600', route: '/guide/email-sospetta' },
   { label: 'SMS / messaggi',  desc: 'Ho ricevuto un SMS di phishing',    searchTerm: 'sms',       bg: 'bg-purple-50', iconComponent: IconSms,    iconColor: 'text-purple-600', route: '/guide/sms-sospetto' },
-  { label: 'Link dubbio',     desc: 'Non so se cliccare un link',        searchTerm: 'link',      bg: 'bg-red-50',    iconComponent: IconLink,   iconColor: 'text-red-500' },
+  { label: 'Link sospetto',   desc: 'Non so se cliccare un link',        searchTerm: 'link',      bg: 'bg-red-50',    iconComponent: IconLink,   iconColor: 'text-red-500', route: '/guide/link-sospetto' },
   { label: 'QR code',         desc: 'Ho scannerizzato un codice',        searchTerm: 'qr',        bg: 'bg-green-50',  iconComponent: IconQr,     iconColor: 'text-green-600' },
   { label: 'Social media',    desc: 'Profilo rubato o clonato',          searchTerm: 'social',    bg: 'bg-pink-50',   iconComponent: IconSocial, iconColor: 'text-pink-600' },
   { label: 'Chiamate',        desc: 'Telefonate truffa o mute',          searchTerm: 'chiamate',  bg: 'bg-cyan-50',   iconComponent: IconPhone,  iconColor: 'text-cyan-600' },

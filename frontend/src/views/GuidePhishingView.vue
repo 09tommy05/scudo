@@ -9,25 +9,25 @@
 
       <!-- MAIN 2-COLUMN -->
       <section class="container mx-auto px-4 lg:px-8 pb-12">
-        <div class="grid lg:grid-cols-3 gap-6 lg:items-stretch">
+        <div class="grid lg:grid-cols-3 gap-6 lg:items-start">
 
           <!-- LEFT: email image (no extra border — styling is in the image) -->
           <div class="lg:col-span-2">
             <img src="/immagine_mail.png" alt="Esempio di email di phishing con segnali di pericolo evidenziati" class="w-full h-auto max-h-[720px] object-contain block" />
           </div>
 
-          <!-- RIGHT: sidebar — same height as image (grid stretch), two blocks share space -->
-          <div class="lg:col-span-1 flex flex-col gap-5 min-h-0">
+          <!-- RIGHT: sidebar -->
+          <div class="lg:col-span-1 flex flex-col gap-5">
 
             <!-- Azioni da fare -->
-            <div class="rounded-2xl overflow-hidden p-4 lg:flex-1 lg:min-h-0 lg:flex lg:flex-col" style="background-color: #e8f5e9;">
+            <div class="rounded-2xl overflow-hidden p-4" style="background-color: #e8f5e9;">
               <div class="flex items-center gap-2 mb-4 shrink-0">
                 <svg class="w-6 h-6 text-green-700 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
                 <h3 class="font-bold text-sm uppercase tracking-wider text-green-800">Azioni da fare</h3>
               </div>
-              <div class="space-y-3 lg:flex-1 lg:min-h-0 lg:overflow-hidden">
+              <div class="space-y-3">
                 <div class="bg-white rounded-xl p-4 shadow-sm flex items-start gap-3">
                   <div class="w-9 h-9 rounded-full bg-green-600 flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
@@ -59,14 +59,14 @@
             </div>
 
             <!-- Cosa non fare -->
-            <div class="rounded-2xl overflow-hidden p-4 lg:flex-1 lg:min-h-0 lg:flex lg:flex-col" style="background-color: #ffebee;">
+            <div class="rounded-2xl overflow-hidden p-4" style="background-color: #ffebee;">
               <div class="flex items-center gap-2 mb-4 shrink-0">
                 <svg class="w-6 h-6 text-red-700 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
                 <h3 class="font-bold text-sm uppercase tracking-wider text-red-800">Cosa non fare</h3>
               </div>
-              <div class="space-y-3 lg:flex-1 lg:min-h-0 lg:overflow-hidden">
+              <div class="space-y-3">
                 <div class="bg-white rounded-xl p-4 shadow-sm flex items-start gap-3">
                   <div class="w-9 h-9 rounded-full bg-red-600 flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>

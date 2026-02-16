@@ -8,6 +8,7 @@ import CommunicationsView from '@/views/CommunicationsView.vue'
 import CommunicationModal from '@/components/CommunicationModal.vue'
 import GuidePhishingView from '@/views/GuidePhishingView.vue'
 import GuideSmishingView from '@/views/GuideSmishingView.vue'
+import GuideLinkView from '@/views/GuideLinkView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/guide/sms-sospetto',
       name: 'guide-smishing',
       component: GuideSmishingView
+    },
+    {
+      path: '/guide/link-sospetto',
+      name: 'guide-link',
+      component: GuideLinkView
     },
     {
       path: '/article/:id',

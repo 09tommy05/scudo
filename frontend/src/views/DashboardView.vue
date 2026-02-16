@@ -833,8 +833,8 @@ const fetchUser = async () => {
 const fetchCommunications = async () => {
     communicationsLoading.value = true;
     try {
-        const response = await api.getCommunications({ sort: 'publication', direction: 'desc' });
-        communications.value = Array.isArray(response.data) ? response.data : [];
+        const response = await api.getCommunicationsReporter({ sort: 'publication', direction: 'desc' });
+        communications.value = response.data;
     } catch (err) {
         console.error("Error fetching communications", err);
         communications.value = [];
@@ -939,8 +939,8 @@ const publishCommunication = async (comm) => {
 const fetchArticles = async () => {
     articlesLoading.value = true;
     try {
-        const response = await api.getArticles();
-        articles.value = Array.isArray(response.data) ? response.data : [];
+        const response = await api.getArticlesEditor();
+        articles.value = response.data;
     } catch (err) {
         console.error("Error fetching articles", err);
         articles.value = [];

@@ -4,10 +4,10 @@ import { rbac } from '../middleware/rbac.js';
 import tokenChecker from '../middleware/tokenChecker.js';
 import mongoose from 'mongoose';
 import { sendCommunicationNotifications } from '../utils/notificationDispatcher.js';
-
+import { filter } from '../middleware/filter.js';
 const router = express.Router();
 
-router.get('', async (req, res) => {
+router.get('',filter("reporter"), async (req, res) => {
     try {
         const allowedSortFields = ['publication', 'importance'];
         const sortField = allowedSortFields.includes(req.query.sort)
@@ -16,7 +16,7 @@ router.get('', async (req, res) => {
         const direction = req.query.direction === 'asc' ? 1 : -1;
 
         let communications;
-
+        let filter = req.filter || {};
         if (sortField === 'importance') {
 
             const importanceOrder = {
@@ -28,7 +28,7 @@ router.get('', async (req, res) => {
             const orderMultiplier = direction;
 
             communications = await Communication.aggregate([
-                { $match: { isDraft: false } },
+                { $match: filter },
                 {
                     //aggiungo dei valori numerici per ordinare l'importanza, come voglio io
                     $addFields: {
@@ -48,7 +48,7 @@ router.get('', async (req, res) => {
                 { $project: { importanceValue: 0 } }
             ]);
         } else {
-            communications = await Communication.find({ isDraft: false }).sort({ [sortField]: direction }).exec();
+            communications = await Communication.find(filter).sort({ [sortField]: direction }).exec();
         }
 
         const serialize = (c) => ({

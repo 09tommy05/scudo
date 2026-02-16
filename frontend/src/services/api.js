@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 
-let baseUrl= import.meta.env.VITE_API_HOST || 'http://localhost:3215';
-baseUrl += '/v1';
+let baseUrl = import.meta.env.VITE_API_HOST || 'http://localhost:3215';
+baseUrl += '/api/v1'; //possibile dover cambiare /v1 con /api/v1, dipende da come è settato il backend
 
 const api = axios.create({
-    baseURL: baseUrl, 
+    baseURL: baseUrl,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -14,10 +14,15 @@ const api = axios.create({
 // Add a request interceptor to include the token in headers
 api.interceptors.request.use(
     (config) => {
+        if (config.skipAuth) {
+            return config;
+        }
+
         const token = localStorage.getItem('token');
         if (token) {
             config.headers['x-access-token'] = token;
         }
+
         return config;
     },
     (error) => {
@@ -25,9 +30,16 @@ api.interceptors.request.use(
     }
 );
 
+
 export default {
     // Articles
     getArticles(params) {
+        return api.get('/articles', {
+            params,
+            skipAuth: true
+        });
+    },
+    getArticlesEditor(params) {
         return api.get('/articles', { params });
     },
     getArticle(id) {
@@ -104,14 +116,17 @@ export default {
     },
 
     // user
-    getMyReports(){
+    getMyReports() {
         return api.get("user/reports")
     },
-    updateNotificationStatus(allow_notifications){
+    updateNotificationStatus(allow_notifications) {
         return api.patch('user/me/notifications', { allow_notifications });
     },
     // Communications
     getCommunications(params) {
+        return api.get('/communications', { params, skipAuth: true });
+    },
+    getCommunicationsReporter(params) {
         return api.get('/communications', { params });
     },
     getCommunicationById(id) {

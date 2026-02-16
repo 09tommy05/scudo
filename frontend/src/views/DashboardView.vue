@@ -919,36 +919,9 @@ const takeInCharge = async (report) => {
     }
 };
 
-const openReportDetail = async (report) => {
-    const id = report.id || report._id;
-    reportDetail.value = { ...report, created_at: report.created_at || report.created };
-    showReportDetailModal.value = true;
-    try {
-        const res = await api.getReport(id);
-        reportDetail.value = res.data;
-        if (!reportDetail.value.created_at) reportDetail.value.created_at = reportDetail.value.created;
-    } catch {
-        // keep list data if fetch fails
-    }
-};
-
 const closeReportDetail = () => {
     showReportDetailModal.value = false;
     reportDetail.value = null;
-};
-
-const openReplyModal = (report) => {
-    reportForReply.value = report;
-    const nomeUtente = [report.author?.name, report.author?.surname].filter(Boolean).join(' ') || 'utente';
-    const dataReport = formatDate(report.created_at || report.created);
-    replyForm.title = `Risposta alla segnalazione di ${nomeUtente} del ${dataReport}`;
-    replyForm.text = 'Gentile utente,\n\nIn riferimento alla tua segnalazione, ti comunichiamo quanto segue.\n\nCordiali saluti.';
-    showReplyModal.value = true;
-};
-
-const closeReplyModal = () => {
-    showReplyModal.value = false;
-    reportForReply.value = null;
 };
 
 const submitReply = async () => {
@@ -1023,45 +996,6 @@ const fetchCommunications = async () => {
     }
 };
 
-const openCreateCommunication = () => {
-    editingCommunicationId.value = null;
-    communicationForm.title = '';
-    communicationForm.text = '';
-    communicationForm.short_text = '';
-    communicationForm.categoria = '';
-    communicationForm.importance = 'medio rischio';
-    communicationForm.isDraft = true;
-    communicationForm.notify = false;
-    showCommunicationModal.value = true;
-};
-
-const openEditCommunication = async (comm) => {
-    const id = comm.id || comm._id;
-    editingCommunicationId.value = id;
-    showCommunicationModal.value = true;
-    communicationForm.title = comm.title || '';
-    communicationForm.text = '';
-    communicationForm.short_text = comm.short_text || '';
-    communicationForm.categoria = comm.categoria || '';
-    communicationForm.importance = comm.importance || 'medio rischio';
-    communicationForm.isDraft = !!comm.isDraft;
-    communicationForm.notify = false;
-    try {
-        const response = await api.getCommunicationById(id);
-        const full = response.data;
-        communicationForm.title = full.title || '';
-        communicationForm.text = full.text || '';
-        communicationForm.short_text = full.short_text || '';
-        communicationForm.categoria = full.categoria || '';
-        communicationForm.importance = full.importance || 'medio rischio';
-        communicationForm.isDraft = !!full.isDraft;
-    } catch (err) {
-        console.error('Error loading communication', err);
-        alert('Impossibile caricare la comunicazione: ' + (err.response?.data?.message || err.message));
-        closeCommunicationModal();
-    }
-};
-
 const closeCommunicationModal = () => {
     showCommunicationModal.value = false;
     editingCommunicationId.value = null;
@@ -1132,56 +1066,6 @@ const fetchArticles = async () => {
         articles.value = [];
     } finally {
         articlesLoading.value = false;
-    }
-};
-
-const loadArticleCategories = async () => {
-    try {
-        const res = await api.getCategories();
-        articleCategories.value = res.data?.categories || [];
-    } catch {
-        articleCategories.value = [];
-    }
-};
-
-const openCreateArticle = () => {
-    editingArticleId.value = null;
-    articleForm.title = '';
-    articleForm.text = '';
-    articleForm.short_text = '';
-    articleForm.categoria = '';
-    articleForm.img = null;
-    articleForm.currentImg = '';
-    articleForm.isDraft = true;
-    loadArticleCategories();
-    showArticleModal.value = true;
-};
-
-const openEditArticle = async (article) => {
-    const id = article.id || article._id;
-    editingArticleId.value = id;
-    articleForm.title = article.title || '';
-    articleForm.text = '';
-    articleForm.short_text = article.short_text || '';
-    articleForm.categoria = article.categoria || '';
-    articleForm.img = null;
-    articleForm.currentImg = article.img || '';
-    articleForm.isDraft = !!article.isDraft;
-    loadArticleCategories();
-    showArticleModal.value = true;
-    try {
-        const response = await api.getArticle(id);
-        const full = response.data;
-        articleForm.title = full.title || '';
-        articleForm.text = full.text || '';
-        articleForm.short_text = full.short_text || '';
-        articleForm.categoria = full.categoria || '';
-        articleForm.currentImg = full.img || '';
-        articleForm.isDraft = !!full.isDraft;
-    } catch (err) {
-        console.error('Error loading article', err);
-        alert('Impossibile caricare l\'articolo: ' + (err.response?.data?.message || err.message));
-        closeArticleModal();
     }
 };
 

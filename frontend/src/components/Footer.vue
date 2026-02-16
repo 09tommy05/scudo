@@ -24,8 +24,8 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/" class="text-sm text-blue-100 hover:text-white transition-colors">
-                Guida alla sicurezza
+              <router-link to="/articles" class="text-sm text-blue-100 hover:text-white transition-colors">
+                Guida
               </router-link>
             </li>
             <li>

@@ -220,9 +220,8 @@ async function loadReport() {
     report.value = res.data;
     if (!report.value) throw new Error('Segnalazione non trovata');
     if (!report.value.created_at) report.value.created_at = report.value.created;
-    const nomeUtente = [report.value.author?.name, report.value.author?.surname].filter(Boolean).join(' ') || 'utente';
     const titolo = report.value?.title || "Titolo";
-    replyForm.title = `Risposta alla segnalazione ${titolo} di ${nomeUtente}`;
+    replyForm.title = `Risposta alla segnalazione ${titolo}`;
     replyForm.text = 'Gentile utente,<br><br>In riferimento alla tua segnalazione, ti comunichiamo quanto segue.<br><br>Cordiali saluti.';
     await nextTick();
     if (editorEl.value) editorEl.value.innerHTML = replyForm.text;

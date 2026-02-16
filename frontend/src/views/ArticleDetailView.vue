@@ -8,7 +8,7 @@
     <div v-else-if="error" class="text-center py-20 text-red-600">
       <p class="text-xl font-semibold">{{ error }}</p>
       <div class="mt-6">
-        <router-link to="/" class="text-primary hover:underline flex items-center justify-center gap-2">
+        <router-link to="/articles" class="text-primary hover:underline flex items-center justify-center gap-2">
           <span>&larr;</span> Torna alla guida
         </router-link>
       </div>
@@ -18,7 +18,7 @@
       
       <div class="mb-8">
         <router-link 
-          to="/" 
+          to="/articles" 
           class="inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium group"
         >
           <span class="mr-2 transform group-hover:-translate-x-1 transition-transform">&larr;</span>

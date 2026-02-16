@@ -18,6 +18,10 @@
             class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors">
             Home
           </router-link>
+          <router-link to="/articles"
+            class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+            Guida
+          </router-link>
           <router-link to="/communications"
             class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors">
             Comunicazioni
@@ -81,6 +85,10 @@
         <router-link to="/" @click="isOpen = false"
           class="block px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">
           Home
+        </router-link>
+        <router-link to="/articles" @click="isOpen = false"
+          class="block px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">
+          Guida
         </router-link>
         <router-link to="/communications" @click="isOpen = false"
           class="block px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">

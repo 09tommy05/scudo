@@ -9,12 +9,16 @@ backend/uploads/images/*
 backend/uploads/attachments/*
 
 !backend/uploads/attachments/screenshot_mail.jpg
+!backend/uploads/attachments/email.pdf
 !backend/uploads/images/password.jpg
 !backend/uploads/images/phishing_example.png
+!backend/uploads/images/1771284073517-781109166.jpg
+!backend/uploads/images/1771283951029-1277975.jpg
 
 .operators_data.json
 
 create_user.js
+seed.js
 
 # Logs
 logs

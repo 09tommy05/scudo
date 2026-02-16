@@ -6,12 +6,14 @@ import { uploadSingleImage } from '../middleware/upload.js';
 import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
+import { filter } from '../middleware/filter.js';
 
 const router = express.Router();
 
-router.get('', async (req, res) => {
+router.get('', filter("editor"), async (req, res) => {
     try {
-        let filter = { isDraft: false };
+        
+        let filter = req.filter || {};
         if (req.query?.q) {
             const query = req.query.q;
             filter.$or = [
@@ -25,8 +27,8 @@ router.get('', async (req, res) => {
             filter.categoria = req.query.category;
         }
 
-        let articles = await Article.find(filter).populate('author', 'name surname').exec();
-
+        let sort = { last_edit: -1 };
+        let articles = await Article.find(filter).populate('author', 'name surname').sort(sort).exec();
         const serialized = articles.map(a => ({
             self: `/api/v1/articles/${a.id}`,
             id: a.id,

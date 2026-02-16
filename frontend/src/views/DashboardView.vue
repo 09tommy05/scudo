@@ -401,7 +401,7 @@ const fetchUser = async () => {
 const fetchCommunications = async () => {
     loading.value = true;
     try {
-        const response = await api.getCommunications({ sort: 'publication', direction: 'desc' });
+        const response = await api.getCommunicationsReporter({ sort: 'publication', direction: 'desc' });
         communications.value = response.data;
     } catch (err) {
         console.error("Error fetching communications", err);
@@ -413,7 +413,7 @@ const fetchCommunications = async () => {
 const fetchArticles = async () => {
     loading.value = true;
     try {
-        const response = await api.getArticles();
+        const response = await api.getArticlesEditor();
         articles.value = response.data;
     } catch (err) {
         console.error("Error fetching articles", err);

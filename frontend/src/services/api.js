@@ -108,32 +108,17 @@ export default {
     getCommunications(params) {
         return api.get('/communications', { params });
     },
-    getMyCommunications() {
-        return api.get('/communications/reporter/mine');
-    },
     getCommunicationById(id) {
         return api.get(`/communications/${id}`);
     },
     createCommunication(data) {
-        const draft = data.isDraft === true ? 'true' : 'false';
-        const notify = data.notify === true ? 'true' : 'false';
-        return api.post(`/communications?draft=${draft}&notify=${notify}`, {
-            title: data.title,
-            text: data.text,
-            short_text: data.short_text,
-            categoria: data.categoria,
-            importance: data.importance || 'medio rischio',
-        });
+        const params = {};
+        if (data.isDraft !== undefined) params.draft = data.isDraft ? 'true' : 'false';
+        if (data.notify !== undefined) params.notify = data.notify ? 'true' : 'false';
+        return api.post('/communications', data, { params });
     },
     updateCommunication(id, data) {
-        return api.put(`/communications/${id}`, {
-            title: data.title,
-            text: data.text,
-            short_text: data.short_text,
-            categoria: data.categoria,
-            importance: data.importance || 'medio rischio',
-            isDraft: data.isDraft === true,
-        });
+        return api.put(`/communications/${id}`, data);
     },
     publishCommunication(id, notify = false) {
         return api.patch(`/communications/${id}?notify=${notify}`);

@@ -639,7 +639,7 @@ const fetchUser = async () => {
 const fetchCommunications = async () => {
     communicationsLoading.value = true;
     try {
-        const response = await api.getMyCommunications();
+        const response = await api.getCommunications({ sort: 'publication', direction: 'desc' });
         communications.value = Array.isArray(response.data) ? response.data : [];
     } catch (err) {
         console.error("Error fetching communications", err);
@@ -661,16 +661,31 @@ const openCreateCommunication = () => {
     showCommunicationModal.value = true;
 };
 
-const openEditCommunication = (comm) => {
-    editingCommunicationId.value = comm.id || comm._id;
+const openEditCommunication = async (comm) => {
+    const id = comm.id || comm._id;
+    editingCommunicationId.value = id;
+    showCommunicationModal.value = true;
     communicationForm.title = comm.title || '';
-    communicationForm.text = comm.text || '';
+    communicationForm.text = '';
     communicationForm.short_text = comm.short_text || '';
     communicationForm.categoria = comm.categoria || '';
     communicationForm.importance = comm.importance || 'medio rischio';
     communicationForm.isDraft = !!comm.isDraft;
     communicationForm.notify = false;
-    showCommunicationModal.value = true;
+    try {
+        const response = await api.getCommunicationById(id);
+        const full = response.data;
+        communicationForm.title = full.title || '';
+        communicationForm.text = full.text || '';
+        communicationForm.short_text = full.short_text || '';
+        communicationForm.categoria = full.categoria || '';
+        communicationForm.importance = full.importance || 'medio rischio';
+        communicationForm.isDraft = !!full.isDraft;
+    } catch (err) {
+        console.error('Error loading communication', err);
+        alert('Impossibile caricare la comunicazione: ' + (err.response?.data?.message || err.message));
+        closeCommunicationModal();
+    }
 };
 
 const closeCommunicationModal = () => {

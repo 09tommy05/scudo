@@ -9,12 +9,14 @@
       </div>
 
       <div class="relative z-10 container mx-auto px-4 lg:px-8 pt-16 pb-32 md:pt-20 md:pb-40 text-center">
-        <span class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 text-xs font-bold uppercase tracking-wider rounded-full bg-green-500/20 text-green-300 border border-green-400/20 backdrop-blur-sm">
+        <span
+          class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 text-xs font-bold uppercase tracking-wider rounded-full bg-green-500/20 text-green-300 border border-green-400/20 backdrop-blur-sm">
           <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
           Supporto attivo H24
         </span>
 
-        <h1 class="text-3xl md:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-tight mb-5 max-w-3xl mx-auto">
+        <h1
+          class="text-3xl md:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-tight mb-5 max-w-3xl mx-auto">
           Come possiamo aiutarti oggi?
         </h1>
 
@@ -24,21 +26,19 @@
 
         <!-- CTA Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <router-link
-            to="/report/create"
-            class="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-white text-primary font-semibold text-base shadow-xl hover:bg-white/95 transition-colors"
-          >
+          <button @click="handleSegnalaClick"
+            class="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-white text-primary font-semibold text-base shadow-xl hover:bg-white/95 transition-colors cursor-pointer">
             <svg class="w-6 h-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             Segnala una minaccia
-          </router-link>
-          <router-link
-            to="/communications"
-            class="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-primary/80 backdrop-blur-md border border-white/30 text-white font-semibold text-base shadow-xl hover:bg-primary/90 transition-colors"
-          >
+          </button>
+          <router-link to="/communications"
+            class="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-primary/80 backdrop-blur-md border border-white/30 text-white font-semibold text-base shadow-xl hover:bg-primary/90 transition-colors">
             <svg class="w-6 h-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
             </svg>
             Comunicazioni ufficiali
           </router-link>
@@ -51,15 +51,14 @@
       <div class="container mx-auto px-4 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 max-w-4xl mx-auto">
 
-          <component
-            v-for="cat in quickCategories" :key="cat.label"
-            :is="cat.route ? 'router-link' : 'span'"
+          <component v-for="cat in quickCategories" :key="cat.label" :is="cat.route ? 'router-link' : 'span'"
             :to="cat.route || undefined"
             class="bg-white rounded-2xl border border-gray-100 p-5 md:p-6 text-left transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group no-underline">
             <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-3 text-xl" :class="cat.bg">
               <component :is="cat.iconComponent" class="w-5 h-5" :class="cat.iconColor" />
             </div>
-            <h3 class="font-bold text-gray-900 text-sm md:text-base mb-0.5 group-hover:text-primary transition-colors">{{ cat.label }}</h3>
+            <h3 class="font-bold text-gray-900 text-sm md:text-base mb-0.5 group-hover:text-primary transition-colors">
+              {{ cat.label }}</h3>
             <p class="text-xs text-gray-400 leading-relaxed">{{ cat.desc }}</p>
           </component>
 
@@ -75,10 +74,12 @@
         <div class="lg:col-span-2">
           <div class="flex items-center justify-between mb-8">
             <h2 class="text-2xl font-bold text-gray-900">Articoli in primo piano</h2>
-            <router-link :to="{ name: 'articles' }" class="text-primary text-sm font-semibold hover:underline inline-flex items-center gap-1 group whitespace-nowrap">
+            <router-link :to="{ name: 'articles' }"
+              class="text-primary text-sm font-semibold hover:underline inline-flex items-center gap-1 group whitespace-nowrap">
               Vedi tutti gli articoli
-              <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </router-link>
           </div>
@@ -86,9 +87,15 @@
           <!-- Loading -->
           <div v-if="loadingArticles" class="grid sm:grid-cols-2 gap-5">
             <div v-for="n in 4" :key="n" class="bg-white rounded-2xl border border-gray-100 p-5 animate-pulse">
-              <div class="flex gap-2 mb-4"><div class="h-5 w-20 bg-gray-200 rounded-full"></div><div class="h-4 w-16 bg-gray-100 rounded"></div></div>
+              <div class="flex gap-2 mb-4">
+                <div class="h-5 w-20 bg-gray-200 rounded-full"></div>
+                <div class="h-4 w-16 bg-gray-100 rounded"></div>
+              </div>
               <div class="h-5 bg-gray-200 rounded w-3/4 mb-3"></div>
-              <div class="space-y-2 mb-5"><div class="h-3 bg-gray-100 rounded w-full"></div><div class="h-3 bg-gray-100 rounded w-2/3"></div></div>
+              <div class="space-y-2 mb-5">
+                <div class="h-3 bg-gray-100 rounded w-full"></div>
+                <div class="h-3 bg-gray-100 rounded w-2/3"></div>
+              </div>
               <div class="h-3 bg-gray-100 rounded w-24"></div>
             </div>
           </div>
@@ -96,7 +103,8 @@
           <!-- Error -->
           <div v-else-if="articlesError" class="text-center py-12 text-red-600 bg-red-50 rounded-2xl">
             <svg class="h-10 w-10 mx-auto mb-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             <p class="font-medium">{{ articlesError }}</p>
           </div>
@@ -107,29 +115,39 @@
               class="bg-white rounded-2xl border border-gray-100 hover:border-gray-200 p-5 transition-all duration-300 hover:shadow-lg group flex flex-col">
 
               <div class="flex items-center gap-2 mb-3 flex-wrap">
-                <span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" :class="getCategoryBadge(article.categoria)">
-                  <svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M214.7 .7c17.3 3.7 28.3 20.7 24.6 38l-19.1 89.3 126.5 0 22-102.7C372.4 8 389.4-3 406.7 .7s28.3 20.7 24.6 38L412.2 128 480 128c17.7 0 32 14.3 32 32s-14.3 32-32 32l-81.6 0-27.4 128 67.8 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-81.6 0-22 102.7c-3.7 17.3-20.7 28.3-38 24.6s-28.3-20.7-24.6-38l19.1-89.3-126.5 0-22 102.7c-3.7 17.3-20.7 28.3-38 24.6s-28.3-20.7-24.6-38L99.8 384 32 384c-17.7 0-32-14.3-32-32s14.3-32 32-32l81.6 0 27.4-128-67.8 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l81.6 0 22-102.7C180.4 8 197.4-3 214.7 .7zM206.4 192l-27.4 128 126.5 0 27.4-128-126.5 0z"/></svg>
+                <span
+                  class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
+                  :class="getCategoryBadge(article.categoria)">
+                  <svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                    fill="currentColor">
+                    <path
+                      d="M214.7 .7c17.3 3.7 28.3 20.7 24.6 38l-19.1 89.3 126.5 0 22-102.7C372.4 8 389.4-3 406.7 .7s28.3 20.7 24.6 38L412.2 128 480 128c17.7 0 32 14.3 32 32s-14.3 32-32 32l-81.6 0-27.4 128 67.8 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-81.6 0-22 102.7c-3.7 17.3-20.7 28.3-38 24.6s-28.3-20.7-24.6-38l19.1-89.3-126.5 0-22 102.7c-3.7 17.3-20.7 28.3-38 24.6s-28.3-20.7-24.6-38L99.8 384 32 384c-17.7 0-32-14.3-32-32s14.3-32 32-32l81.6 0 27.4-128-67.8 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l81.6 0 22-102.7C180.4 8 197.4-3 214.7 .7zM206.4 192l-27.4 128 126.5 0 27.4-128-126.5 0z" />
+                  </svg>
                   {{ article.categoria }}
                 </span>
               </div>
 
-              <h3 class="text-base font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ article.title }}</h3>
+              <h3
+                class="text-base font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                {{ article.title }}</h3>
               <p class="text-sm text-gray-500 line-clamp-3 leading-relaxed mb-4 flex-1">{{ article.short_text }}</p>
 
               <div class="flex items-center justify-between pt-3 border-t border-gray-50">
-                
-                <router-link
-                  :to="{ name: 'article-detail', params: { id: article._id || article.id } }"
+
+                <router-link :to="{ name: 'article-detail', params: { id: article._id || article.id } }"
                   class="text-primary text-xs font-bold hover:underline inline-flex items-center gap-1">
                   Leggi ora
-                  <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
                 </router-link>
               </div>
             </div>
           </div>
 
           <!-- Empty -->
-          <div v-if="!loadingArticles && !articlesError && featuredArticles.length === 0" class="text-center py-12 text-gray-400 bg-gray-50 rounded-2xl">
+          <div v-if="!loadingArticles && !articlesError && featuredArticles.length === 0"
+            class="text-center py-12 text-gray-400 bg-gray-50 rounded-2xl">
             <p class="font-medium">Nessuna guida disponibile al momento.</p>
           </div>
         </div>
@@ -143,7 +161,8 @@
               <div class="flex items-center justify-between mb-6">
                 <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
                   <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
                   </svg>
                   Comunicazioni ufficiali
                 </h2>
@@ -167,27 +186,30 @@
 
               <!-- List -->
               <div v-else class="space-y-3">
-                <router-link
-                  v-for="comm in latestCommunications"
-                  :key="comm._id || comm.id"
+                <router-link v-for="comm in latestCommunications" :key="comm._id || comm.id"
                   :to="{ name: 'communication-detail', params: { id: comm._id || comm.id } }"
                   class="block bg-white rounded-xl border border-gray-100 hover:border-primary/20 p-4 transition-all duration-200 hover:shadow-md group">
                   <div class="flex items-center justify-between mb-2">
-                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded text-white" :class="getImportanceBg(comm.importance)">
+                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded text-white"
+                      :class="getImportanceBg(comm.importance)">
                       {{ getImportanceLabel(comm.importance) }}
                     </span>
                     <span class="text-[11px] text-gray-400">{{ formatRelativeDate(comm.publication) }}</span>
                   </div>
-                  <h4 class="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors mb-1 line-clamp-2">{{ comm.title }}</h4>
+                  <h4
+                    class="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors mb-1 line-clamp-2">
+                    {{ comm.title }}</h4>
                   <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">{{ comm.short_text }}</p>
                 </router-link>
 
-                <div v-if="latestCommunications.length === 0" class="text-center py-8 text-gray-400 text-sm bg-gray-50 rounded-xl">
+                <div v-if="latestCommunications.length === 0"
+                  class="text-center py-8 text-gray-400 text-sm bg-gray-50 rounded-xl">
                   Nessuna comunicazione recente.
                 </div>
               </div>
 
-              <router-link to="/communications" class="block text-center mt-5 text-[11px] font-bold uppercase tracking-widest text-primary hover:text-primary-dark transition-colors py-3 bg-primary-light rounded-xl hover:bg-blue-100">
+              <router-link to="/communications"
+                class="block text-center mt-5 text-[11px] font-bold uppercase tracking-widest text-primary hover:text-primary-dark transition-colors py-3 bg-primary-light rounded-xl hover:bg-blue-100">
                 Vedi tutte le comunicazioni &rarr;
               </router-link>
             </div>
@@ -198,12 +220,37 @@
       </div>
     </section>
 
+
+    <BaseModal :isOpen="showRoleError" title="Accesso Negato"
+      message="Solo i cittadini possono effettuare segnalazioni." @close="showRoleError = false" />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, h } from 'vue';
+import { useRouter } from 'vue-router';
 import api from '@/services/api';
+import BaseModal from '@/components/BaseModal.vue';
+
+const router = useRouter();
+const showRoleError = ref(false);
+
+const isAuthenticated = computed(() => !!localStorage.getItem('token'));
+const user = computed(() => JSON.parse(localStorage.getItem('user') || '{}'));
+
+const handleSegnalaClick = () => {
+  if (!isAuthenticated.value) {
+    router.push('/login/cittadino');
+    return;
+  }
+
+  if (user.value.role !== 'user') {
+    showRoleError.value = true;
+    return;
+  }
+
+  router.push('/report/create');
+};
 
 // State
 const articles = ref([]);
@@ -222,12 +269,12 @@ const IconSocial = { render: () => h('svg', { fill: 'none', viewBox: '0 0 24 24'
 const IconPhone = { render: () => h('svg', { fill: 'none', viewBox: '0 0 24 24', stroke: 'currentColor' }, [h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-width': '2', d: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z' })]) };
 
 const quickCategories = [
-  { label: 'Email sospetta',  desc: 'Ho ricevuto una mail strana',       searchTerm: 'email',     bg: 'bg-blue-50',   iconComponent: IconEmail,  iconColor: 'text-blue-600', route: '/guide/email-sospetta' },
-  { label: 'SMS / messaggi',  desc: 'Ho ricevuto un SMS di phishing',    searchTerm: 'sms',       bg: 'bg-purple-50', iconComponent: IconSms,    iconColor: 'text-purple-600', route: '/guide/sms-sospetto' },
-  { label: 'Link sospetto',   desc: 'Non so se cliccare un link',        searchTerm: 'link',      bg: 'bg-red-50',    iconComponent: IconLink,   iconColor: 'text-red-500', route: '/guide/link-sospetto' },
-  { label: 'QR code',         desc: 'Ho scannerizzato un codice',        searchTerm: 'qr',        bg: 'bg-green-50',  iconComponent: IconQr,     iconColor: 'text-green-600', route: '/guide/qr-sospetto' },
-  { label: 'Social media',    desc: 'Profilo rubato o clonato',          searchTerm: 'social',    bg: 'bg-pink-50',   iconComponent: IconSocial, iconColor: 'text-pink-600', route: '/guide/social-sospetto' },
-  { label: 'Chiamate',        desc: 'Telefonate truffa o mute',          searchTerm: 'chiamate',  bg: 'bg-cyan-50',   iconComponent: IconPhone,  iconColor: 'text-cyan-600', route: '/guide/chiamate-sospette' },
+  { label: 'Email sospetta', desc: 'Ho ricevuto una mail strana', searchTerm: 'email', bg: 'bg-blue-50', iconComponent: IconEmail, iconColor: 'text-blue-600', route: '/guide/email-sospetta' },
+  { label: 'SMS / messaggi', desc: 'Ho ricevuto un SMS di phishing', searchTerm: 'sms', bg: 'bg-purple-50', iconComponent: IconSms, iconColor: 'text-purple-600', route: '/guide/sms-sospetto' },
+  { label: 'Link sospetto', desc: 'Non so se cliccare un link', searchTerm: 'link', bg: 'bg-red-50', iconComponent: IconLink, iconColor: 'text-red-500', route: '/guide/link-sospetto' },
+  { label: 'QR code', desc: 'Ho scannerizzato un codice', searchTerm: 'qr', bg: 'bg-green-50', iconComponent: IconQr, iconColor: 'text-green-600', route: '/guide/qr-sospetto' },
+  { label: 'Social media', desc: 'Profilo rubato o clonato', searchTerm: 'social', bg: 'bg-pink-50', iconComponent: IconSocial, iconColor: 'text-pink-600', route: '/guide/social-sospetto' },
+  { label: 'Chiamate', desc: 'Telefonate truffa o mute', searchTerm: 'chiamate', bg: 'bg-cyan-50', iconComponent: IconPhone, iconColor: 'text-cyan-600', route: '/guide/chiamate-sospette' },
 ];
 
 // Computed
@@ -270,20 +317,20 @@ const fetchCommunications = async () => {
 const getCategoryBadge = (cat) => {
   if (!cat) return 'bg-gray-100 text-gray-600';
   const c = cat.toLowerCase();
-  if (c.includes('phishing'))                   return 'bg-blue-100 text-blue-700';
-  if (c.includes('smishing'))                   return 'bg-purple-100 text-purple-700';
+  if (c.includes('phishing')) return 'bg-blue-100 text-blue-700';
+  if (c.includes('smishing')) return 'bg-purple-100 text-purple-700';
   if (c.includes('quishing') || c.includes('qr')) return 'bg-amber-100 text-amber-700';
   if (c.includes('sicurezza') || c.includes('password')) return 'bg-gray-200 text-gray-700';
-  if (c.includes('social'))                     return 'bg-pink-100 text-pink-700';
-  if (c.includes('link'))                       return 'bg-red-100 text-red-600';
+  if (c.includes('social')) return 'bg-pink-100 text-pink-700';
+  if (c.includes('link')) return 'bg-red-100 text-red-600';
   return 'bg-blue-100 text-blue-700';
 };
 
 const getImportanceBg = (imp) => {
   switch (imp?.toLowerCase()) {
-    case 'alto rischio':  return 'bg-red-500';
+    case 'alto rischio': return 'bg-red-500';
     case 'medio rischio': return 'bg-amber-500';
-    default:              return 'bg-blue-500';
+    default: return 'bg-blue-500';
   }
 };
 
@@ -295,11 +342,11 @@ const getImportanceLabel = (imp) => {
 const formatRelativeDate = (d) => {
   if (!d) return '';
   const date = new Date(d);
-  const now  = new Date();
+  const now = new Date();
   const days = Math.floor((now - date) / 86400000);
   if (days === 0) return 'Oggi, ' + date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-  if (days === 1) return 'Ieri, '  + date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-  if (days < 7)   return days + ' giorni fa';
+  if (days === 1) return 'Ieri, ' + date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+  if (days < 7) return days + ' giorni fa';
   return date.toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
 };
 

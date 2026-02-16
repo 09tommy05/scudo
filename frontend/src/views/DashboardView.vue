@@ -435,8 +435,12 @@
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold">Amministrazione operatori</h2>
                     <button @click="showCreateOperatorModal = true"
-                        class="bg-primary text-white px-4 py-2 rounded text-sm hover:bg-blue-700">Nuovo
-                        operatore</button>
+                        class="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor">
+                            <path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H504V160c0-13.3-10.7-24-24-24s-24 10.7-24 24v40H416c-13.3 0-24 10.7-24 24s10.7 24 24 24h40v64c0 13.3 10.7 24 24 24s24-10.7 24-24z"/>
+                        </svg>
+                        Nuovo operatore
+                    </button>
                 </div>
 
                 <div class="bg-white shadow overflow-hidden rounded-md">
@@ -461,8 +465,9 @@
                                             <div class="relative">
                                                 <input type="checkbox" class="sr-only" :checked="op.isActive"
                                                     @change="toggleOperatorStatus(op)">
-                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"
+                                                <div class="w-10 h-4 rounded-full shadow-inner transition-colors duration-300"
+                                                    :class="op.isActive ? 'bg-primary' : 'bg-gray-400'"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition duration-300 ease-in-out"
                                                     :class="{ 'transform translate-x-full bg-primary': op.isActive }">
                                                 </div>
                                             </div>

@@ -16,6 +16,7 @@ import GuideChiamateView from '@/views/GuideChiamateView.vue'
 import ArticleEditView from '@/views/ArticleEditView.vue'
 import CommunicationEditView from '@/views/CommunicationEditView.vue'
 import ReportDetailView from '@/views/ReportDetailView.vue'
+import ReportAnswerView from '@/views/ReportAnswerView.vue'
 import ReportCreateView from '@/views/ReportCreateView.vue'
 
 const router = createRouter({
@@ -105,6 +106,13 @@ const router = createRouter({
       component: ReportDetailView,
       props: true,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/dashboard/my-report/:id',
+      name: 'user-report-answer',
+      component: ReportAnswerView,
+      props: true,
+      meta: { requiresAuth: true, requiresRole: 'user' }
     },
     {
       path: '/report/create',

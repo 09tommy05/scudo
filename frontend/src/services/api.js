@@ -119,6 +119,10 @@ export default {
     createReportAnswer(data) {
         return api.post('/report-answers/', data);
     },
+    /** Get answer for a report (by report id). POST /report-answers/ with reportID in body. */
+    getAnswerByReportId(reportId) {
+        return api.get('/report-answers/'+ reportId);
+    },
 
     // user
     getMyReports() {

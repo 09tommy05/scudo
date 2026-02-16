@@ -40,7 +40,8 @@
                                     <input type="checkbox" class="sr-only" v-model="user.allow_notifications"
                                         @change="toggleNotificationStatus(user)">
 
-                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                    <div class="w-10 h-4 rounded-full shadow-inner transition-colors duration-300"
+                                        :class="user.allow_notifications ? 'bg-primary' : 'bg-gray-400'"></div>
 
                                     <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition-transform duration-300 ease-in-out"
                                         :class="{ 'transform translate-x-full bg-primary': user.allow_notifications }">
@@ -57,32 +58,51 @@
                 </div>
 
                 <div>
-                    <h2 class="text-xl font-bold mb-4">Lo storico delle tue segnalazioni</h2>
+                    <h2 class="text-xl font-bold mb-4">Storico delle segnalazioni</h2>
                     <div v-if="reports.length === 0" class="text-gray-500 text-center py-8 bg-gray-50 rounded">Non hai
                         ancora inviato segnalazioni.</div>
-                    <div v-else class="bg-white shadow overflow-hidden rounded-md">
-                        <ul class="divide-y divide-gray-200">
-                            <li v-for="report in reports" :key="report.id" class="p-4 hover:bg-gray-50">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <div class="font-bold text-lg text-gray-800">{{ report.title }}</div>
-                                        <div class="text-sm text-gray-500 mb-2">
-                                            <span class="mr-3">📅 {{ formatDate(report.created_at) }}</span>
-                                            <span
-                                                class="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">{{
-                                                    report.categoria }}</span>
-                                        </div>
-                                        <p class="text-gray-700 line-clamp-2">{{ report.text }}</p>
-                                    </div>
-                                    <div>
-                                        <span
-                                            :class="['px-2 py-1 text-xs font-bold rounded-full uppercase', getStatusColor(report.status)]">
-                                            {{ report.status }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                    <div v-else class="bg-white shadow overflow-hidden rounded-lg border border-gray-200">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data</th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Titolo segnalazione</th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Categoria</th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Stato</th>
+                                        <th scope="col" class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider w-28">Dettaglio</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="report in reports" :key="report.id || report._id" class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
+                                            {{ formatDate(report.created_at || report.created) }}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 max-w-[200px]">
+                                            <span class="line-clamp-2" :title="report.title">{{ report.title || '—' }}</span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">{{ report.categoria }}</span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span :class="['inline-flex px-2 py-1 text-xs font-semibold rounded-full uppercase', getStatusColor(report.status)]">
+                                                {{ report.status }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-right">
+                                            <router-link
+                                                v-if="report.status === 'risolta'"
+                                                :to="{ name: 'user-report-answer', params: { id: report.id || report._id } }"
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                                            >
+                                                Vedi risposta
+                                            </router-link>
+                                            <span v-else class="text-sm text-gray-400">—</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,6 +138,7 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Titolo segnalazione</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Categoria</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Cittadino</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Stato</th>
@@ -128,6 +149,9 @@
                                 <tr v-for="report in paginatedReports" :key="report.id || report._id" class="hover:bg-gray-50">
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                                         {{ formatDate(report.created_at || report.created) }}
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 max-w-[200px]">
+                                        <span class="line-clamp-2" :title="report.title">{{ report.title || '—' }}</span>
                                     </td>
                                     <td class="px-4 py-3">
                                         <span class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">{{ report.categoria }}</span>
@@ -411,8 +435,12 @@
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold">Amministrazione operatori</h2>
                     <button @click="showCreateOperatorModal = true"
-                        class="bg-primary text-white px-4 py-2 rounded text-sm hover:bg-blue-700">Nuovo
-                        operatore</button>
+                        class="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor">
+                            <path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H504V160c0-13.3-10.7-24-24-24s-24 10.7-24 24v40H416c-13.3 0-24 10.7-24 24s10.7 24 24 24h40v64c0 13.3 10.7 24 24 24s24-10.7 24-24z"/>
+                        </svg>
+                        Nuovo operatore
+                    </button>
                 </div>
 
                 <div class="bg-white shadow overflow-hidden rounded-md">
@@ -437,8 +465,9 @@
                                             <div class="relative">
                                                 <input type="checkbox" class="sr-only" :checked="op.isActive"
                                                     @change="toggleOperatorStatus(op)">
-                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"
+                                                <div class="w-10 h-4 rounded-full shadow-inner transition-colors duration-300"
+                                                    :class="op.isActive ? 'bg-primary' : 'bg-gray-400'"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition duration-300 ease-in-out"
                                                     :class="{ 'transform translate-x-full bg-primary': op.isActive }">
                                                 </div>
                                             </div>

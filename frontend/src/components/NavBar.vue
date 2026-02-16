@@ -4,7 +4,7 @@
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <router-link to="/" class="flex items-center gap-3 group">
-          <img src="/logo-white.svg" alt="SCUDO Logo" class="h-9 w-9 rounded-md p-1" />
+          <img src="/logo-white.svg" alt="SCUDO Logo" class="h-13 w-13 rounded-md p-1" />
           <div class="leading-tight">
             <span class="text-lg font-bold text-white tracking-tight">SCUDO</span>
             <span class="hidden sm:block text-[10px] uppercase tracking-widest text-white/80 font-medium">Comune di

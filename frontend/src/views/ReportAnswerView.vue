@@ -75,7 +75,6 @@
                     :key="i"
                     :href="getAttachmentUrl(att)"
                     :download="getAttachmentFileName(att)"
-                    target="_blank"
                     rel="noopener noreferrer"
                     class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 hover:bg-gray-50 hover:border-primary transition-colors"
                   >

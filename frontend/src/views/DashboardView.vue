@@ -736,12 +736,19 @@
                 </div>
             </div>
         </Transition>
+        <BaseModal 
+            :isOpen="showErrorModal"
+            title="Errore"
+            :message="errorMessage"
+            @close="showErrorModal = false"
+        />
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch, computed, reactive } from 'vue';
 import api from '@/services/api';
+import BaseModal from '@/components/BaseModal.vue';
 
 const currentUser = reactive(JSON.parse(localStorage.getItem('user') || '{}'));
 const userRole = computed(() => currentUser.role || 'user');
@@ -801,6 +808,9 @@ const newOperator = reactive({
     email: '',
     role: 'reporter',
 });
+
+const showErrorModal = ref(false);
+const errorMessage = ref('');
 
 // Articles (editor)
 const articlesLoading = ref(false);
@@ -1253,7 +1263,10 @@ const toggleOperatorStatus = async (op) => {
         op.isActive = !op.isActive;
     } catch (err) {
         console.error("Error upgrading status", err);
-        alert("Impossibile aggiornare lo stato dell'operatore.");
+        errorMessage.value = "Impossibile aggiornare lo stato dell'operatore: " + (err.response?.data?.message || err.message);
+        showErrorModal.value = true;
+        // Revert switch visually as explicit fetch might be overkill or delayed
+        op.isActive = !op.isActive; 
     }
 }
 

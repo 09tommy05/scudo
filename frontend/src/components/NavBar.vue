@@ -23,7 +23,7 @@
             Comunicazioni
           </router-link>
           <button @click="handleSegnalaClick"
-            class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors text-left">
+            class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors text-left cursor-pointer">
             Segnala
           </button>
 
@@ -87,7 +87,7 @@
           Comunicazioni
         </router-link>
         <button @click="handleSegnalaClick"
-          class="block w-full text-left px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">
+          class="block w-full text-left px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer">
           Segnala
         </button>
 
@@ -115,14 +115,23 @@
         </template>
       </div>
     </div>
+
+    <BaseModal 
+      :isOpen="showRoleError"
+      title="Accesso Negato"
+      message="Solo i cittadini possono effettuare segnalazioni."
+      @close="showRoleError = false"
+    />
   </nav>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import BaseModal from './BaseModal.vue';
 
 const isOpen = ref(false);
+const showRoleError = ref(false);
 const router = useRouter();
 
 const isAuthenticated = computed(() => !!localStorage.getItem('token'));
@@ -143,7 +152,7 @@ const handleSegnalaClick = () => {
   }
   
   if (user.value.role !== 'user') {
-    alert('Solo i cittadini possono effettuare segnalazioni.');
+    showRoleError.value = true;
     return;
   }
   

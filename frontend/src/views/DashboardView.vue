@@ -88,48 +88,151 @@
             </div>
 
             <div v-if="currentTab === 'reports'" class="space-y-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Coda di lavorazione segnalazioni</h2>
-                    <div class="flex gap-2">
-                        <select v-model="reportFilterStatus" @change="fetchReports" class="border rounded p-2 text-sm">
-                            <option value="">Tutti gli stati</option>
-                            <option value="da elaborare">Da elaborare</option>
-                            <option value="in lavorazione">In lavorazione</option>
-                            <option value="risolta">Risolta</option>
-                        </select>
+                <h2 class="text-xl font-bold">Gestione Segnalazioni</h2>
+
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <span class="text-sm text-gray-600">Filtra per:</span>
+                    <select v-model="reportFilterStatus" @change="fetchReports"
+                        class="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 bg-white focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        <option value="">Tutti gli stati</option>
+                        <option value="da elaborare">Da elaborare</option>
+                        <option value="in lavorazione">In lavorazione</option>
+                        <option value="risolta">Risolta</option>
+                    </select>
+                    <select v-model="reportFilterCategoria" @change="fetchReports"
+                        class="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 bg-white focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        <option value="">Tutte le categorie</option>
+                        <option v-for="cat in reportCategories" :key="cat" :value="cat">{{ cat }}</option>
+                    </select>
+                </div>
+
+                <div v-if="loading" class="text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
+                </div>
+                <div v-else-if="reports.length === 0" class="text-gray-500 text-center py-12 bg-gray-50 rounded-lg">
+                    Nessuna segnalazione trovata.
+                </div>
+                <div v-else class="bg-white shadow overflow-hidden rounded-lg border border-gray-200">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Categoria</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Cittadino</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Stato</th>
+                                    <th scope="col" class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Rispondi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr v-for="report in paginatedReports" :key="report.id || report._id" class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
+                                        {{ formatDate(report.created_at || report.created) }}
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <span class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">{{ report.categoria }}</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">
+                                        {{ report.author?.name }} {{ report.author?.surname }}
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <div class="relative inline-block">
+                                            <button type="button" @click="reportStatusDropdownId = reportStatusDropdownId === (report.id || report._id) ? null : (report.id || report._id)"
+                                                class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-colors min-w-[140px] justify-between"
+                                                :class="getStatusTriggerClass(report.status)">
+                                                <span class="inline-flex items-center gap-2">
+                                                    <span class="w-2 h-2 rounded-full shrink-0" :class="getStatusDotClass(report.status)"></span>
+                                                    <span class="capitalize">{{ report.status }}</span>
+                                                </span>
+                                                <svg class="w-4 h-4 shrink-0 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                            </button>
+                                            <div v-if="reportStatusDropdownId === (report.id || report._id)"
+                                                class="absolute left-0 top-full mt-1 z-20 w-full min-w-[180px] bg-white rounded-lg shadow-lg border border-gray-200 overflow-visible">
+                                                <button v-for="s in reportStatusOptions" :key="s" type="button" @click="selectReportStatus(report, s)"
+                                                    :disabled="!(s === 'in lavorazione' && report.status === 'da elaborare')"
+                                                    :title="s === 'risolta' ? 'Usa Rispondi per chiudere' : (s === 'da elaborare' ? 'Non modificabile' : '')"
+                                                    class="w-full flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-gray-800 text-left first:rounded-t-lg last:rounded-b-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                                                    <span class="w-2 h-2 rounded-full shrink-0" :class="getStatusDotClass(s)"></span>
+                                                    <span class="capitalize">{{ s }}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button @click="openReplyModal(report)" type="button" class="p-2 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Rispondi">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div v-if="reports.length > reportPerPage" class="px-4 py-3 border-t border-gray-200 flex items-center justify-between bg-gray-50">
+                        <p class="text-sm text-gray-600">Visualizzati {{ reportRangeStart }}-{{ reportRangeEnd }} di {{ reports.length }} segnalazioni</p>
+                        <div class="flex gap-2">
+                            <button @click="reportPage = Math.max(1, reportPage - 1)" :disabled="reportPage <= 1"
+                                class="px-3 py-1.5 text-sm font-medium rounded-lg border border-gray-300 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50">Precedente</button>
+                            <span class="flex items-center gap-1">
+                                <button v-for="p in reportPageNumbers" :key="p" @click="reportPage = p"
+                                    :class="['px-3 py-1.5 text-sm font-medium rounded-lg', p === reportPage ? 'bg-primary text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50']">{{ p }}</button>
+                            </span>
+                            <button @click="reportPage = Math.min(reportTotalPages, reportPage + 1)" :disabled="reportPage >= reportTotalPages"
+                                class="px-3 py-1.5 text-sm font-medium rounded-lg border border-gray-300 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50">Successivo</button>
+                        </div>
                     </div>
                 </div>
-
-                <div v-if="reports.length === 0" class="text-gray-500 text-center py-8">Nessuna segnalazione trovata.
-                </div>
-
-                <div v-else class="bg-white shadow overflow-hidden rounded-md">
-                    <ul class="divide-y divide-gray-200">
-                        <li v-for="report in reports" :key="report.id" class="p-4 hover:bg-gray-50">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <div class="font-bold text-lg text-gray-800">{{ report.title }}</div>
-                                    <div class="text-sm text-gray-500 mb-2">
-                                        <span class="mr-3">📅 {{ formatDate(report.created_at) }}</span>
-                                        <span class="mr-3">🧑🏻 {{ report.author?.name || 'Utente' }}</span>
-                                        <span
-                                            class="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">{{
-                                                report.categoria }}</span>
-                                    </div>
-                                    <p class="text-gray-700 line-clamp-2">{{ report.text }}</p>
-                                </div>
-                                <div class="flex flex-col items-end gap-2">
-                                    <span
-                                        :class="['px-2 py-1 text-xs font-bold rounded-full uppercase', getStatusColor(report.status)]">
-                                        {{ report.status }}
-                                    </span>
-                                    <button class="text-primary text-sm font-semibold hover:underline">Gestisci</button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
             </div>
+
+            <!-- Report detail modal -->
+            <Transition name="modal-fade">
+                <div v-if="showReportDetailModal"
+                    class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4">
+                    <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" @click="closeReportDetail"></div>
+                    <div class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Dettaglio segnalazione</h3>
+                        <template v-if="reportDetail">
+                            <p class="text-xs text-gray-500 mb-1">{{ formatDate(reportDetail.created_at || reportDetail.created) }}</p>
+                            <h4 class="font-semibold text-gray-900 mb-2">{{ reportDetail.title }}</h4>
+                            <p class="text-sm text-gray-600 mb-3">{{ reportDetail.categoria }}</p>
+                            <p class="text-sm text-gray-700 whitespace-pre-line mb-4">{{ reportDetail.text }}</p>
+                            <p class="text-xs text-gray-500">Cittadino: {{ reportDetail.author?.name }} {{ reportDetail.author?.surname }}</p>
+                            <span :class="['inline-flex mt-2 px-2 py-1 text-xs font-semibold rounded-full uppercase', getStatusColor(reportDetail.status)]">{{ reportDetail.status }}</span>
+                            <div class="mt-6 flex justify-end gap-2">
+                                <button @click="openReplyModal(reportDetail)" class="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Rispondi</button>
+                                <button @click="closeReportDetail()" class="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100">Chiudi</button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </Transition>
+
+            <!-- Report reply modal -->
+            <Transition name="modal-fade">
+                <div v-if="showReplyModal" class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4">
+                    <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" @click="closeReplyModal"></div>
+                    <div class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Rispondi alla segnalazione</h3>
+                        <form @submit.prevent="submitReply" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Titolo *</label>
+                                <input v-model="replyForm.title" type="text" required
+                                    class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-700 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                    placeholder="Titolo della risposta">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Testo *</label>
+                                <textarea v-model="replyForm.text" required rows="6"
+                                    class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-700 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                    placeholder="Testo della risposta"></textarea>
+                            </div>
+                            <div class="flex justify-end gap-2">
+                                <button type="button" @click="closeReplyModal" class="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100">Annulla</button>
+                                <button type="submit" class="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Invia risposta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </Transition>
 
             <div v-if="currentTab === 'communications'" class="space-y-6">
                 <div class="flex justify-between items-center mb-4">
@@ -557,6 +660,15 @@ const communications = ref([]);
 const articles = ref([]);
 const operators = ref([]);
 const reportFilterStatus = ref('');
+const reportFilterCategoria = ref('');
+const showReportDetailModal = ref(false);
+const reportDetail = ref(null);
+const reportPage = ref(1);
+const reportPerPage = 10;
+const showReplyModal = ref(false);
+const reportForReply = ref(null);
+const replyForm = reactive({ title: '', text: '' });
+const reportStatusDropdownId = ref(null);
 
 const showCreateOperatorModal = ref(false);
 const newOperator = reactive({
@@ -597,26 +709,108 @@ const communicationForm = reactive({
     notify: false,
 });
 
+// Reports: computed categories from current list, pagination
+const reportCategories = computed(() => {
+    const cats = new Set(reports.value.map(r => r.categoria).filter(Boolean));
+    return [...cats].sort();
+});
+const reportTotalPages = computed(() => Math.max(1, Math.ceil(reports.value.length / reportPerPage)));
+const paginatedReports = computed(() => {
+    const start = (reportPage.value - 1) * reportPerPage;
+    return reports.value.slice(start, start + reportPerPage);
+});
+const reportRangeStart = computed(() => reports.value.length === 0 ? 0 : (reportPage.value - 1) * reportPerPage + 1);
+const reportRangeEnd = computed(() => Math.min(reportPage.value * reportPerPage, reports.value.length));
+const reportPageNumbers = computed(() => {
+    const n = reportTotalPages.value;
+    return n <= 5 ? Array.from({ length: n }, (_, i) => i + 1) : [1, reportPage.value, n].filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a - b);
+});
+
+const reportStatusOptions = ['da elaborare', 'in lavorazione', 'risolta'];
+
+const selectReportStatus = async (report, newStatus) => {
+    if (newStatus === 'risolta') return;
+    if (newStatus === 'in lavorazione' && report.status === 'da elaborare') {
+        try {
+            await api.patchReport(report.id || report._id);
+            fetchReports();
+        } catch (err) {
+            alert('Errore: ' + (err.response?.data?.message || err.message));
+        }
+    }
+    reportStatusDropdownId.value = null;
+};
+
+const openReportDetail = async (report) => {
+    const id = report.id || report._id;
+    reportDetail.value = { ...report, created_at: report.created_at || report.created };
+    showReportDetailModal.value = true;
+    try {
+        const res = await api.getReport(id);
+        reportDetail.value = res.data;
+        if (!reportDetail.value.created_at) reportDetail.value.created_at = reportDetail.value.created;
+    } catch {
+        // keep list data if fetch fails
+    }
+};
+
+const closeReportDetail = () => {
+    showReportDetailModal.value = false;
+    reportDetail.value = null;
+};
+
+const openReplyModal = (report) => {
+    reportForReply.value = report;
+    const nomeUtente = [report.author?.name, report.author?.surname].filter(Boolean).join(' ') || 'utente';
+    const dataReport = formatDate(report.created_at || report.created);
+    replyForm.title = `Risposta alla segnalazione di ${nomeUtente} del ${dataReport}`;
+    replyForm.text = 'Gentile utente,\n\nIn riferimento alla tua segnalazione, ti comunichiamo quanto segue.\n\nCordiali saluti.';
+    showReplyModal.value = true;
+};
+
+const closeReplyModal = () => {
+    showReplyModal.value = false;
+    reportForReply.value = null;
+};
+
+const submitReply = async () => {
+    if (!reportForReply.value) return;
+    const reportID = reportForReply.value.id || reportForReply.value._id;
+    try {
+        await api.createReportAnswer({
+            reportID,
+            title: replyForm.title.trim(),
+            text: replyForm.text.trim(),
+        });
+        closeReplyModal();
+        fetchReports();
+    } catch (err) {
+        alert('Errore: ' + (err.response?.data?.message || err.message));
+    }
+};
+
+
 // --- API FETCH FUNCTIONS ---
 const fetchReports = async () => {
     loading.value = true;
     try {
-        const params = {};
+        const params = { sort: 'created', direction: 'desc' };
         if (reportFilterStatus.value) params.status = reportFilterStatus.value;
+        if (reportFilterCategoria.value) params.categoria = reportFilterCategoria.value;
         let response;
         if (userRole.value === 'user') {
             response = await api.getMyReports();
         } else {
             response = await api.getReports(params);
-
         }
 
         reports.value = response.data.map(item => {
             const r = item.report;
             r.created_at = r.created;
+            r.id = r.id || r._id;
             return r;
         });
-
+        reportPage.value = 1;
     } catch (err) {
         console.error("Error fetching reports", err);
     } finally {
@@ -913,6 +1107,24 @@ const getStatusColor = (status) => {
         case 'risolta': return 'bg-green-100 text-green-800';
         case 'in lavorazione': return 'bg-yellow-100 text-yellow-800';
         default: return 'bg-red-100 text-red-800';
+    }
+}
+
+function getStatusDotClass(status) {
+    switch (status) {
+        case 'da elaborare': return 'bg-amber-500';
+        case 'in lavorazione': return 'bg-blue-500';
+        case 'risolta': return 'bg-green-500';
+        default: return 'bg-gray-400';
+    }
+}
+
+function getStatusTriggerClass(status) {
+    switch (status) {
+        case 'da elaborare': return 'bg-amber-50 border-amber-300 text-amber-900 hover:bg-amber-100';
+        case 'in lavorazione': return 'bg-blue-50 border-blue-300 text-blue-900 hover:bg-blue-100';
+        case 'risolta': return 'bg-green-50 border-green-300 text-green-900 hover:bg-green-100';
+        default: return 'bg-gray-50 border-gray-300 text-gray-800 hover:bg-gray-100';
     }
 }
 

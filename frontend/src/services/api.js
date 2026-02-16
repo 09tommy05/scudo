@@ -96,6 +96,12 @@ export default {
     createReport(data) {
         return api.post('/reports', data);
     },
+    patchReport(id) {
+        return api.patch(`/reports/${id}`);
+    },
+    createReportAnswer(data) {
+        return api.post('/report-answers/', data);
+    },
 
     // user
     getMyReports(){

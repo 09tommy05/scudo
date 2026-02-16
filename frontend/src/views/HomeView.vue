@@ -75,8 +75,8 @@
         <div class="lg:col-span-2">
           <div class="flex items-center justify-between mb-8">
             <h2 class="text-2xl font-bold text-gray-900">Guide in primo piano</h2>
-            <router-link to="/" class="text-primary text-sm font-semibold hover:underline inline-flex items-center gap-1 group whitespace-nowrap">
-              Vedi tutte le guide
+            <router-link :to="{ name: 'articles' }" class="text-primary text-sm font-semibold hover:underline inline-flex items-center gap-1 group whitespace-nowrap">
+              Vedi tutti gli articoli
               <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
               </svg>
@@ -140,7 +140,7 @@
           </div>
         </div>
 
-        <!-- RIGHT: Communications + Servizi Rapidi -->
+        <!-- RIGHT: Communications -->
         <div class="lg:col-span-1">
           <div class="sticky top-24 space-y-8">
 
@@ -196,29 +196,6 @@
               <router-link to="/communications" class="block text-center mt-5 text-[11px] font-bold uppercase tracking-widest text-primary hover:text-primary-dark transition-colors py-3 bg-primary-light rounded-xl hover:bg-blue-100">
                 Vedi tutte le comunicazioni &rarr;
               </router-link>
-            </div>
-
-            <!-- Servizi Rapidi -->
-            <div class="bg-white rounded-2xl border border-gray-100 p-5">
-              <h3 class="text-sm font-bold text-gray-900 mb-4">Servizi rapidi</h3>
-              <div class="space-y-2">
-                <router-link to="/report/create" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors group">
-                  <div class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center shrink-0">
-                    <svg class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">Segnala un incidente</span>
-                </router-link>
-                <a href="mailto:scudo@comune.trento.it" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors group">
-                  <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center shrink-0">
-                    <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                    </svg>
-                  </div>
-                  <span class="text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">Contatta supporto</span>
-                </a>
-              </div>
             </div>
 
           </div>

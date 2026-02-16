@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import ArticleDetailView from '@/views/ArticleDetailView.vue'
+import ArticlesView from '@/views/ArticlesView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import SetPasswordView from '@/views/SetPasswordView.vue'
 import CommunicationsView from '@/views/CommunicationsView.vue'
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/guide/chiamate-sospette',
       name: 'guide-chiamate',
       component: GuideChiamateView
+    },
+    {
+      path: '/articles',
+      name: 'articles',
+      component: ArticlesView
     },
     {
       path: '/article/:id',

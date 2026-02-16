@@ -235,11 +235,15 @@
             </Transition>
 
             <div v-if="currentTab === 'communications'" class="space-y-6">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
                     <h2 class="text-xl font-bold">Gestione comunicazioni</h2>
-                    <button @click="openCreateCommunication"
-                        class="bg-primary text-white px-4 py-2 rounded text-sm hover:bg-blue-700">Nuova
-                        comunicazione</button>
+                    <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
+                        <input v-model.trim="communicationsSearchQuery" type="search" placeholder="Cerca titolo, testo, categoria..."
+                            class="px-3 py-2 border border-gray-300 rounded-md text-sm w-full sm:w-64 focus:ring-primary focus:border-primary" />
+                        <button @click="openCreateCommunication"
+                            class="bg-primary text-white px-4 py-2 rounded text-sm hover:bg-blue-700 whitespace-nowrap">Nuova
+                            comunicazione</button>
+                    </div>
                 </div>
 
                 <div v-if="communicationsLoading" class="text-center py-12">
@@ -248,32 +252,39 @@
                 <div v-else-if="communications.length === 0" class="text-gray-500 text-center py-8 bg-gray-50 rounded-lg">
                     Nessuna comunicazione. Clicca "Nuova comunicazione" per crearne una.
                 </div>
-                <div v-else class="bg-white shadow overflow-hidden rounded-md">
-                    <ul class="divide-y divide-gray-200">
-                        <li v-for="comm in communications" :key="comm.id || comm._id" class="p-4 hover:bg-gray-50">
-                            <div class="flex justify-between items-start gap-4">
-                                <div class="min-w-0 flex-1">
-                                    <div class="font-bold text-gray-800">{{ comm.title }}</div>
-                                    <div class="text-sm text-gray-500 mt-1">
-                                        {{ comm.importance }} · {{ comm.categoria }} · {{ formatDate(comm.publication) }}
-                                    </div>
-                                    <p class="text-sm text-gray-600 mt-2 line-clamp-2">{{ comm.short_text }}</p>
-                                    <span v-if="comm.isDraft"
-                                        class="inline-block mt-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 uppercase">
-                                        Bozza
-                                    </span>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-end gap-2 shrink-0">
-                                    <button v-if="comm.isDraft" @click="publishCommunication(comm)"
-                                        class="text-sm font-semibold text-primary hover:underline">Pubblica</button>
-                                    <button @click="openEditCommunication(comm)"
-                                        class="text-sm font-semibold text-primary hover:underline">Modifica</button>
-                                    <button @click="confirmDeleteCommunication(comm)"
-                                        class="text-sm font-semibold text-red-600 hover:underline">Elimina</button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                <div v-else-if="filteredCommunications.length === 0" class="text-gray-500 text-center py-8 bg-gray-50 rounded-lg">
+                    Nessun risultato per "{{ communicationsSearchQuery }}".
+                </div>
+                <div v-else class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div v-for="comm in filteredCommunications" :key="comm.id || comm._id"
+                        class="bg-white rounded-2xl border border-gray-100 hover:border-gray-200 p-5 transition-all duration-300 hover:shadow-lg flex flex-col">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="font-bold text-gray-800 line-clamp-1">{{ comm.title }}</span>
+                            <span v-if="comm.isDraft"
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wide bg-amber-100 text-amber-800 border border-amber-300 shrink-0">
+                                Bozza
+                            </span>
+                        </div>
+                        <div class="text-sm text-gray-500 mb-2">
+                            {{ comm.importance }} · {{ comm.categoria }} · {{ formatDate(comm.publication) }}
+                        </div>
+                        <p class="text-sm text-gray-600 line-clamp-3 leading-relaxed flex-1 mb-4">{{ comm.short_text }}</p>
+                        <div class="flex flex-wrap items-center justify-end gap-2 pt-3 border-t border-gray-100">
+                            <button v-if="comm.isDraft" type="button" @click="publishCommunication(comm)" title="Pubblica"
+                                class="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">
+                                <svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M87.9 11.5c-11.3-6.9-26.1-3.2-33 8.1-24.8 41-39 89.1-39 140.4s14.2 99.4 39 140.4c6.9 11.3 21.6 15 33 8.1s15-21.6 8.1-33C75.7 241.9 64 202.3 64 160S75.7 78.1 96.1 44.4c6.9-11.3 3.2-26.1-8.1-33zm400.1 0c-11.3 6.9-15 21.6-8.1 33 20.4 33.7 32.1 73.3 32.1 115.6s-11.7 81.9-32.1 115.6c-6.9 11.3-3.2 26.1 8.1 33s26.1 3.2 33-8.1c24.8-41 39-89.1 39-140.4S545.8 60.6 521 19.6c-6.9-11.3-21.6-15-33-8.1zM320 215.4c19.1-11.1 32-31.7 32-55.4 0-35.3-28.7-64-64-64s-64 28.7-64 64c0 23.7 12.9 44.4 32 55.4L256 480c0 17.7 14.3 32 32 32s32-14.3 32-32l0-264.6zM180.2 91c7.2-11.2 3.9-26-7.2-33.2s-26-3.9-33.2 7.2c-17.6 27.4-27.8 60-27.8 95s10.2 67.6 27.8 95c7.2 11.2 22 14.4 33.2 7.2s14.4-22 7.2-33.2c-12.8-19.9-20.2-43.6-20.2-69s7.4-49.1 20.2-69zM436.2 65c-7.2-11.2-22-14.4-33.2-7.2s-14.4 22-7.2 33.2c12.8 19.9 20.2 43.6 20.2 69s-7.4 49.1-20.2 69c-7.2 11.2-3.9 26 7.2 33.2s26 3.9 33.2-7.2c17.6-27.4 27.8-60 27.8-95s-10.2-67.6-27.8-95z"/></svg>
+                                Pubblica
+                            </button>
+                            <button type="button" @click="openEditCommunication(comm)" title="Modifica"
+                                class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L368 46.1 465.9 144 490.3 119.6c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L432 177.9 334.1 80 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"/></svg>
+                            </button>
+                            <button type="button" @click="confirmDeleteCommunication(comm)" title="Elimina"
+                                class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M136.7 5.9L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-8.7-26.1C306.9-7.2 294.7-16 280.9-16L167.1-16c-13.8 0-26 8.8-30.4 21.9zM416 144L32 144 53.1 467.1C54.7 492.4 75.7 512 101 512L347 512c25.3 0 46.3-19.6 47.9-44.9L416 144z"/></svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -291,32 +302,36 @@
                 <div v-else-if="articles.length === 0" class="text-gray-500 text-center py-8 bg-gray-50 rounded-lg">
                     Nessun articolo. Clicca "Nuovo articolo" per crearne uno.
                 </div>
-                <div v-else class="bg-white shadow overflow-hidden rounded-md">
-                    <ul class="divide-y divide-gray-200">
-                        <li v-for="article in articles" :key="article.id || article._id" class="p-4 hover:bg-gray-50">
-                            <div class="flex justify-between items-start gap-4">
-                                <div class="min-w-0 flex-1">
-                                    <div class="font-bold text-gray-800">{{ article.title }}</div>
-                                    <div class="text-sm text-gray-500 mt-1">
-                                        {{ article.categoria }} · {{ formatDate(article.last_edit) }}
-                                    </div>
-                                    <p class="text-sm text-gray-600 mt-2 line-clamp-2">{{ article.short_text }}</p>
-                                    <span v-if="article.isDraft"
-                                        class="inline-block mt-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 uppercase">
-                                        Bozza
-                                    </span>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-end gap-2 shrink-0">
-                                    <button v-if="article.isDraft" @click="publishArticle(article)"
-                                        class="text-sm font-semibold text-primary hover:underline">Pubblica</button>
-                                    <button @click="openEditArticle(article)"
-                                        class="text-sm font-semibold text-primary hover:underline">Modifica</button>
-                                    <button @click="confirmDeleteArticle(article)"
-                                        class="text-sm font-semibold text-red-600 hover:underline">Elimina</button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                <div v-else class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div v-for="article in articles" :key="article.id || article._id"
+                        class="bg-white rounded-2xl border border-gray-100 hover:border-gray-200 p-5 transition-all duration-300 hover:shadow-lg flex flex-col">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="font-bold text-gray-800 line-clamp-1">{{ article.title }}</span>
+                            <span v-if="article.isDraft"
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wide bg-amber-100 text-amber-800 border border-amber-300 shrink-0">
+                                Bozza
+                            </span>
+                        </div>
+                        <div class="text-sm text-gray-500 mb-2">
+                            {{ article.categoria }} · {{ formatDate(article.last_edit) }}
+                        </div>
+                        <p class="text-sm text-gray-600 line-clamp-3 leading-relaxed flex-1 mb-4">{{ article.short_text }}</p>
+                        <div class="flex flex-wrap items-center justify-end gap-2 pt-3 border-t border-gray-100">
+                            <button v-if="article.isDraft" type="button" @click="publishArticle(article)" title="Pubblica"
+                                class="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors">
+                                <svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M87.9 11.5c-11.3-6.9-26.1-3.2-33 8.1-24.8 41-39 89.1-39 140.4s14.2 99.4 39 140.4c6.9 11.3 21.6 15 33 8.1s15-21.6 8.1-33C75.7 241.9 64 202.3 64 160S75.7 78.1 96.1 44.4c6.9-11.3 3.2-26.1-8.1-33zm400.1 0c-11.3 6.9-15 21.6-8.1 33 20.4 33.7 32.1 73.3 32.1 115.6s-11.7 81.9-32.1 115.6c-6.9 11.3-3.2 26.1 8.1 33s26.1 3.2 33-8.1c24.8-41 39-89.1 39-140.4S545.8 60.6 521 19.6c-6.9-11.3-21.6-15-33-8.1zM320 215.4c19.1-11.1 32-31.7 32-55.4 0-35.3-28.7-64-64-64s-64 28.7-64 64c0 23.7 12.9 44.4 32 55.4L256 480c0 17.7 14.3 32 32 32s32-14.3 32-32l0-264.6zM180.2 91c7.2-11.2 3.9-26-7.2-33.2s-26-3.9-33.2 7.2c-17.6 27.4-27.8 60-27.8 95s10.2 67.6 27.8 95c7.2 11.2 22 14.4 33.2 7.2s14.4-22 7.2-33.2c-12.8-19.9-20.2-43.6-20.2-69s7.4-49.1 20.2-69zM436.2 65c-7.2-11.2-22-14.4-33.2-7.2s-14.4 22-7.2 33.2c12.8 19.9 20.2 43.6 20.2 69s-7.4 49.1-20.2 69c-7.2 11.2-3.9 26 7.2 33.2s26 3.9 33.2-7.2c17.6-27.4 27.8-60 27.8-95s-10.2-67.6-27.8-95z"/></svg>
+                                Pubblica
+                            </button>
+                            <button type="button" @click="openEditArticle(article)" title="Modifica"
+                                class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L368 46.1 465.9 144 490.3 119.6c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L432 177.9 334.1 80 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"/></svg>
+                            </button>
+                            <button type="button" @click="confirmDeleteArticle(article)" title="Elimina"
+                                class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M136.7 5.9L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-8.7-26.1C306.9-7.2 294.7-16 280.9-16L167.1-16c-13.8 0-26 8.8-30.4 21.9zM416 144L32 144 53.1 467.1C54.7 492.4 75.7 512 101 512L347 512c25.3 0 46.3-19.6 47.9-44.9L416 144z"/></svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -696,6 +711,7 @@ const articleForm = reactive({
 
 // Communications (reporter)
 const communicationsLoading = ref(false);
+const communicationsSearchQuery = ref('');
 const showCommunicationModal = ref(false);
 const editingCommunicationId = ref(null);
 const communicationToDelete = ref(null);
@@ -707,6 +723,19 @@ const communicationForm = reactive({
     importance: 'medio rischio',
     isDraft: true,
     notify: false,
+});
+
+// Communications: filtered by search
+const filteredCommunications = computed(() => {
+    const q = (communicationsSearchQuery.value || '').trim().toLowerCase();
+    if (!q) return communications.value;
+    return communications.value.filter(comm => {
+        const title = (comm.title || '').toLowerCase();
+        const short = (comm.short_text || '').toLowerCase();
+        const cat = (comm.categoria || '').toLowerCase();
+        const imp = (comm.importance || '').toLowerCase();
+        return title.includes(q) || short.includes(q) || cat.includes(q) || imp.includes(q);
+    });
 });
 
 // Reports: computed categories from current list, pagination

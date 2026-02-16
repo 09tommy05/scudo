@@ -4,10 +4,12 @@
       <!-- TITLE -->
       <section class="text-center py-10 md:py-14">
         <h1 class="text-3xl md:text-5xl font-black text-gray-900 mb-3">Analisi rapida phishing</h1>
-        <p class="text-gray-500 text-base md:text-lg">Identifica i segnali di pericolo in meno di 5 secondi.</p>
+        <p class="text-gray-500 text-base md:text-lg max-w-2xl mx-auto">
+          Identifica i segnali di pericolo in meno di 5 secondi.
+        </p>
       </section>
 
-      <!-- MAIN 2-COLUMN: left = image + under section, right = sidebar (equal height) -->
+      <!-- MAIN 2-COLUMN: left = image + Dettagli under it, right = sidebar (equal height) -->
       <section class="container mx-auto px-4 lg:px-8 pb-16">
         <div class="grid lg:grid-cols-3 gap-6 lg:items-stretch">
 
@@ -54,7 +56,7 @@
                   </div>
                   <div>
                     <p class="font-bold text-gray-900 text-sm">Blocca mittente</p>
-                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Inserisci l'indirizzo nella lista bloccati del tuo client email.</p>
+                    <p class="text-sm text-gray-500 leading-relaxed mt-0.5">Inserisci l'indirizzo nella lista dei bloccati del tuo client email.</p>
                   </div>
                 </div>
                 <div class="bg-white rounded-xl p-4 shadow-sm flex items-start gap-3">

@@ -10,6 +10,8 @@ import GuidePhishingView from '@/views/GuidePhishingView.vue'
 import GuideSmishingView from '@/views/GuideSmishingView.vue'
 import GuideLinkView from '@/views/GuideLinkView.vue'
 import GuideQrView from '@/views/GuideQrView.vue'
+import GuideSocialView from '@/views/GuideSocialView.vue'
+import GuideChiamateView from '@/views/GuideChiamateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +40,16 @@ const router = createRouter({
       path: '/guide/qr-sospetto',
       name: 'guide-qr',
       component: GuideQrView
+    },
+    {
+      path: '/guide/social-sospetto',
+      name: 'guide-social',
+      component: GuideSocialView
+    },
+    {
+      path: '/guide/chiamate-sospette',
+      name: 'guide-chiamate',
+      component: GuideChiamateView
     },
     {
       path: '/article/:id',

@@ -9,15 +9,15 @@
         </p>
       </section>
 
-      <!-- MAIN 2-COLUMN: left = image + under section, right = sidebar (equal height) -->
+      <!-- MAIN 2-COLUMN: left = image + Dettagli under it, right = sidebar (equal height) -->
       <section class="container mx-auto px-4 lg:px-8 pb-16">
         <div class="grid lg:grid-cols-3 gap-6 lg:items-stretch">
 
           <!-- LEFT: image + Dettagli dei segnali under it -->
           <div class="lg:col-span-2 flex flex-col gap-6 min-h-0">
-            <div class="rounded-2xl bg-white border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden shrink-0">
-            <img src="/immagine_qr.png" alt="Esempio di QR code sospetto con segnali di pericolo evidenziati" class="w-full h-auto max-h-[720px] object-contain block" />
-          </div>
+            <div class="rounded-2xl bg-white border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden w-full shrink-0">
+              <img src="/immagine_qr.png" alt="Esempio di QR code sospetto con segnali di pericolo evidenziati" class="w-full h-auto max-h-[720px] object-contain block" />
+            </div>
             <div class="border-t border-gray-200 pt-6 flex-1 min-h-0 flex flex-col">
               <h2 class="text-lg md:text-xl font-black uppercase tracking-wider text-gray-900 mb-4">Dettagli dei segnali di pericolo</h2>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">

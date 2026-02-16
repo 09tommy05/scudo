@@ -259,8 +259,8 @@ const quickCategories = [
   { label: 'SMS / messaggi',  desc: 'Ho ricevuto un SMS di phishing',    searchTerm: 'sms',       bg: 'bg-purple-50', iconComponent: IconSms,    iconColor: 'text-purple-600', route: '/guide/sms-sospetto' },
   { label: 'Link sospetto',   desc: 'Non so se cliccare un link',        searchTerm: 'link',      bg: 'bg-red-50',    iconComponent: IconLink,   iconColor: 'text-red-500', route: '/guide/link-sospetto' },
   { label: 'QR code',         desc: 'Ho scannerizzato un codice',        searchTerm: 'qr',        bg: 'bg-green-50',  iconComponent: IconQr,     iconColor: 'text-green-600', route: '/guide/qr-sospetto' },
-  { label: 'Social media',    desc: 'Profilo rubato o clonato',          searchTerm: 'social',    bg: 'bg-pink-50',   iconComponent: IconSocial, iconColor: 'text-pink-600' },
-  { label: 'Chiamate',        desc: 'Telefonate truffa o mute',          searchTerm: 'chiamate',  bg: 'bg-cyan-50',   iconComponent: IconPhone,  iconColor: 'text-cyan-600' },
+  { label: 'Social media',    desc: 'Profilo rubato o clonato',          searchTerm: 'social',    bg: 'bg-pink-50',   iconComponent: IconSocial, iconColor: 'text-pink-600', route: '/guide/social-sospetto' },
+  { label: 'Chiamate',        desc: 'Telefonate truffa o mute',          searchTerm: 'chiamate',  bg: 'bg-cyan-50',   iconComponent: IconPhone,  iconColor: 'text-cyan-600', route: '/guide/chiamate-sospette' },
 ];
 
 // Computed

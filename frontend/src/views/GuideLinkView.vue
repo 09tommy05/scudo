@@ -9,7 +9,7 @@
         </p>
       </section>
 
-      <!-- MAIN 2-COLUMN: left = image + under section, right = sidebar (equal height) -->
+      <!-- MAIN 2-COLUMN: left = image + Dettagli under it, right = sidebar (equal height) -->
       <section class="container mx-auto px-4 lg:px-8 pb-16">
         <div class="grid lg:grid-cols-3 gap-6 lg:items-stretch">
 

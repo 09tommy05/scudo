@@ -19,28 +19,29 @@
         </h1>
 
         <p class="text-base md:text-lg text-blue-100 max-w-xl mx-auto leading-relaxed mb-10">
-          Seleziona l'argomento per ricevere assistenza immediata o cerca una soluzione specifica.
+          Seleziona l'argomento per ricevere assistenza immediata.
         </p>
 
-        <!-- Search -->
-        <div class="max-w-2xl mx-auto">
-          <div class="flex gap-2 bg-white rounded-2xl p-2 shadow-xl">
-            <div class="relative flex-1">
-              <svg class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-              <input
-                v-model="searchQuery"
-                @keyup.enter="goToSearch"
-                type="text"
-                placeholder="Cerca un problema (es. 'furto password', 'truffa INPS')..."
-                class="w-full pl-12 pr-4 py-3 text-sm text-gray-700 bg-transparent focus:outline-none placeholder:text-gray-400"
-              />
-            </div>
-            <button @click="goToSearch" class="px-6 py-3 text-sm font-semibold text-white rounded-xl bg-primary hover:bg-primary-dark transition-colors whitespace-nowrap">
-              Cerca
-            </button>
-          </div>
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <router-link
+            to="/report/create"
+            class="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-white text-primary font-semibold text-base shadow-xl hover:bg-white/95 transition-colors"
+          >
+            <svg class="w-6 h-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Segnala una minaccia
+          </router-link>
+          <router-link
+            to="/communications"
+            class="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-primary/80 backdrop-blur-md border border-white/30 text-white font-semibold text-base shadow-xl hover:bg-primary/90 transition-colors"
+          >
+            <svg class="w-6 h-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+            </svg>
+            Comunicazioni ufficiali
+          </router-link>
         </div>
       </div>
     </section>
@@ -52,9 +53,8 @@
 
           <component
             v-for="cat in quickCategories" :key="cat.label"
-            :is="cat.route ? 'router-link' : 'button'"
+            :is="cat.route ? 'router-link' : 'span'"
             :to="cat.route || undefined"
-            @click="!cat.route && searchByCategory(cat.searchTerm)"
             class="bg-white rounded-2xl border border-gray-100 p-5 md:p-6 text-left transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group no-underline">
             <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-3 text-xl" :class="cat.bg">
               <component :is="cat.iconComponent" class="w-5 h-5" :class="cat.iconColor" />
@@ -74,7 +74,7 @@
         <!-- LEFT: Guide in Primo Piano -->
         <div class="lg:col-span-2">
           <div class="flex items-center justify-between mb-8">
-            <h2 class="text-2xl font-bold text-gray-900">Guide in primo piano</h2>
+            <h2 class="text-2xl font-bold text-gray-900">Articoli in primo piano</h2>
             <router-link :to="{ name: 'articles' }" class="text-primary text-sm font-semibold hover:underline inline-flex items-center gap-1 group whitespace-nowrap">
               Vedi tutti gli articoli
               <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -203,16 +203,12 @@
 
 <script setup>
 import { ref, computed, onMounted, h } from 'vue';
-import { useRouter } from 'vue-router';
 import api from '@/services/api';
-
-const router = useRouter();
 
 // State
 const articles = ref([]);
 const loadingArticles = ref(true);
 const articlesError = ref(null);
-const searchQuery = ref('');
 const communications = ref([]);
 const loadingComms = ref(true);
 const commsError = ref(null);
@@ -271,18 +267,6 @@ const fetchCommunications = async () => {
 };
 
 // Helpers
-const goToSearch = () => {
-  if (searchQuery.value) {
-    router.push({ name: 'home', query: { q: searchQuery.value } });
-  }
-  document.getElementById('guide')?.scrollIntoView({ behavior: 'smooth' });
-};
-
-const searchByCategory = (term) => {
-  searchQuery.value = term;
-  document.getElementById('guide')?.scrollIntoView({ behavior: 'smooth' });
-};
-
 const getCategoryBadge = (cat) => {
   if (!cat) return 'bg-gray-100 text-gray-600';
   const c = cat.toLowerCase();

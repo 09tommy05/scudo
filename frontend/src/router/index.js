@@ -16,6 +16,7 @@ import GuideChiamateView from '@/views/GuideChiamateView.vue'
 import ArticleEditView from '@/views/ArticleEditView.vue'
 import CommunicationEditView from '@/views/CommunicationEditView.vue'
 import ReportDetailView from '@/views/ReportDetailView.vue'
+import ReportCreateView from '@/views/ReportCreateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,6 +107,12 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: '/report/create',
+      name: 'report-create',
+      component: ReportCreateView,
+      meta: { requiresAuth: true, requiresRole: 'user' }
+    },
+    {
       path: '/set-first-password',
       name: 'set-first-password',
       component: SetPasswordView
@@ -146,6 +153,8 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: 'home' });
   } else if (to.meta.requiresOperator && user.role !== 'operator') {
+    next({ name: 'home' });
+  } else if (to.meta.requiresRole && user.role !== to.meta.requiresRole) {
     next({ name: 'home' });
   } else {
     next();

@@ -22,10 +22,13 @@
             class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors">
             Comunicazioni
           </router-link>
-          <router-link to="/report/create"
+          <router-link v-if="canAccessSegnala" to="/report/create"
             class="px-3 py-2 text-sm font-medium text-white hover:text-white hover:bg-white/10 rounded-lg transition-colors">
             Segnala
           </router-link>
+          <span v-else class="px-3 py-2 text-sm font-medium text-white/60 cursor-not-allowed rounded-lg" title="Disponibile solo per cittadini loggati">
+            Segnala
+          </span>
 
           <div class="w-px h-6 bg-white/30 mx-2"></div>
 
@@ -86,10 +89,11 @@
           class="block px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">
           Comunicazioni
         </router-link>
-        <router-link to="/report/create" @click="isOpen = false"
+        <router-link v-if="canAccessSegnala" to="/report/create" @click="isOpen = false"
           class="block px-3 py-2.5 text-sm font-medium text-white hover:bg-white/10 rounded-lg transition-colors">
           Segnala
         </router-link>
+        <span v-else class="block px-3 py-2.5 text-sm font-medium text-white/60 cursor-not-allowed rounded-lg">Segnala</span>
 
         <div class="border-t border-white/20 my-2"></div>
 
@@ -126,6 +130,8 @@ const isOpen = ref(false);
 const router = useRouter();
 
 const isAuthenticated = computed(() => !!localStorage.getItem('token'));
+const user = computed(() => JSON.parse(localStorage.getItem('user') || '{}'));
+const canAccessSegnala = computed(() => isAuthenticated.value && user.value.role === 'user');
 
 const logout = () => {
   localStorage.removeItem('token');

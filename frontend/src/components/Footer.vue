@@ -36,10 +36,11 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/report/create"
+              <router-link v-if="canAccessSegnala" to="/report/create"
                 class="text-sm text-blue-100 hover:text-white transition-colors">
                 Segnala minaccia
               </router-link>
+              <span v-else class="text-sm text-blue-200/60 cursor-not-allowed">Segnala minaccia</span>
             </li>
             <li>
               <router-link to="/login/operator"
@@ -74,10 +75,11 @@
           <h4 class="text-xs font-bold uppercase tracking-widest text-blue-300 mb-4">Contatti</h4>
           <ul class="space-y-2.5">
             <li>
-              <a href="/report/create"
+              <router-link v-if="canAccessSegnala" to="/report/create"
                 class="text-sm text-blue-100 hover:text-white transition-colors">
                 Segnala
-              </a>
+              </router-link>
+              <span v-else class="text-sm text-blue-200/60 cursor-not-allowed">Segnala</span>
             </li>
             <li>
               <a href="mailto:scudo@comune.trento.it"
@@ -98,3 +100,13 @@
     </div>
   </footer>
 </template>
+
+<script setup>
+import { computed } from 'vue';
+
+const canAccessSegnala = computed(() => {
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  return !!token && user.role === 'user';
+});
+</script>

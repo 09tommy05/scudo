@@ -223,6 +223,8 @@
 
     <BaseModal :isOpen="showRoleError" title="Accesso Negato"
       message="Solo i cittadini possono effettuare segnalazioni." @close="showRoleError = false" />
+    
+    <PwaInstallBanner />
   </div>
 </template>
 
@@ -231,6 +233,7 @@ import { ref, computed, onMounted, h } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '@/services/api';
 import BaseModal from '@/components/BaseModal.vue';
+import PwaInstallBanner from '@/components/PwaInstallBanner.vue';
 
 const router = useRouter();
 const showRoleError = ref(false);

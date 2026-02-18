@@ -12,7 +12,7 @@ async function seed() {
         console.log("Connected to Database");
 
         const hashedAdminPassword = await bcrypt.hash(process.env.ADMIN_PSW, 10);
-        const hashedUsersPassword = await bcrypt.hash("12345678", 10);
+        const hashedUsersPassword = await bcrypt.hash("123456789", 10);
 
         // OPERATORI
         await Operator.deleteMany({});

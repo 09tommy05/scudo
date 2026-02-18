@@ -48,8 +48,19 @@ Per avviare il progetto in locale, è necessario seguire questi passaggi:
     ```
 
 ### Frontend
-# TODO frontend README
 1. Installare le dipendenze per il frontend:
-
+    ```bash
+     cd frontend
+     npm install
+     ```
+2. Buildare la webapp:
+    ```bash
+     npm run build
+     ```
+3. Avviare la webapp:
+    ```bash
+     npm run preview
+     ```
+La webapp sarà accessibile all'indirizzo `http://localhost:4173`.
 ## Documentazione
-La documentazione delle API è disponibile nel file `oas3.yml` presente nella cartella `backend`. Questa documentazione segue lo standard OpenAPI 3.0 e può essere visualizzata utilizzando strumenti come Swagger UI o Redoc. Inoltre se il server backend è in esecuzione, la documentazione è accessibile all'indirizzo `http://localhost:PORT/api-docs`.
+La documentazione delle API è disponibile nel file `oas3.yml` presente nella cartella `backend`. Questa documentazione segue lo standard OpenAPI 3.0 e può essere visualizzata utilizzando strumenti come Swagger UI o Redoc. Inoltre se il server backend è in esecuzione, la documentazione è accessibile all'indirizzo `http://localhost:PORT/api-docs`. Inoltre è possibile consultare la documentazione anche ai link: [https://scudo.docs.apiary.io/](https://scudo.docs.apiary.io/) e [https://app.swaggerhub.com/apis/scudo-912/scudo/1.0](https://app.swaggerhub.com/apis/scudo-912/scudo/1.0).

@@ -52,9 +52,7 @@
              </div>
 
             <div class="prose max-w-none text-justify text-gray-800 whitespace-pre-line leading-relaxed">
-                <div v-if="communication.text" class="text-base text-gray-700">
-                    {{ communication.text }}
-                </div>
+                <div v-if="communication.text" class="text-base text-gray-700" v-html="communication.text"></div>
             </div>
             
             <div v-if="communication.author" class="mt-8 pt-6 border-t border-gray-100 text-sm text-gray-500 flex items-center gap-2">

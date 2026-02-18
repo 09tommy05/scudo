@@ -14,6 +14,7 @@ backend/uploads/attachments/*
 !backend/uploads/images/phishing_example.png
 !backend/uploads/images/1771284073517-781109166.jpg
 !backend/uploads/images/1771283951029-1277975.jpg
+!backend/uploads/images/update.jpg
 
 .operators_data.json
 

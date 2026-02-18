@@ -1,13 +1,12 @@
-✔ caricare oas3.yml su apiary.io(https://scudo.docs.apiary.io/) (NOOO BLUEPRINT MA SWAGGER) e swagger.io (https://app.swaggerhub.com/apis/scudo-a99/SCUDO/1.0)
-- A frontend le sessioni vanno bene, per le API REST no
+✔ caricare oas3.yml su apiary.io(https://scudo.docs.apiary.io/) (NOOO BLUEPRINT MA SWAGGER) e swagger.io (https://app.swaggerhub.com/apis/scudo-912/scudo/1.0)
+[ok] A frontend le sessioni vanno bene, per le API REST no
 ✔ Autenticazione utenti tramite CIE e SPID
-- FRONTEND
+✔ FRONTEND
 ✔ Gestione delle segnalazioni
 - Aggiugnere change password a D1
-- aggiungere le nostre matricole al D1
+✔ aggiungere le nostre matricole al D1
 ✔ Creare report model
 ✔ Creare endpoint per report
 - DIRE NEL D2 CHE /cie/login e /spid/login UGUALI, MA SE CIE E SPID DOVESSERO ESSERE IMPLEMENTATI SAREBBERO DIVERSIs
-- CREARE create password per operatore in frontend
+✔ CREARE create password per operatore in frontend
 - Ricaricare oas3.yml sui siti
-- Aumentare dimensione font email

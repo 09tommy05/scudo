@@ -4,7 +4,7 @@
       <router-link to="/"
         class="inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium group w-fit">
         <span class="mr-2 transform group-hover:-translate-x-1 transition-transform">&larr;</span>
-        Torna alla guida
+        Torna alla Home
       </router-link>
     </div>
     <!-- TITLE -->

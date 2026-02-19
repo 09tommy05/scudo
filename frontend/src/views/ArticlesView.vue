@@ -16,26 +16,23 @@
     <section class="container mx-auto px-4 lg:px-8 -mt-6 relative z-10">
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-4xl mx-auto">
         <div class="relative flex-1">
-          <svg class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          <svg class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Cerca articoli..."
-            class="w-full pl-11 pr-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400"
-          />
+          <input v-model="searchQuery" type="text" placeholder="Cerca articoli..."
+            class="w-full pl-11 pr-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400" />
         </div>
         <div class="sm:w-56 shrink-0 relative">
-          <select
-            v-model="selectedCategory"
-            class="w-full appearance-none px-4 py-3 pr-10 text-sm text-gray-700 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary"
-          >
+          <select v-model="selectedCategory"
+            class="w-full appearance-none px-4 py-3 pr-10 text-sm text-gray-700 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary">
             <option value="">Tutte le categorie</option>
             <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
           </select>
-          <svg class="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          <svg class="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </div>
       </div>
@@ -51,58 +48,58 @@
         <p class="font-medium">{{ error }}</p>
       </div>
 
-      <div v-else-if="filteredArticles.length === 0" class="text-center py-20 text-gray-500 bg-gray-50 rounded-2xl max-w-2xl mx-auto">
+      <div v-else-if="filteredArticles.length === 0"
+        class="text-center py-20 text-gray-500 bg-gray-50 rounded-2xl max-w-2xl mx-auto">
         <p class="font-medium">Nessun articolo trovato.</p>
       </div>
 
       <div v-else class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto">
-        <article
-          v-for="article in filteredArticles"
-          :key="article.id || article._id"
-          class="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-200 group flex flex-col"
-        >
+        <article v-for="article in filteredArticles" :key="article.id || article._id"
+          class="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-200 group flex flex-col">
           <router-link
-            :to="{ name: 'article-detail', params: { id: article.id || article._id } }"
-            class="flex flex-col flex-1 no-underline"
-          >
+            :to="{ name: 'article-detail', params: { id: article.id || article._id }, query: { source: 'articles' } }"
+            class="flex flex-col flex-1 no-underline">
             <div class="w-full aspect-video shrink-0 overflow-hidden flex items-center justify-center"
               :style="article.img ? {} : { backgroundColor: '#dbeafe' }">
-              <img v-if="article.img"
-                :src="getImageUrl(article.img)"
-                :alt="article.title"
-                class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-              />
-              <svg v-else class="w-16 h-16 text-blue-400 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                :viewBox="getArticlePlaceholderIcon(article).viewBox">
-                <path :d="getArticlePlaceholderIcon(article).path"/>
+              <img v-if="article.img" :src="getImageUrl(article.img)" :alt="article.title"
+                class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" />
+              <svg v-else class="w-16 h-16 text-blue-400 shrink-0" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" :viewBox="getArticlePlaceholderIcon(article).viewBox">
+                <path :d="getArticlePlaceholderIcon(article).path" />
               </svg>
             </div>
             <div class="p-5 flex flex-col flex-1">
               <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
                 <span
                   class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shrink-0"
-                  :class="getCategoryBadge(article.categoria)"
-                >
-                  <svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M214.7 .7c17.3 3.7 28.3 20.7 24.6 38l-19.1 89.3 126.5 0 22-102.7C372.4 8 389.4-3 406.7 .7s28.3 20.7 24.6 38L412.2 128 480 128c17.7 0 32 14.3 32 32s-14.3 32-32 32l-81.6 0-27.4 128 67.8 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-81.6 0-22 102.7c-3.7 17.3-20.7 28.3-38 24.6s-28.3-20.7-24.6-38l19.1-89.3-126.5 0-22 102.7c-3.7 17.3-20.7 28.3-38 24.6s-28.3-20.7-24.6-38L99.8 384 32 384c-17.7 0-32-14.3-32-32s14.3-32 32-32l81.6 0 27.4-128-67.8 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l81.6 0 22-102.7C180.4 8 197.4-3 214.7 .7zM206.4 192l-27.4 128 126.5 0 27.4-128-126.5 0z"/></svg>
+                  :class="getCategoryBadge(article.categoria)">
+                  <svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                    fill="currentColor">
+                    <path
+                      d="M214.7 .7c17.3 3.7 28.3 20.7 24.6 38l-19.1 89.3 126.5 0 22-102.7C372.4 8 389.4-3 406.7 .7s28.3 20.7 24.6 38L412.2 128 480 128c17.7 0 32 14.3 32 32s-14.3 32-32 32l-81.6 0-27.4 128 67.8 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-81.6 0-22 102.7c-3.7 17.3-20.7 28.3-38 24.6s-28.3-20.7-24.6-38l19.1-89.3-126.5 0-22 102.7c-3.7 17.3-20.7 28.3-38 24.6s-28.3-20.7-24.6-38L99.8 384 32 384c-17.7 0-32-14.3-32-32s14.3-32 32-32l81.6 0 27.4-128-67.8 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l81.6 0 22-102.7C180.4 8 197.4-3 214.7 .7zM206.4 192l-27.4 128 126.5 0 27.4-128-126.5 0z" />
+                  </svg>
                   {{ article.categoria }}
                 </span>
                 <span class="flex items-center gap-1.5 text-[11px] text-gray-400 shrink-0">
                   <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                   {{ formatDate(article.last_edit) }}
                 </span>
               </div>
-              <h2 class="text-base font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
+              <h2
+                class="text-base font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
                 {{ article.title }}
               </h2>
               <p class="text-sm text-gray-500 line-clamp-3 leading-relaxed flex-1">
                 {{ article.short_text }}
               </p>
-              <span class="inline-flex items-center gap-1 mt-4 text-primary text-sm font-semibold group-hover:underline">
+              <span
+                class="inline-flex items-center gap-1 mt-4 text-primary text-sm font-semibold group-hover:underline">
                 Leggi tutto
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
               </span>
             </div>

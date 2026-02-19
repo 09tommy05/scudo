@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4 py-8 md:py-12">
-    
+
     <div v-if="loading" class="text-center py-20">
       <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
     </div>
@@ -8,21 +8,19 @@
     <div v-else-if="error" class="text-center py-20 text-red-600">
       <p class="text-xl font-semibold">{{ error }}</p>
       <div class="mt-6">
-        <router-link to="/articles" class="text-primary hover:underline flex items-center justify-center gap-2">
-          <span>&larr;</span> Torna alla guida
+        <router-link :to="backRoute" class="text-primary hover:underline flex items-center justify-center gap-2">
+          <span>&larr;</span> {{ backLabel }}
         </router-link>
       </div>
     </div>
 
     <div v-else-if="article" class="max-w-4xl mx-auto animate-fade-in">
-      
+
       <div class="mb-8">
-        <router-link 
-          to="/articles" 
-          class="inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium group"
-        >
+        <router-link :to="backRoute"
+          class="inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium group">
           <span class="mr-2 transform group-hover:-translate-x-1 transition-transform">&larr;</span>
-          Torna alla guida
+          {{ backLabel }}
         </router-link>
       </div>
 
@@ -45,16 +43,12 @@
       </div>
 
       <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed text-justify">
-        <img
-          v-if="article.img"
-          :src="getImageUrl(article.img)"
-          alt="Immagine articolo"
-          class="w-full h-auto rounded-xl shadow-lg object-cover mb-6 md:float-right md:w-5/12 md:ml-8 md:mb-6"
-        />
+        <img v-if="article.img" :src="getImageUrl(article.img)" alt="Immagine articolo"
+          class="w-full h-auto rounded-xl shadow-lg object-cover mb-6 md:float-right md:w-5/12 md:ml-8 md:mb-6" />
         <div v-if="isHtml(article.text)" class="article-body" v-html="article.text"></div>
         <div v-else class="whitespace-pre-line">{{ article.text }}</div>
       </div>
-      
+
       <div class="mt-12 pt-8 border-t border-gray-200 clear-both">
       </div>
 
@@ -63,7 +57,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '@/services/api';
 
@@ -71,6 +65,9 @@ const route = useRoute();
 const article = ref(null);
 const loading = ref(true);
 const error = ref(null);
+
+const backRoute = computed(() => route.query.source === 'home' ? '/' : '/articles');
+const backLabel = computed(() => route.query.source === 'home' ? 'Torna alla Home' : 'Torna alla guida');
 
 const fetchArticle = async () => {
   loading.value = true;
@@ -112,7 +109,14 @@ onMounted(() => {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

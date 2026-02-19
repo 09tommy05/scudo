@@ -127,14 +127,20 @@
                 </span>
               </div>
 
-              <h3
-                class="text-base font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                {{ article.title }}</h3>
+              <router-link
+                :to="{ name: 'article-detail', params: { id: article._id || article.id }, query: { source: 'home' } }"
+                class="group block">
+                <h3
+                  class="text-base font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                  {{ article.title }}
+                </h3>
+              </router-link>
               <p class="text-sm text-gray-500 line-clamp-3 leading-relaxed mb-4 flex-1">{{ article.short_text }}</p>
 
               <div class="flex items-center justify-between pt-3 border-t border-gray-50">
 
-                <router-link :to="{ name: 'article-detail', params: { id: article._id || article.id } }"
+                <router-link
+                  :to="{ name: 'article-detail', params: { id: article._id || article.id }, query: { source: 'home' } }"
                   class="text-primary text-xs font-bold hover:underline inline-flex items-center gap-1">
                   Leggi ora
                   <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -223,7 +229,7 @@
 
     <BaseModal :isOpen="showRoleError" title="Accesso Negato"
       message="Solo i cittadini possono effettuare segnalazioni." @close="showRoleError = false" />
-    
+
     <PwaInstallBanner />
   </div>
 </template>
@@ -243,7 +249,7 @@ const user = computed(() => JSON.parse(localStorage.getItem('user') || '{}'));
 
 const handleSegnalaClick = () => {
   if (!isAuthenticated.value) {
-    router.push('/login/cittadino');
+    router.push({ path: '/login/cittadino', query: { redirect: '/report/create' } });
     return;
   }
 

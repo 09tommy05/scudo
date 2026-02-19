@@ -155,7 +155,7 @@ const handleSegnalaClick = () => {
   isOpen.value = false; // Close mobile menu if open
   
   if (!isAuthenticated.value) {
-    router.push('/login/cittadino');
+    router.push({ path: '/login/cittadino', query: { redirect: '/report/create' } });
     return;
   }
   

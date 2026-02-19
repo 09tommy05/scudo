@@ -112,7 +112,7 @@ const user = computed(() => JSON.parse(localStorage.getItem('user') || '{}'));
 
 const handleSegnalaClick = () => {
   if (!isAuthenticated.value) {
-    router.push('/login/cittadino');
+    router.push({ path: '/login/cittadino', query: { redirect: '/report/create' } });
     return;
   }
 

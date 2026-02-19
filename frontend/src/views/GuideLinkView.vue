@@ -33,7 +33,7 @@
                   1</div>
                 <h4 class="text-sm font-bold uppercase tracking-wider text-primary mb-2">Mancanza di HTTPS</h4>
                 <p class="text-sm text-gray-500 leading-relaxed">L'assenza del lucchetto (HTTPS) indica che la
-                  connessione non è crittografata. I siti legittimi usano sempre https://.</p>
+                  connessione non è crittografata.</p>
               </div>
               <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 text-center">
                 <div

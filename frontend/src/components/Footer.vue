@@ -25,7 +25,7 @@
             </li>
             <li>
               <router-link to="/articles" class="text-sm text-blue-100 hover:text-white transition-colors">
-                Guida
+                Articoli
               </router-link>
             </li>
             <li>

@@ -53,11 +53,13 @@ Per avviare il progetto in locale, è necessario seguire questi passaggi:
      cd frontend
      npm install
      ```
-2. Buildare la webapp:
+2. Configurare le variabili d'ambiente:
+    Creare un file `.env` nella cartella `frontend` con le variabili presenti nel file `.env.example`. Qui viene impostato l'endpoint del server backend a cui la webapp si connetterà per effettuare le richieste API.
+3. Buildare la webapp:
     ```bash
      npm run build
      ```
-3. Avviare la webapp:
+4. Avviare la webapp:
     ```bash
      npm run preview
      ```
